@@ -1,0 +1,15 @@
+/*-- COMMON CSS--*/
+body{margin:0;padding:0;font-family:'robotoregular';-webkit-font-smoothing:antialiased; word-break:normal;}
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,images,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend{margin:0;padding:0;border:0;outline:0 none;font-size:100%;vertical-align:baseline;}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}
+ul,li{list-style:none;margin:0;padding:0;}
+a:hover{text-decoration:none!important;}
+a,a image{border:0 none;outline:none !important;}
+a,a:focus{text-decoration:none;outline:none !important;}
+.ui-menu-nav .container{position: relative;}
+input,button, textarea{outline:0}
+.text-align-right{ text-align: right;}
+table{ width:100%;}
+a, input, button{ outline:0 !important;}
+/*--END COMMON CSS--*/
+
