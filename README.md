@@ -5,7 +5,7 @@
 ## If you are using Docker just follow below steps.
 
 ``` bash
-# Build the image 
+# Build the image
 docker build -t rahul/virtual-vue .
 
 # Run the image
