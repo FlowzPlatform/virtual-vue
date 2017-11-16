@@ -2,7 +2,6 @@
 node_modules/
 package-lock.json
 .editorconfig
-.babelrc
 .postcssrc.js
 dist/
 npm-debug.log*
