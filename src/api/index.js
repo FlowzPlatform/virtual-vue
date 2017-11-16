@@ -13,7 +13,6 @@ return uploadService
 
 export const generateSequence = ({commit}, requestData) => {
 
-  // console.log(JSON.stringify(requestData) + '   requestData');
   const uploadService = feathersClient.service('post-data');
   return uploadService
       .create(requestData)
