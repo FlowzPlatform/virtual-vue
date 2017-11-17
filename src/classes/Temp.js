@@ -240,6 +240,7 @@ export default class Temp {
         ckhId: ""
       },
       _setOption: function( key, value ) {
+        alert(key+"--"+value)
         this.options[ key ] = value;
         this._update();
       },
@@ -268,17 +269,25 @@ export default class Temp {
 
       }
     });
-    let passOptions = {
-      id:imageSelectData.image_area_work,
-      isMovable:imageSelectData.options.isMovable,
-      isEditable:imageSelectData.options.isEditable,
-      isRemovable:imageSelectData.options.isRemovable,
-      width: imageSelectData.options.width,
-      height: imageSelectData.options.height,
-      imageLeft: imageSelectData.options.imageLeft,
-      imageTop: imageSelectData.options.imageTop,
+
+
+    if(imageSelectData.id !== undefined){
+        console.log(imageSelectData.id)
+        $('.'+className).imageArea('option','ckhId',imageSelectData.id);
+    }else{
+      let passOptions = {
+        id:imageSelectData.image_area_work,
+        isMovable:imageSelectData.options.isMovable,
+        isEditable:imageSelectData.options.isEditable,
+        isRemovable:imageSelectData.options.isRemovable,
+        width: imageSelectData.options.width,
+        height: imageSelectData.options.height,
+        imageLeft: imageSelectData.options.imageLeft,
+        imageTop: imageSelectData.options.imageTop,
+      }
+      $('.'+className).imageArea(passOptions);
     }
-    $('.'+className).imageArea(passOptions);
+
   }
 
   textArea(className, imageSelectData){

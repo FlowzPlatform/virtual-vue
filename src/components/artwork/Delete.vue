@@ -7,6 +7,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import Temp from '../../classes/Temp'
 
 export default {
   name: 'delete',
@@ -57,6 +58,11 @@ export default {
         if((newcordinates.text_height[0]  == null)||(newcordinates.text_height[0]  == undefined)) {
         }
       }
+
+      let ch = new Temp()
+      let op = {id:2}
+      ch.imageArea('obv-product-design-objects-image-i2',op);
+
       this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
       return this.$store.dispatch('generateSequence',newcordinates)
     },

@@ -3,6 +3,7 @@ import { imageProcessingUrl } from '../constants'
 
 export const createUpload = ({commit}, reader) => {
 const uploadService = feathersClient.service('uploads');
+console.log(reader.result)
 return uploadService
     .create({uri: reader.result})
     .then(function(response){
