@@ -107,10 +107,10 @@ export const makeUrl = (response) => {
       image_left.push(response.left[i].value)
       image_top.push(response.top[i].value)
 
-      console.log(response.left[i].value)
-      console.log(response.top[i].value)
-      console.log(parseFloat(response.left[i].value)+parseFloat(response.artwork_left))
-      console.log(parseFloat(response.top[i].value)+parseFloat(response.artwork_top))
+      // console.log(response.left[i].value)
+      // console.log(response.top[i].value)
+      // console.log(parseFloat(response.left[i].value)+parseFloat(response.artwork_left))
+      // console.log(parseFloat(response.top[i].value)+parseFloat(response.artwork_top))
 
 
       // image_left.push(parseFloat(response.left[i].value)+parseFloat(response.artwork_left))

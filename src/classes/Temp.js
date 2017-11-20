@@ -17,14 +17,17 @@ export default class Temp {
         _create: function() {
         },
         bindevent: function(id, imageSelectData) {
+          id = this.element.imageArea('option','id')
+          alert(id)
           let currentEle = this.element
+
 
           if(this.element.imageArea('option','isMovable')=="1") {
             this.element.draggable({
               scroll: false,
               distance:1,
               create: function(event, ui) {
-                this_.set_position(event, ui, id, imageSelectData,'image');
+                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData,'image');
                 setTimeout(
                   function()
                   {
@@ -37,7 +40,7 @@ export default class Temp {
                 // this_.set_position(event, id, imageSelectData);
               },
               stop: function(event, ui) {
-                this_.set_position(event, ui, id, imageSelectData,'image');
+                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData,'image');
                 imageSelectData.generateSequence()
                 currentEle.trigger( "click" );
               }
@@ -240,7 +243,7 @@ export default class Temp {
         ckhId: ""
       },
       _setOption: function( key, value ) {
-        alert(key+"--"+value)
+        // alert(key+"--"+value)
         this.options[ key ] = value;
         this._update();
       },
@@ -248,7 +251,7 @@ export default class Temp {
         console.log("_update");
       },
       _create: function() {
-        console.log(this.options.imageLeft+"==="+this.options.imageTop);
+        // console.log(this.options.imageLeft+"==="+this.options.imageTop);
 
         this.element.css({'width': this.options.width,'height': this.options.height,'left': this.options.imageLeft,'top': this.options.imageTop,'position': 'absolute'});
         let id = this.options.id;
@@ -272,8 +275,8 @@ export default class Temp {
 
 
     if(imageSelectData.id !== undefined){
-        console.log(imageSelectData.id)
-        $('.'+className).imageArea('option','ckhId',imageSelectData.id);
+        $('.'+className).imageArea('option','id',imageSelectData.id);
+        // alert($('.'+className).imageArea('option','id'))
     }else{
       let passOptions = {
         id:imageSelectData.image_area_work,

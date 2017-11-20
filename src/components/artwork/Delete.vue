@@ -61,7 +61,8 @@ export default {
 
       let ch = new Temp()
       let op = {id:2}
-      ch.imageArea('obv-product-design-objects-image-i2',op);
+      ch.imageArea('obv-product-design-objects-image-i3',op);
+      console.log($('.obv-product-design-objects-image-i3').imageArea('option','id'))
 
       this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
       return this.$store.dispatch('generateSequence',newcordinates)
