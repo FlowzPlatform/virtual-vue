@@ -3,7 +3,6 @@ import { imageProcessingUrl } from '../constants'
 
 export const createUpload = ({commit}, reader) => {
 const uploadService = feathersClient.service('uploads');
-console.log(reader.result)
 return uploadService
     .create({uri: reader.result})
     .then(function(response){
@@ -89,6 +88,7 @@ export const makeUrl = (response) => {
     let mainImage = '';
 
     mainImage = response.productImage
+
     let responseLayers = response.layers
 
     for (var i = 0; i < responseLayers.length; i++) {
@@ -185,7 +185,7 @@ export const makeUrl = (response) => {
         rotate = "&opacity="+response.opacity
     }
 
-    url = imageProcessingUrl+'image-processing/'+mainImage+'?compose=1&'+imprintMethod+'&sig=KwROfoP_7DjY&a_width='+response.artwork_width+'&a_height='+response.artwork_height+'&a_l='+response.artwork_left+'&a_t='+response.artwork_top+'&height='+image_height.toString()+'&width='+image_width.toString()+'&compose_x='+image_left.toString()+'&compose_y='+image_top.toString()+'&images='+userUploadedImage.toString()+'&flip='+flip.toString()+'&flop='+flop.toString()+'&alignment='+alignment.toString()+'&text_flip='+text_flip.toString()+'&text_flop='+text_flop.toString()+'&rotate='+image_rotate.toString()+'&text_rotate='+text_rotate.toString()+'&font_family='+font_family.toString()+'&text_curve='+text_curve.toString()+'&back='+background.toString()+'&text_alignment='+text_alignment.toString()+'&layers='+layers.reverse().toString()+cropped+text+opacity;
+    url = imageProcessingUrl+'image-processing/'+mainImage+'?compose=1&'+imprintMethod+'&sig=KwROfoP_7DjY&a_width='+response.artwork_width+'&a_height='+response.artwork_height+'&a_l='+response.artwork_left+'&a_t='+response.artwork_top+'&height='+image_height.toString()+'&width='+image_width.toString()+'&compose_x='+image_left.toString()+'&compose_y='+image_top.toString()+'&images='+userUploadedImage.toString()+'&flip='+flip.toString()+'&flop='+flop.toString()+'&alignment='+alignment.toString()+'&text_flip='+text_flip.toString()+'&text_flop='+text_flop.toString()+'&rotate='+image_rotate.toString()+'&text_rotate='+text_rotate.toString()+'&font_family='+font_family.toString()+'&text_curve='+text_curve.toString()+'&back='+background.toString()+'&text_alignment='+text_alignment.toString()+'&layers='+layers.reverse().toString()+'&c_h='+response.productHeight+'&c_w='+response.productWidth+cropped+text+opacity;
     // console.log(url)
   }else{
       url =  imageProcessingUrl+'/products/54607c1317207c5f03d63af1/12323rdfcabc234/main/'+response.productImage;

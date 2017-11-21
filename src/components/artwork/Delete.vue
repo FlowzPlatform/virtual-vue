@@ -30,9 +30,14 @@ export default {
       }
     },
     removeImage: function(){
-      let newcordinates = this.cordinates
-      let isSelectedAreaValue = this.$store.state.isSelectedArea.value - 1
-        this.removeLayers("image")
+      let newcordinates = this.$store.state.imageCordinates
+      let isSelectedAreaValue = this.selectedArea.value - 1
+
+      console.log(isSelectedAreaValue)
+      console.log(newcordinates.layers)
+
+      newcordinates = this.removeLayers("image", isSelectedAreaValue, newcordinates)
+
       newcordinates.height.splice(newcordinates.height.indexOf(newcordinates.height[isSelectedAreaValue]),1);
       newcordinates.width.splice(newcordinates.width.indexOf(newcordinates.width[isSelectedAreaValue]),1);
       newcordinates.left.splice(newcordinates.left.indexOf(newcordinates.left[isSelectedAreaValue]),1);
@@ -46,30 +51,29 @@ export default {
       newcordinates.rotate.splice(newcordinates.rotate.indexOf(newcordinates.rotate[isSelectedAreaValue]),1);
       newcordinates.userUploadedImageUrl.splice(newcordinates.userUploadedImageUrl.indexOf(newcordinates.userUploadedImageUrl[isSelectedAreaValue]),1);
       newcordinates.userUploadedImage.splice(newcordinates.userUploadedImage.indexOf(newcordinates.userUploadedImage[isSelectedAreaValue]),1);
+
       newcordinates.image_area_work = newcordinates.image_area_work -1;
 
-     $('.obv-product-design-objects-image-i'+this.$store.state.isSelectedArea.value).remove();
-       if((newcordinates.height[0]  != null)||(newcordinates.height[0]  != undefined)) {
-        this.$store.state.isSelectedArea.value =newcordinates.height[0].key + 1
-        this.$store.state.isSelectedArea.key =newcordinates.height[0].type
-        $('.obv-product-design-objects-image-i'+this.$store.state.isSelectedArea.value).addClass('vj-hotspot-selected');
-      }else{
-        this.$store.state.isSelectedArea = null
-        if((newcordinates.text_height[0]  == null)||(newcordinates.text_height[0]  == undefined)) {
-        }
-      }
+      $('.obv-product-design-objects-image-i'+this.$store.state.isSelectedArea.value).remove();
 
-      let ch = new Temp()
-      let op = {id:2}
-      ch.imageArea('obv-product-design-objects-image-i3',op);
-      console.log($('.obv-product-design-objects-image-i3').imageArea('option','id'))
+      // if((newcordinates.height[0] != null)||(newcordinates.height[0] != undefined)) {
+      //   this.$store.state.isSelectedArea.value =newcordinates.height[0].key + 1
+      //   this.$store.state.isSelectedArea.key =newcordinates.height[0].type
+      //   $('.obv-product-design-objects-image-i'+this.$store.state.isSelectedArea.value).addClass('vj-hotspot-selected');
+      // }else{
+      //   this.$store.state.isSelectedArea = null
+      //   if((newcordinates.text_height[0]  == null)||(newcordinates.text_height[0]  == undefined)) {
+      //
+      //   }
+      // }
 
       this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
       return this.$store.dispatch('generateSequence',newcordinates)
     },
     removeText: function(){
       let newcordinates = this.cordinates
-      let isSelectedAreaValue = this.$store.state.isSelectedArea.value - 1
+      let isSelectedAreaValue = this.selectedArea.value - 1
+
       newcordinates.texts.splice(newcordinates.texts.indexOf(newcordinates.texts[isSelectedAreaValue]),1);
       newcordinates.text_height.splice(newcordinates.text_height.indexOf(newcordinates.text_height[isSelectedAreaValue]),1);
       newcordinates.text_width.splice(newcordinates.text_width.indexOf(newcordinates.text_width[isSelectedAreaValue]),1);
@@ -85,38 +89,63 @@ export default {
       newcordinates.text_flop.splice(newcordinates.text_flop.indexOf(newcordinates.text_flop[isSelectedAreaValue]),1);
       newcordinates.text_rotate.splice(newcordinates.text_rotate.indexOf(newcordinates.text_rotate[isSelectedAreaValue]),1);
       newcordinates.text_area_work = newcordinates.text_area_work -1;
-      this.removeLayers("text")
+      newcordinates = this.removeLayers("text", newcordinates)
+
       $('.obv-product-design-objects-text-i'+this.$store.state.isSelectedArea.value).remove();
-      if((newcordinates.text_height[0]  != null)||(newcordinates.text_height[0]  != undefined)) {
-        this.$store.state.isSelectedArea.value =newcordinates.text_height[0].key + 1
-        this.$store.state.isSelectedArea.key =newcordinates.text_height[0].type
-       $('.obv-product-design-objects-text-i'+this.$store.state.isSelectedArea.value).addClass('vj-hotspot-selected');
-     }else{
-       this.$store.state.isSelectedArea = null
-     }
-         this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
-        return this.$store.dispatch('generateSequence',newcordinates)
-    },
-    removeLayers: function(type){
-      let isSelectedAreaValue = this.$store.state.isSelectedArea.value - 1
-      let newcordinates = this.cordinates
-      // let length =newcordinates.layers.length
-      let deletedKey = null
-      for (let i=0; i< newcordinates.layers.length; i++){
-          if((newcordinates.layers[i].key==isSelectedAreaValue)&&(newcordinates.layers[i].type==type)){
-             deletedKey = isSelectedAreaValue
-              newcordinates.layers.splice(newcordinates.layers.indexOf(newcordinates.layers[i]),1);
-           }
-            if((newcordinates.layers[i] != undefined)&&(newcordinates.layers[i].key > deletedKey)){
-            alert(newcordinates.layers[i].key)
-             newcordinates.layers[i].key = newcordinates.layers[i].key - 1
-            }
-      }
 
-      this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
+      // if((newcordinates.text_height[0]  != null)||(newcordinates.text_height[0]  != undefined)) {
+      //   this.$store.state.isSelectedArea.value =newcordinates.text_height[0].key + 1
+      //   this.$store.state.isSelectedArea.key =newcordinates.text_height[0].type
+      //   $('.obv-product-design-objects-text-i'+this.$store.state.isSelectedArea.value).addClass('vj-hotspot-selected');
+      // }else{
+      //  this.$store.state.isSelectedArea = null
+      // }
+
+      this.$store.commit('setImageCordinates', { cordinates:newcordinates })
       return this.$store.dispatch('generateSequence',newcordinates)
+    },
+    removeLayers: function(type, isSelectedAreaValue, newcordinates){
 
-     },
+      // isSelectedAreaValue = isSelectedAreaValue - 1
+
+      // let newcordinates = this.cordinates
+      let deletedKey = null
+      let ch = new Temp()
+
+      // console.log(newcordinates.layers);
+      alert(isSelectedAreaValue);
+
+      for (let i=0; i< newcordinates.layers.length; i++){
+
+        alert(newcordinates.layers[i].key)
+        alert(isSelectedAreaValue)
+
+        if((newcordinates.layers[i].key==isSelectedAreaValue)&&(newcordinates.layers[i].type==type)){
+          deletedKey = isSelectedAreaValue
+          alert("here")
+          console.log(newcordinates.layers)
+          newcordinates.layers.splice(newcordinates.layers[i],1);
+          console.log(newcordinates.layers)
+
+        }
+        if((newcordinates.layers[i] != undefined)&&(newcordinates.layers[i].key > deletedKey)){
+          let currentKey = newcordinates.layers[i].key + 1
+          newcordinates.layers[i].key = newcordinates.layers[i].key - 1
+
+          // modify id of imageArea
+          if(type=='image'){
+            let op = {id:currentKey-1}
+            ch.imageArea('obv-product-design-objects-image-i'+currentKey, op);
+          }else{
+            let op = {id:currentKey-1}
+            ch.imageArea('obv-product-design-objects-text-i'+currentKey, op);
+          }
+        }
+      }
+      return newcordinates
+      // this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
+      // return this.$store.dispatch('generateSequence',newcordinates)
+    },
   },
   watch: {
     cordinates:{
@@ -128,7 +157,8 @@ export default {
   },
   computed: {
      ...mapGetters({
-      cordinates: 'getImageCordinates'
+      cordinates: 'getImageCordinates',
+      selectedArea: 'getIsSelectedArea'
     })
   },
 }

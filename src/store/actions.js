@@ -101,7 +101,6 @@ export default {
     },
 
     productDetail: async ({ commit, state}, queryParams) => {
-      console.log(queryParams)
       let res = await productDetail({ commit }, queryParams);
       return res
     }

@@ -18,9 +18,7 @@ export default class Temp {
         },
         bindevent: function(id, imageSelectData) {
           id = this.element.imageArea('option','id')
-          alert(id)
           let currentEle = this.element
-
 
           if(this.element.imageArea('option','isMovable')=="1") {
             this.element.draggable({
@@ -54,7 +52,7 @@ export default class Temp {
 
               },
               create: function(event, ui) {
-                this_.set_position(event, ui, id, imageSelectData, 'image');
+                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image');
                 setTimeout(
                   function()
                   {
@@ -66,7 +64,7 @@ export default class Temp {
               },
               aspectRatio: true,
               stop: function(event, ui) {
-                this_.set_position(event, ui, id, imageSelectData, 'image');
+                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image');
                 imageSelectData.generateSequence()
                 currentEle.trigger( "click" );
               }
@@ -94,7 +92,7 @@ export default class Temp {
                 // console.log(event)
                 // console.log(ui.angle)
                 // console.log(ui.angle.current * 180/Math.PI)
-                this_.set_position(event, ui, id, imageSelectData, 'image');
+                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image');
                 imageSelectData.generateSequence()
               }
             });
@@ -640,18 +638,22 @@ export default class Temp {
     });
   }
 
-  imageCordinates(imageProps){
+  imageCordinates(imageProps, width, height){
     /**formuala**/
     // (original height / original width) x new width = new height
 
-    let height=300;
-    let width=200;
+
+    //TODO this needs to change
+    // let height=300;
+    // let width=200;
+
     let imgCordinates = {
       height: imageProps.height,
       width: imageProps.width
     };
     let origH = imageProps.height;
     let origW = imageProps.width;
+
     if(imageProps.width>width){
       imgCordinates.width = width;
       imgCordinates.height = imgCordinates.width*origH/origW;

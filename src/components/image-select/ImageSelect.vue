@@ -9,12 +9,14 @@
 import { mapGetters } from 'vuex'
 import generateSequence from '../../store/actions.js'
 import Temp from '../../classes/Temp'
-import { userUploadeImageUrl } from '../../constants'
+import { userUploadeImageUrl, imageProcessingUrl } from '../../constants'
 
 import '../../../static/css/jquery-ui.css'
 let data = {
   text_area_work: 0,
   image_area_work: 0,
+  productHeight: 0,
+  productWidth: 0,
   height: [],
   width: [],
   left: [],
@@ -69,7 +71,8 @@ export default {
       isUploaded: 'getIsUpload',
       userUploadedImageName: 'getUserUploadedImageName',
       isTextAdded: 'getIsTextAdded',
-      text: 'getText'
+      text: 'getText',
+      productImage: 'getProductImage'
     }),
 
     productImprintArea: function() {
@@ -82,8 +85,14 @@ export default {
         let ch = new Temp()
         let imageUrl = userUploadeImageUrl+this.userUploadedImageName;
         let imageProps = await ch.addImageProcess(imageUrl);
-        let imgCordinates = ch.imageCordinates(imageProps);
+        let imgCordinates = ch.imageCordinates(imageProps, 200, 300);
 
+        let productImage = imageProcessingUrl+'products/'+this.productImage
+        let productImageProps = await ch.addImageProcess(productImage);
+        let productImageCordinates = ch.imageCordinates(productImageProps, 500, 500);
+
+        this.productHeight = productImageCordinates.height
+        this.productWidth = productImageCordinates.width
         this.image_area_work++;
         this.options.isEditable=1;
         this.options.height=imgCordinates.height;
