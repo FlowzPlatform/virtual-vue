@@ -82,10 +82,11 @@ export default {
   watch: {
     isUploaded: async function(value) {
       if(value==true){
+
         let ch = new Temp()
         let imageUrl = userUploadeImageUrl+this.userUploadedImageName;
         let imageProps = await ch.addImageProcess(imageUrl);
-        let imgCordinates = ch.imageCordinates(imageProps, 200, 300);
+        let imgCordinates = ch.imageCordinates(imageProps, this.artwork_width, this.artwork_height);
 
         let productImage = imageProcessingUrl+'products/'+this.productImage
         let productImageProps = await ch.addImageProcess(productImage);
@@ -111,10 +112,16 @@ export default {
       if(value===true){
         let ch = new Temp()
 
+        let productImage = imageProcessingUrl+'products/'+this.productImage
+        let productImageProps = await ch.addImageProcess(productImage);
+        let productImageCordinates = ch.imageCordinates(productImageProps, 500, 500);
+
+        this.productHeight = productImageCordinates.height
+        this.productWidth = productImageCordinates.width
         this.text_area_work++;
         this.options.isEditable=1;
         this.options.height=70
-        this.options.width=200
+        this.options.width=this.artwork_width
         this.options.imageLeft=0;
         this.options.imageTop=0
         this.options.isMovable=1;
@@ -135,10 +142,10 @@ export default {
          this.options.isEditable=0;
          this.options.isMovable=0;
          this.options.isRemovable=0;
-         this.options.height = w_h[1]
-         this.options.width = w_h[0]
-         this.artwork_width = w_h[0]
-         this.artwork_height = w_h[1]
+         this.options.height = parseInt(w_h[1])
+         this.options.width = parseInt(w_h[0])
+         this.artwork_width = parseInt(w_h[0])
+         this.artwork_height = parseInt(w_h[1])
          this.artwork_left = parseInt(l_t[0])
          this.artwork_top = parseInt(l_t[1])
          this.options.imageLeft = parseInt(l_t[0])

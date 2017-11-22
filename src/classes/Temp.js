@@ -25,7 +25,7 @@ export default class Temp {
               scroll: false,
               distance:1,
               create: function(event, ui) {
-                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData,'image');
+                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData,'image', id);
                 setTimeout(
                   function()
                   {
@@ -38,7 +38,7 @@ export default class Temp {
                 // this_.set_position(event, id, imageSelectData);
               },
               stop: function(event, ui) {
-                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData,'image');
+                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData,'image', id);
                 imageSelectData.generateSequence()
                 currentEle.trigger( "click" );
               }
@@ -52,7 +52,7 @@ export default class Temp {
 
               },
               create: function(event, ui) {
-                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image');
+                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image', id);
                 setTimeout(
                   function()
                   {
@@ -64,7 +64,7 @@ export default class Temp {
               },
               aspectRatio: true,
               stop: function(event, ui) {
-                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image');
+                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image', id);
                 imageSelectData.generateSequence()
                 currentEle.trigger( "click" );
               }
@@ -92,7 +92,7 @@ export default class Temp {
                 // console.log(event)
                 // console.log(ui.angle)
                 // console.log(ui.angle.current * 180/Math.PI)
-                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image');
+                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image', id);
                 imageSelectData.generateSequence()
               }
             });
@@ -122,13 +122,15 @@ export default class Temp {
           });
         },
         bindevent4text: function(id, imageSelectData) {
+          id = this.element.textArea('option','id')
           let currentEle = this.element
+
           if(this.element.textArea('option','isMovable')=="1") {
             this.element.draggable({
               scroll: false,
               distance:1,
               create: function(event, ui) {
-                this_.set_position(event, ui, id, imageSelectData, 'text');
+                this_.set_position(event, ui,currentEle.textArea('option','id'), imageSelectData, 'text', id);
                 setTimeout(
                   function()
                   {
@@ -142,7 +144,7 @@ export default class Temp {
 
               },
               stop: function(event, ui) {
-                this_.set_position(event, ui, id, imageSelectData, 'text');
+                this_.set_position(event, ui,currentEle.textArea('option','id'), imageSelectData, 'text', id);
                 imageSelectData.generateSequence()
                 currentEle.trigger( "click" );
               }
@@ -153,12 +155,11 @@ export default class Temp {
 
               },
               stop: function(event, ui) {
-                this_.set_position(event, ui, id, imageSelectData, 'text');
+                this_.set_position(event, ui,currentEle.textArea('option','id'), imageSelectData, 'text', id);
                 imageSelectData.generateSequence()
               }
             });
           }
-
 
           this.element.click(function() {
             let selected = $(this)
@@ -356,8 +357,9 @@ export default class Temp {
     $('.'+className).textArea(passOptions);
   }
 
-  set_position(event, ui, id, imageSelectData, type){
+  set_position(event, ui, id, imageSelectData, type, hId){
     id--;
+    // alert(id)
 
     if(type=='image'){
       //image width, leftN, leftS
@@ -372,7 +374,7 @@ export default class Temp {
 
         imageSelectData.userUploadedImageUrl.push({ key: id, type:type, value:imageProcessingUrl+'users/'+imageSelectData.$store.state.userUploadedImageName});
         imageSelectData.userUploadedImage.push({ key: id, type:type, value:imageSelectData.$store.state.userUploadedImageName });
-        imageSelectData.layers.push({ key: id, type:type, value:imageSelectData.$store.state.userUploadedImageName });
+        imageSelectData.layers.push({ key: id, hId: hId, type:type, value:imageSelectData.$store.state.userUploadedImageName });
 
       }
 
