@@ -1,12 +1,23 @@
 <template>
-  <div class="container">
-    <div class="gallery-image">
-        <div id="gallery-thumbnails" class="owl-carousel">
-            <div class="item" v-for="variation in variations"><a href="javascript:void(0);" class="product-thumb-anchar" @click="selectedImage(variation.image)"><img :src="imageProcessingUrl + 'products/'+variation.image" /></a></div>
+  <div class='carousel-view'>
+      <div class="container">
+        <div class="gallery-image">
+            <div>
+              <transition-group
+                class='carousel'
+                tag="div">
+                <div class="item" v-for="(variation, index) in variations" :key="index"><a href="javascript:void(0);" class="product-thumb-anchar" @click="selectedImage(variation.image)"><img :src="imageProcessingUrl + 'products/'+variation.image" /></a></div>
+              </transition-group>
+            </div>
         </div>
+      </div>
+    <div class='carousel-controls'>
+      <button class='carousel-controls__button' @click="previous">prev</button>
+      <button class='carousel-controls__button' @click="next">next</button>
     </div>
   </div>
 </template>
+
 <script>
 import { mapGetters } from 'vuex'
 import { imageProcessingUrl } from '../../constants'
@@ -20,9 +31,17 @@ export default {
   computed: {
     ...mapGetters({
       url: 'getImageUrl',
-      cordinates: 'getImageCordinates',
-      variations: 'getProductVariationImages'
+      cordinates: 'getImageCordinates'
+      // variations: 'getProductVariationImages'
     }),
+    variations: {
+      get: function() {
+        return this.$store.state.productVariationImages
+      },
+      set: function(val) {
+        this.$store.commit('setProductVariationImages', { images: val } )
+      }
+    },
     isTextOrImage: function() {
       return this.$store.state.isSelectedArea!= null ? true : false
     }
@@ -31,7 +50,53 @@ export default {
     selectedImage(img){
       this.$store.commit('setProductImage', { value: img } )
       if(this.isTextOrImage) return this.$store.dispatch('generateSequence',this.cordinates)
+    },
+    next () {
+      const first = this.variations.shift()
+      this.variations = this.variations.concat(first)
+    },
+    previous () {
+      const last = this.variations.pop()
+      this.variations = [last].concat(this.variations)
     }
   }
 }
 </script>
+
+<style>
+a.product-thumb-anchar img{
+  width: 50px;
+  height: 50px;
+}
+.carousel-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  width: 24em;
+  min-height: 25em;
+}
+.slide {
+  flex: 0 0 20em;
+  height: 20em;
+  margin: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0.1em dashed #000;
+  border-radius: 50%;
+  transition: transform 0.3s ease-in-out;
+}
+.slide:first-of-type {
+  opacity: 0;
+}
+.slide:last-of-type {
+  opacity: 0;
+}
+</style>

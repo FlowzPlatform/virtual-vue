@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+// import Carousel from './Carousel'
 // import { createRouter } from './router'
 // import { createStore } from './store'
 import store from './store'
@@ -28,4 +29,5 @@ new Vue({
   router,
   template: '<App/>',
   components: { App }
+  // render: h => h(Carousel)
 })

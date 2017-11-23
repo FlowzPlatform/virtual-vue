@@ -7,6 +7,7 @@
    <ImageEditor v-if="isVirtual"></ImageEditor>
    <NotFound v-if="!isVirtual"></NotFound>
    <Loader v-if="!isVirtual"></Loader>
+   <!-- <Carousel></Carousel> -->
   </div>
 </template>
 
@@ -20,6 +21,8 @@ import ImageGallery from '../components/ImageGallery.vue'
 import ImageEditor from '../components/ImageEditor.vue'
 import NotFound from '../components/404.vue'
 import Loader from '../components/Loader.vue'
+// import Carousel from '../Carousel.vue'
+
 
 
 export default {
@@ -78,7 +81,7 @@ export default {
       }
       let productDetail = await this.productDetail(param)
       console.log(productDetail);
-      
+
       this.defineImprintArea(productDetail.productImprint[0])
       await this.defineProductImages(productDetail.productImages.virtualImages)
 
