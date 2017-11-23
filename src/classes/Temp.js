@@ -17,6 +17,7 @@ export default class Temp {
         _create: function() {
         },
         bindevent: function(id, imageSelectData) {
+          id = this.element.imageArea('option','id')
           let currentEle = this.element
 
           if(this.element.imageArea('option','isMovable')=="1") {
@@ -24,7 +25,7 @@ export default class Temp {
               scroll: false,
               distance:1,
               create: function(event, ui) {
-                this_.set_position(event, ui, id, imageSelectData,'image');
+                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData,'image', id);
                 setTimeout(
                   function()
                   {
@@ -37,7 +38,7 @@ export default class Temp {
                 // this_.set_position(event, id, imageSelectData);
               },
               stop: function(event, ui) {
-                this_.set_position(event, ui, id, imageSelectData,'image');
+                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData,'image', id);
                 imageSelectData.generateSequence()
                 currentEle.trigger( "click" );
               }
@@ -51,7 +52,7 @@ export default class Temp {
 
               },
               create: function(event, ui) {
-                this_.set_position(event, ui, id, imageSelectData, 'image');
+                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image', id);
                 setTimeout(
                   function()
                   {
@@ -63,7 +64,7 @@ export default class Temp {
               },
               aspectRatio: true,
               stop: function(event, ui) {
-                this_.set_position(event, ui, id, imageSelectData, 'image');
+                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image', id);
                 imageSelectData.generateSequence()
                 currentEle.trigger( "click" );
               }
@@ -91,7 +92,7 @@ export default class Temp {
                 // console.log(event)
                 // console.log(ui.angle)
                 // console.log(ui.angle.current * 180/Math.PI)
-                this_.set_position(event, ui, id, imageSelectData, 'image');
+                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image', id);
                 imageSelectData.generateSequence()
               }
             });
@@ -121,13 +122,15 @@ export default class Temp {
           });
         },
         bindevent4text: function(id, imageSelectData) {
+          id = this.element.textArea('option','id')
           let currentEle = this.element
+
           if(this.element.textArea('option','isMovable')=="1") {
             this.element.draggable({
               scroll: false,
               distance:1,
               create: function(event, ui) {
-                this_.set_position(event, ui, id, imageSelectData, 'text');
+                this_.set_position(event, ui,currentEle.textArea('option','id'), imageSelectData, 'text', id);
                 setTimeout(
                   function()
                   {
@@ -141,7 +144,7 @@ export default class Temp {
 
               },
               stop: function(event, ui) {
-                this_.set_position(event, ui, id, imageSelectData, 'text');
+                this_.set_position(event, ui,currentEle.textArea('option','id'), imageSelectData, 'text', id);
                 imageSelectData.generateSequence()
                 currentEle.trigger( "click" );
               }
@@ -152,12 +155,11 @@ export default class Temp {
 
               },
               stop: function(event, ui) {
-                this_.set_position(event, ui, id, imageSelectData, 'text');
+                this_.set_position(event, ui,currentEle.textArea('option','id'), imageSelectData, 'text', id);
                 imageSelectData.generateSequence()
               }
             });
           }
-
 
           this.element.click(function() {
             let selected = $(this)
@@ -240,6 +242,7 @@ export default class Temp {
         ckhId: ""
       },
       _setOption: function( key, value ) {
+        // alert(key+"--"+value)
         this.options[ key ] = value;
         this._update();
       },
@@ -247,7 +250,7 @@ export default class Temp {
         console.log("_update");
       },
       _create: function() {
-        console.log(this.options.imageLeft+"==="+this.options.imageTop);
+        // console.log(this.options.imageLeft+"==="+this.options.imageTop);
 
         this.element.css({'width': this.options.width,'height': this.options.height,'left': this.options.imageLeft,'top': this.options.imageTop,'position': 'absolute'});
         let id = this.options.id;
@@ -268,17 +271,25 @@ export default class Temp {
 
       }
     });
-    let passOptions = {
-      id:imageSelectData.image_area_work,
-      isMovable:imageSelectData.options.isMovable,
-      isEditable:imageSelectData.options.isEditable,
-      isRemovable:imageSelectData.options.isRemovable,
-      width: imageSelectData.options.width,
-      height: imageSelectData.options.height,
-      imageLeft: imageSelectData.options.imageLeft,
-      imageTop: imageSelectData.options.imageTop,
+
+
+    if(imageSelectData.id !== undefined){
+        $('.'+className).imageArea('option','id',imageSelectData.id);
+        // alert($('.'+className).imageArea('option','id'))
+    }else{
+      let passOptions = {
+        id:imageSelectData.image_area_work,
+        isMovable:imageSelectData.options.isMovable,
+        isEditable:imageSelectData.options.isEditable,
+        isRemovable:imageSelectData.options.isRemovable,
+        width: imageSelectData.options.width,
+        height: imageSelectData.options.height,
+        imageLeft: imageSelectData.options.imageLeft,
+        imageTop: imageSelectData.options.imageTop,
+      }
+      $('.'+className).imageArea(passOptions);
     }
-    $('.'+className).imageArea(passOptions);
+
   }
 
   textArea(className, imageSelectData){
@@ -346,8 +357,9 @@ export default class Temp {
     $('.'+className).textArea(passOptions);
   }
 
-  set_position(event, ui, id, imageSelectData, type){
+  set_position(event, ui, id, imageSelectData, type, hId){
     id--;
+    // alert(id)
 
     if(type=='image'){
       //image width, leftN, leftS
@@ -362,7 +374,7 @@ export default class Temp {
 
         imageSelectData.userUploadedImageUrl.push({ key: id, type:type, value:imageProcessingUrl+'users/'+imageSelectData.$store.state.userUploadedImageName});
         imageSelectData.userUploadedImage.push({ key: id, type:type, value:imageSelectData.$store.state.userUploadedImageName });
-        imageSelectData.layers.push({ key: id, type:type, value:imageSelectData.$store.state.userUploadedImageName });
+        imageSelectData.layers.push({ key: id, hId: hId, type:type, value:imageSelectData.$store.state.userUploadedImageName });
 
       }
 
@@ -628,18 +640,22 @@ export default class Temp {
     });
   }
 
-  imageCordinates(imageProps){
+  imageCordinates(imageProps, width, height){
     /**formuala**/
     // (original height / original width) x new width = new height
 
-    let height=300;
-    let width=200;
+
+    //TODO this needs to change
+    // let height=300;
+    // let width=200;
+
     let imgCordinates = {
       height: imageProps.height,
       width: imageProps.width
     };
     let origH = imageProps.height;
     let origW = imageProps.width;
+
     if(imageProps.width>width){
       imgCordinates.width = width;
       imgCordinates.height = imgCordinates.width*origH/origW;

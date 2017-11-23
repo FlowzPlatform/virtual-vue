@@ -28,5 +28,10 @@ export default {
   },
   getProductVariationImages: (state) =>{
     return state.productVariationImages
+  },
+  getProductImage: (state) =>{
+    return state.productImage
   }
+
+
 }

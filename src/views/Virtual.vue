@@ -57,7 +57,7 @@ export default {
       let unIm = unserialize(productImprint.imprintParam)
       this.$store.commit('setProductImprint', { imprint: unIm } )
     },
-    
+
     defineProductImages(virtualImages) {
       let imprint = {}
       let images = virtualImages.main
@@ -77,8 +77,8 @@ export default {
         locale: this.$store.state.virtualData.culture
       }
       let productDetail = await this.productDetail(param)
-      console.log(productDetail)
-
+      console.log(productDetail);
+      
       this.defineImprintArea(productDetail.productImprint[0])
       await this.defineProductImages(productDetail.productImages.virtualImages)
 
