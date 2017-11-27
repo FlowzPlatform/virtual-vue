@@ -1,4 +1,4 @@
-export const baseUrl = "http://localhost:8082/"
+export const baseUrl = "http://172.16.60.129:8082/"
 export const apiUrl = "http://172.16.60.128:3030/";
 export const imageProcessingUrl = "http://172.16.60.128:6789/";
 

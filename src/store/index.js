@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import actions  from './actions'
 import mutations  from './mutations'
 import getters  from './getters'
+import editor from './modules/editor';
 
 Vue.use(Vuex)
 
@@ -60,5 +61,8 @@ Vue.use(Vuex)
     },
     actions,
     mutations,
-    getters
+    getters,
+    modules: {
+      editor 
+    }
   })
