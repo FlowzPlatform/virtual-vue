@@ -17,24 +17,7 @@ Vue.use(Vuex)
       isTextAdded: false,
       text: null,
       productImage: 'product-img.png',
-      productVariationImages: [
-        {
-          name: 'White',
-          image: '54607c1317207c5f03d63af1/12323rdfcabc234/main/product-img.png'
-        },
-        {
-          name: 'Red',
-          image: '54607c1317207c5f03d63af1/12323rdfcabc234/main/product-img-red.png'
-        },
-        {
-          name: 'Black',
-          image: '54607c1317207c5f03d63af1/12323rdfcabc234/main/product-img-black.png'
-        },
-        {
-          name: 'Blue',
-          image: '54607c1317207c5f03d63af1/12323rdfcabc234/main/product-img-blue.png'
-        }
-      ],
+      productVariationImages: [],
       productsideImages: [
         {
           name: 'Back',

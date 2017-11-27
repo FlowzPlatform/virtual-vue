@@ -9,7 +9,8 @@ import router from './router'
 import store from './store'
 import { sync } from 'vuex-router-sync'
 
-import Sortable from 'sortablejs'
+// import Sortable from 'sortablejs'
+
 Vue.directive('sortable', {
   inserted: function (el, binding) {
     var sortable = new Sortable(el, binding.value || {});

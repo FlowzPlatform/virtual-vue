@@ -12,9 +12,13 @@
         </div>
       </div>
     <div class='carousel-controls'>
-      <button class='carousel-controls__button' @click="previous">prev</button>
-      <button class='carousel-controls__button' @click="next">next</button>
+      <div class='carousel-controls__button owl-prev' @click="previous">pre</div>
+      <div class='carousel-controls__button owl-next' @click="next">next</div>
     </div>
+    <!-- <i class="fa fa-angle-right fa-5" aria-hidden="true"></i>
+
+    <i class="fa fa-angle-left fa-5" aria-hidden="true"></i> -->
+
   </div>
 </template>
 
@@ -49,6 +53,7 @@ export default {
   methods: {
     selectedImage(img){
       this.$store.commit('setProductImage', { value: img } )
+      this.$store.commit('setImageUrl', { url: imageProcessingUrl+'products/'+img } )
       if(this.isTextOrImage) return this.$store.dispatch('generateSequence',this.cordinates)
     },
     next () {
@@ -67,6 +72,9 @@ export default {
 a.product-thumb-anchar img{
   width: 50px;
   height: 50px;
+  margin: 0 10px 0 10px;
+  display: inline-block;
+  border: 1px solid #4c4c4c;
 }
 .carousel-view {
   display: flex;
@@ -80,7 +88,7 @@ a.product-thumb-anchar img{
   overflow: hidden;
 
   width: 24em;
-  min-height: 25em;
+  /*min-height: 25em;*/
 }
 .slide {
   flex: 0 0 20em;

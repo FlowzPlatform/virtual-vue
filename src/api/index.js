@@ -107,15 +107,6 @@ export const makeUrl = (response) => {
       image_left.push(response.left[i].value)
       image_top.push(response.top[i].value)
 
-      // console.log(response.left[i].value)
-      // console.log(response.top[i].value)
-      // console.log(parseFloat(response.left[i].value)+parseFloat(response.artwork_left))
-      // console.log(parseFloat(response.top[i].value)+parseFloat(response.artwork_top))
-
-
-      // image_left.push(parseFloat(response.left[i].value)+parseFloat(response.artwork_left))
-      // image_top.push(parseFloat(response.top[i].value)+parseFloat(response.artwork_top))
-
       image_rotate.push(response.rotate[i].value)
 
       userUploadedImage.push(response.userUploadedImage[i].value)
@@ -173,6 +164,14 @@ export const makeUrl = (response) => {
       imprintMethod = response.imprintMethod+'=1'
     }
     if(response.imprintMethod == 'wooden'){
+      compose = '&compose=1';
+      imprintMethod = response.imprintMethod+'=1'
+    }
+    if(response.imprintMethod == 'leather_engrave'){
+      compose = '&compose=1';
+      imprintMethod = response.imprintMethod+'=1'
+    }
+    if(response.imprintMethod == 'deboss'){
       compose = '&compose=1';
       imprintMethod = response.imprintMethod+'=1'
     }

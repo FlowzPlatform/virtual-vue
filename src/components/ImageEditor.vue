@@ -9,7 +9,7 @@
             <rotate></rotate>
             <reflect></reflect>
             <crop v-if="isTextOrImage!='text'"></crop>
-            <layer></layer>
+            <!-- <layer></layer> -->
             <delete></delete>
         </ul>
     </div>

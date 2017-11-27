@@ -7,7 +7,7 @@
    <ImageEditor v-if="isVirtual"></ImageEditor>
    <NotFound v-if="!isVirtual"></NotFound>
    <Loader v-if="!isVirtual"></Loader>
-   <!-- <Carousel></Carousel> -->
+   <Test v-if="!isVirtual"></Test>
   </div>
 </template>
 
@@ -21,7 +21,7 @@ import ImageGallery from '../components/ImageGallery.vue'
 import ImageEditor from '../components/ImageEditor.vue'
 import NotFound from '../components/404.vue'
 import Loader from '../components/Loader.vue'
-// import Carousel from '../Carousel.vue'
+import Test from '../components/Test.vue'
 
 
 
@@ -29,7 +29,7 @@ export default {
   name: 'virtual-popup',
 
   components: {
-    HeaderContent, LeftPanel, RightPanel, ImageGallery, ImageEditor, NotFound, Loader
+    HeaderContent, LeftPanel, RightPanel, ImageGallery, ImageEditor, NotFound, Loader, Test
   },
 
   data () {

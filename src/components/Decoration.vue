@@ -60,25 +60,53 @@
                  <li class="radio">
                          <input type="radio" name="imprint_method" value="leather_engrave" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
                          <label style="color:black">
-                           <img src="static/images/wooden.png" />
+                           <img src="static/images/leather_engrave.png" />
                          </label>
                  </li>
                  <li class="radio">
                          <input type="radio" name="imprint_method" value="foil" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
                          <label style="color:black">
-                           <img src="static/images/wooden.png" />
+                           <img src="static/images/foil.png" />
                          </label>
                  </li>
                  <li class="radio">
                          <input type="radio" name="imprint_method" value="hot_stamp" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
                          <label style="color:black">
-                           <img src="static/images/wooden.png" />
+                           <img src="static/images/hot_stamp.png" />
                          </label>
                  </li>
                  <li class="radio">
                          <input type="radio" name="imprint_method" value="gel_dome" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
                          <label style="color:black">
-                           <img src="static/images/wooden.png" />
+                           <img src="static/images/gel_dome.png" />
+                         </label>
+                 </li>
+
+                 <li class="radio">
+                         <input type="radio" name="imprint_method" value="laser" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
+                         <label style="color:black">
+                           <img src="static/images/laser.png" />
+                         </label>
+                 </li>
+
+                 <li class="radio">
+                         <input type="radio" name="imprint_method" value="glass" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
+                         <label style="color:black">
+                           <img src="static/images/etch_imprint.png" />
+                         </label>
+                 </li>
+
+                 <li class="radio">
+                         <input type="radio" name="imprint_method" value="tone_on_tone" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
+                         <label style="color:black">
+                           <img src="static/images/tone_on_tone.png" />
+                         </label>
+                 </li>
+
+                 <li class="radio">
+                         <input type="radio" name="imprint_method" value="4_color_process_dome" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
+                         <label style="color:black">
+                           <img src="static/images/4_color_process_dome.png" />
                          </label>
                  </li>
              </ul>
@@ -344,7 +372,7 @@ export default {
     },
 
     isColor: () => {
-      return false
+      return true
     }
   },
   mounted: function(){
