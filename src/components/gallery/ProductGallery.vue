@@ -10,7 +10,7 @@
                     <!-- <img   ref="image"   src="http://localhost:8082/static/images/back-view-white.png" alt="" height="500"   @load="start" > -->
                     <img  ref="image" :src="url" alt="" height="500"  @load="start"   >
                     </div></div>
-                    
+
                     <!-- <div class="item"><div class="obv-product-main-images"><img :src="imageProcessingUrl + '/products/54607c1317207c5f03d63af1/12323rdfcabc234/main/product-img.png'" alt=""></div>
                     </div>
                     <div class="item"><div class="obv-product-main-images"><img :src="imageProcessingUrl + '/products/54607c1317207c5f03d63af1/12323rdfcabc234/main/product-img.png'" alt="" ></div></div>
@@ -61,7 +61,7 @@ export default {
       cropper: null,
       canvasData: null,
       cropBoxData: null,
-      data: null, 
+      data: null,
     }
   },
   components : {'image-select':ImageSelect},
@@ -71,7 +71,7 @@ export default {
       url: 'getImageUrl'
     }),editor() {
         return this.$store.state.editor;
-      } 
+      }
   },
     mounted() {
       window.addEventListener('keydown', (this.onKeydown = this.keydown.bind(this)));
@@ -236,7 +236,7 @@ export default {
           autoCrop: false,
           dragMode: 'move',
           background: false,
-          crossOrigin: true,
+          checkCrossOrigin: false,
           rotatable:true,
           scalable: true,
           ready: () => {
