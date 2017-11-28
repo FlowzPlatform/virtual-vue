@@ -6,7 +6,7 @@
     <div class="dropdown-menu" v-show="isWorkSelected">
       <h2>Crop</h2>
         <div class="crop-ui-col">
-          <div class="crop-editor cropImage"><img id="cropImageUrl" v-bind:src="cropImageUrl" ></div>
+          <div class="crop-editor cropImage"><img id="cropImageUrl" v-bind:src="cropImageUrl" style="height:225px" ></div>
         </div>
         <div class="action-button">
           <a href="javascript:void(0);"  id="cancelCrop" class="btn-default">Cancel</a>
@@ -38,8 +38,8 @@ export default {
       }else {
         let isSelectedAreaKey = this.$store.state.isSelectedArea.value - 1;
         let newcordinates = this.cordinates;
-        this.cropImageUrl = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value;
-      }
+        this.cropImageUrl = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value
+       }
     },
 
     // cropImage: function(){
@@ -88,17 +88,30 @@ export default {
       crop['cropAxis']=this.imageAxis
       crop['cropImage']=cropImage
       let res = await this.$store.dispatch('cropImage',crop)
-       this.cropImageUrl = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value+'?h='+tempH
+      let  url;
+      let time = new Date().getTime();
+       if(newcordinates.userUploadedImageUrl[isSelectedAreaKey].value.indexOf('?h=') != -1){
+         url = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value.replace('?', '?'+time)
+      }else{
+         url = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value + '?'+ time
+      }
+      this.cropImageUrl = url  //newcordinates.userUploadedImageUrl[isSelectedAreaKey].value+'?h='+Math.random()
+      console.log(this.cropImageUrl)
+       
+      //  this.cropImageUrl = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value+'?h='+tempH
        this.jcrop_api.setImage(this.cropImageUrl);
-
+      
        newcordinates.cropped = newcordinates.cropped+1
        this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
+         $('#cropImageUrl').css('height','225px')
+        $('.jcrop-holder').css({"height": "225px !important", "font-size": "200%"}) //.css('height','225px')
+        $('.cropImage').css('height','225px')
       return this.$store.dispatch('generateSequence',newcordinates)
     },
     initJcrop: function(oImg){
       let vthis = this
       oImg.Jcrop({
-        setSelect:   [0,0,150,150 ],
+         setSelect:   [0,0,150,150 ],
         onChange:   this.showCoords
       },function(){
          vthis.jcrop_api = this;
@@ -141,3 +154,8 @@ export default {
 }
 
  </script>
+<<style>
+#obv-editor .crop-ui-col{
+  height:225px; 
+}
+</style>
