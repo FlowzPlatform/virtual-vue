@@ -19,9 +19,9 @@ $(document).ready(function (){
     $('.js-hide-text').on('click',function (event){
         $('.add-your-text').removeClass('open');
     });
-	$(".panzoom").hover(function () {
+	/*$(".panzoom").hover(function () {
 		$(this).next().toggleClass("open");
-	});
+	}); */
 	$(".img-flip-button").hover(function () {
 		$(this).toggleClass("open");
 	});
@@ -41,12 +41,12 @@ $(document).ready(function (){
 	});
 	// ZOOM EFFECT
 	var $section = $('.image-gallery').first();
-	$section.find('.panzoom').panzoom({
+	/*$section.find('.panzoom').panzoom({
 		$zoomIn: $section.find(".zoom-in"),
 		$zoomOut: $section.find(".zoom-out"),
 		panOnlyWhenZoomed: true,
 		minScale: 1
-	});
+	});*/
 	// END ZOOM EFFECT
 
     // START RIGHT-SIDE MENU

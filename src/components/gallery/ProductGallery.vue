@@ -1,15 +1,18 @@
 <template>
 <div class="image-gallery">
-    <section>
+    <section> {{url}}
         <div class="parent">
         <div class="image-display">
             <div class="panzoom">
               <div class="owl-carousel" id="image-gallery">
 
-                    <div class="item"><div class="obv-product-main-images"><image-select></image-select>
+                    <div class="item"><div class="obv-product-main-images">
                     <!-- <img   ref="image"   src="http://localhost:8082/static/images/back-view-white.png" alt="" height="500"   @load="start" > -->
                     <img  ref="image" :src="url" alt="" height="500"  @load="start"   >
-                    </div></div>
+                    <image-select></image-select>
+                    
+                    </div>
+                    </div>
                     
                     <!-- <div class="item"><div class="obv-product-main-images"><img :src="imageProcessingUrl + '/products/54607c1317207c5f03d63af1/12323rdfcabc234/main/product-img.png'" alt=""></div>
                     </div>
@@ -19,9 +22,9 @@
             </div>
         </div>
         </div>
-        <div class="zoom-btn"  @click="click">
-            <button class="zoom-in"><i class="icon-Plus"> </i> </button>
-            <button class="zoom-out"> <i class="icon-Minus"> </i></button>
+        <div class="zoom-btn"  >
+            <button class="zoom-in" @click="zoomIn"><i class="icon-Plus"> </i> </button>
+            <button class="zoom-out"  @click="zoomOut"> <i class="icon-Minus"> </i></button>
             <a href="http://demo.officebrain.com/html/virtual-desktop/product_detail.php" target="_blank" class="close-full-view js-close-full-view">
                 <span class="icon-shrink"></span>
             </a>
@@ -71,7 +74,13 @@ export default {
       url: 'getImageUrl'
     }),editor() {
         return this.$store.state.editor;
-      } 
+      },url() {
+          
+         console.log('value **'  )
+         console.log(this.$store.state.imageUrl)
+         $('.cropper-canvas img').attr('src',this.$store.state.imageUrl)
+         return this.$store.state.imageUrl;
+      }  
   },
     mounted() {
       window.addEventListener('keydown', (this.onKeydown = this.keydown.bind(this)));
@@ -83,11 +92,19 @@ export default {
     },
 
    methods: {
+       zoomIn(){
+         const cropper = this.cropper;
+         cropper.zoom(0.1);
+       },
+        zoomOut(){
+           const cropper = this.cropper;
+            cropper.zoom(-0.1);
+       },
       click({ target }) {
         const cropper = this.cropper;
-        const action = target.dataset.action || target.parentNode.dataset.action;
-
-        switch (action) {
+        // const action = target.dataset.action || target.parentNode.dataset.action;
+        const action = 'zoom-in';
+         switch (action) {
           case 'move':
           case 'crop':
             cropper.setDragMode(action);
@@ -228,6 +245,7 @@ export default {
 
       start() {
         const editor = this.editor;
+        console.log('start')
          if (editor.cropped) {
           return;
         }
@@ -236,9 +254,9 @@ export default {
           autoCrop: false,
           dragMode: 'move',
           background: false,
-          crossOrigin: true,
           rotatable:true,
           scalable: true,
+          checkCrossOrigin:false,
           ready: () => {
             if (this.data) {
               this.cropper
@@ -252,13 +270,13 @@ export default {
               this.cropBoxData = null;
             }
           },
-          crop: ({ detail }) => {
+          /* crop: ({ detail }) => {
             if (detail.width > 0 && detail.height > 0 && !editor.cropping) {
               this.$store.dispatch('editor/update', {
                 cropping: true,
               });
             }
-          },
+          }, */
         });
       },
 

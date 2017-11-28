@@ -18,6 +18,7 @@ export default new Router({
     {
       path: '/virtual',
       name: 'VMC',
+      Origins: "*",
       component: Virtual,
       history: true,
       props: (route) => ({ query: route.query.q })
