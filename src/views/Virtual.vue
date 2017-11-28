@@ -7,7 +7,6 @@
    <ImageEditor v-if="isVirtual"></ImageEditor>
    <NotFound v-if="!isVirtual"></NotFound>
    <Loader v-if="!isVirtual"></Loader>
-   <Test v-if="!isVirtual"></Test>
   </div>
 </template>
 
@@ -21,15 +20,13 @@ import ImageGallery from '../components/ImageGallery.vue'
 import ImageEditor from '../components/ImageEditor.vue'
 import NotFound from '../components/404.vue'
 import Loader from '../components/Loader.vue'
-import Test from '../components/Test.vue'
-
 
 
 export default {
   name: 'virtual-popup',
 
   components: {
-    HeaderContent, LeftPanel, RightPanel, ImageGallery, ImageEditor, NotFound, Loader, Test
+    HeaderContent, LeftPanel, RightPanel, ImageGallery, ImageEditor, NotFound, Loader
   },
 
   data () {
@@ -85,32 +82,32 @@ export default {
       this.defineImprintArea(productDetail.productImprint[0])
       await this.defineProductImages(productDetail.productImages.virtualImages)
 
-      $('#gallery-thumbnails').owlCarousel({
-          loop:false,
-          margin:10,
-          nav:true,
-          touchDrag:true,
-  		    mouseDrag:true,
-          dots:false,
-          responsiveClass:true,
-          responsive:{
-              0:{
-                  items:1
-              },
-              400:{
-                  items:3
-              },
-              600:{
-                  items:4
-              },
-              991:{
-                  items:4
-              },
-              1000:{
-                  items:4
-              }
-          }
-      });
+      // $('#gallery-thumbnails').owlCarousel({
+      //     loop:false,
+      //     margin:10,
+      //     nav:true,
+      //     touchDrag:true,
+  		//     mouseDrag:true,
+      //     dots:false,
+      //     responsiveClass:true,
+      //     responsive:{
+      //         0:{
+      //             items:1
+      //         },
+      //         400:{
+      //             items:3
+      //         },
+      //         600:{
+      //             items:4
+      //         },
+      //         991:{
+      //             items:4
+      //         },
+      //         1000:{
+      //             items:4
+      //         }
+      //     }
+      // });
     }
   },
   mounted() {

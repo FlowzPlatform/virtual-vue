@@ -66,7 +66,6 @@ export default {
       },
       set: function (val) {
         alert(val)
-        // return this.$store.state.imageCordinates.layers
       }
     },
     ...mapGetters({

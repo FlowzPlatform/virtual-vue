@@ -8,6 +8,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import Temp from '../../classes/Temp'
+import {imageProcessingUrl} from '../../constants'
 
 export default {
   name: 'delete',
@@ -18,7 +19,7 @@ export default {
   },
   methods:{
     removeElement: function(){
-      let isSelectedAreaKey = this.$store.state.isSelectedArea.key
+      let isSelectedAreaKey = (this.$store.state.isSelectedArea !== null) ? this.$store.state.isSelectedArea.key: ''
       if(isSelectedAreaKey == 'image'){
         this.removeImage()
       }
@@ -26,22 +27,21 @@ export default {
         this.removeText()
       }
       else{
-        console.log('unable to remove element')
+        alert('Select image or text to remove.')
       }
     },
     removeImage: function(){
       let newcordinates = this.$store.state.imageCordinates
       let isSelectedAreaValue = this.selectedArea.value - 1
 
-      console.log(isSelectedAreaValue)
-      console.log(newcordinates.layers)
+      // console.log(isSelectedAreaValue)
+      // console.log(newcordinates.layers)
 
       let data = this.removeLayers("image",  this.selectedArea.value, newcordinates)
-      console.log(data)
+      // console.log(data)
 
       newcordinates = data.newcordinates
       let deleteIndex = data.deleteIndex
-      // alert(deleteIndex);
 
       newcordinates.height.splice(newcordinates.height.indexOf(newcordinates.height[deleteIndex]),1);
       newcordinates.width.splice(newcordinates.width.indexOf(newcordinates.width[deleteIndex]),1);
@@ -61,8 +61,13 @@ export default {
 
       $('.obv-product-design-objects-image-i'+this.$store.state.isSelectedArea.value).remove();
 
-      this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
-      return this.$store.dispatch('generateSequence',newcordinates)
+      if(newcordinates.layers.length==0) {
+        this.$store.commit('setIsSelectedArea', {value: null})
+        this.$store.commit('setImageUrl', {url: imageProcessingUrl+'products/'+this.productImage})
+      } else {
+        this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
+        return this.$store.dispatch('generateSequence',newcordinates)
+      }
     },
     removeText: function(){
       let newcordinates = this.cordinates
@@ -89,17 +94,8 @@ export default {
       newcordinates.text_flop.splice(newcordinates.text_flop.indexOf(newcordinates.text_flop[deleteIndex]),1);
       newcordinates.text_rotate.splice(newcordinates.text_rotate.indexOf(newcordinates.text_rotate[deleteIndex]),1);
       newcordinates.text_area_work = newcordinates.text_area_work -1;
-      // newcordinates = this.removeLayers("text", newcordinates)
 
       $('.obv-product-design-objects-text-i'+this.$store.state.isSelectedArea.value).remove();
-
-      // if((newcordinates.text_height[0]  != null)||(newcordinates.text_height[0]  != undefined)) {
-      //   this.$store.state.isSelectedArea.value =newcordinates.text_height[0].key + 1
-      //   this.$store.state.isSelectedArea.key =newcordinates.text_height[0].type
-      //   $('.obv-product-design-objects-text-i'+this.$store.state.isSelectedArea.value).addClass('vj-hotspot-selected');
-      // }else{
-      //  this.$store.state.isSelectedArea = null
-      // }
 
       this.$store.commit('setImageCordinates', { cordinates:newcordinates })
       return this.$store.dispatch('generateSequence',newcordinates)
@@ -111,17 +107,13 @@ export default {
       let deleteIndex = null
 
       for (let i=0; i< newcordinates.layers.length; i++){
-
         if((newcordinates.layers[i].hId==isSelectedAreaValue)&&(newcordinates.layers[i].type==type)){
           deleteIndex = i
         }
       }
 
-      // alert(deleteIndex)
-      // alert(JSON.stringify(newcordinates.layers))
       let iKey = newcordinates.layers[deleteIndex].key
       newcordinates.layers.splice(newcordinates.layers.indexOf(newcordinates.layers[deleteIndex]),1);
-      // alert(JSON.stringify(newcordinates.layers))
 
       // modify id of imageArea
       let currentKey = isSelectedAreaValue+1
@@ -133,55 +125,18 @@ export default {
         ch.imageArea('obv-product-design-objects-text-i'+currentKey, op);
       }
 
-      //
-      // alert(iKey)
-
       for (let i=0; i< newcordinates.layers.length; i++){
-        // alert(newcordinates.layers[i].key)
         if(newcordinates.layers[i].key > iKey){
           newcordinates.layers[i].key--
         }
       }
-      // console.log(newcordinates)
 
-      // for (let i=0; i< newcordinates.layers.length; i++){
-      //
-      //   // alert(newcordinates.layers[i].key)
-      //   // alert(i)
-      //
-      //   if((newcordinates.layers[i].key==isSelectedAreaValue)&&(newcordinates.layers[i].type==type)){
-      //     deletedKey = isSelectedAreaValue
-      //     deleteIndex = i
-      //     // alert("here")
-      //     // console.log(newcordinates.layers)
-      //     newcordinates.layers.splice(newcordinates.layers[i],1);
-      //     // console.log(newcordinates.layers)
-      //   }
-      //   // alert(newcordinates.layers[i])
-      //
-      //   if((newcordinates.layers[i] != undefined)&&(newcordinates.layers[i].key > deletedKey)){
-      //     let currentKey = newcordinates.layers[i].key + 1
-      //     newcordinates.layers[i].key = newcordinates.layers[i].key - 1
-      //
-      //     // modify id of imageArea
-      //     if(type=='image'){
-      //       let op = {id:currentKey-1}
-      //       ch.imageArea('obv-product-design-objects-image-i'+currentKey, op);
-      //     }else{
-      //       let op = {id:currentKey-1}
-      //       ch.imageArea('obv-product-design-objects-text-i'+currentKey, op);
-      //     }
-      //   }
-      // }
       return {newcordinates, deleteIndex}
-      // this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
-      // return this.$store.dispatch('generateSequence',newcordinates)
     },
   },
   watch: {
     cordinates:{
       handler: function (val, oldVal) {
-        //console.log(val)
       },
       deep: true
     }
@@ -189,7 +144,8 @@ export default {
   computed: {
      ...mapGetters({
       cordinates: 'getImageCordinates',
-      selectedArea: 'getIsSelectedArea'
+      selectedArea: 'getIsSelectedArea',
+      productImage: 'getProductImage'
     })
   },
 }
