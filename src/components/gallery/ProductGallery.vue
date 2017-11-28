@@ -1,6 +1,6 @@
 <template>
 <div class="image-gallery">
-    <section> {{url}}
+    <section>  
         <div class="parent">
         <div class="image-display">
             <div class="panzoom">
