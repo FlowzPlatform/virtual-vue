@@ -3,17 +3,22 @@
       <div class="container">
         <div class="gallery-image">
             <div>
+              <!-- <div class='carousel-controls__button prev' >pre</div> -->
+              <i aria-hidden="true" class="fa fa-angle-left fa-3 prev" @click="previous"></i>
               <transition-group
                 class='carousel'
                 tag="div">
-                <div class="item" v-for="(variation, index) in variations" :key="index"><a href="javascript:void(0);" class="product-thumb-anchar" @click="selectedImage(variation.image)"><img :src="imageProcessingUrl + 'products/'+variation.image" /></a></div>
+                  <div class="item" v-for="(variation, index) in variations" :key="index"><a href="javascript:void(0);" class="product-thumb-anchar" @click="selectedImage(variation.image)"><img :src="imageProcessingUrl + 'products/'+variation.image" /></a></div>
               </transition-group>
+              <!-- <div class='carousel-controls__button next' @click="next">next</
+              cursor: pointer;div> -->
+              <i aria-hidden="true" class="fa fa-angle-right fa-3 next" @click="next"></i>
+
+
             </div>
         </div>
       </div>
     <div class='carousel-controls'>
-      <div class='carousel-controls__button owl-prev' @click="previous">pre</div>
-      <div class='carousel-controls__button owl-next' @click="next">next</div>
     </div>
     <!-- <i class="fa fa-angle-right fa-5" aria-hidden="true"></i>
 
@@ -70,11 +75,13 @@ export default {
 
 <style>
 a.product-thumb-anchar img{
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   margin: 0 10px 0 10px;
   display: inline-block;
-  border: 1px solid #4c4c4c;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 10px;
 }
 .carousel-view {
   display: flex;
@@ -82,13 +89,15 @@ a.product-thumb-anchar img{
   align-items: center;
 }
 .carousel {
-  display: flex;
+  display: -webkit-box;
   justify-content: center;
   align-items: center;
   overflow: hidden;
 
   width: 24em;
   /*min-height: 25em;*/
+  float: left;
+  width: 80%;
 }
 .slide {
   flex: 0 0 20em;
@@ -106,5 +115,17 @@ a.product-thumb-anchar img{
 }
 .slide:last-of-type {
   opacity: 0;
+}
+.prev {
+  float: left;
+  width: 10%;
+  padding-top: 25px;
+  cursor: pointer;
+}
+.next {
+  float: right;
+  width: 10%;
+  padding-top: 25px;
+  cursor: pointer;
 }
 </style>

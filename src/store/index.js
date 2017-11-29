@@ -9,14 +9,14 @@ Vue.use(Vuex)
   export default new Vuex.Store({
     state: {
       imageCordinates: {},
-      imageUrl: 'http://172.16.60.128:6789/products/Virtual/54607c1317207c5f03d63af1/579f3e8e5f7f693d030654b7/ProductMaster/main/cl02-black_3.jpg',
+      imageUrl: null,
       defaultImprintMethod: 'multi_color',
       imprintMethodImage: 'static/images/multi_color.png',
       userUploadedImageName: null,
       isUpload: false,
       isTextAdded: false,
       text: null,
-      productImage: 'product-img.png',
+      productImage: null,
       productVariationImages: [],
       productsideImages: [
         {

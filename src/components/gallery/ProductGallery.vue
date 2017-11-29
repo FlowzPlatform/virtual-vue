@@ -4,17 +4,18 @@
         <div class="parent">
         <div class="image-display">
             <div class="panzoom">
-              <div class="owl-carousel" id="image-gallery">
+              <div class="owl-carousels" id="image-gallerys">
+                  <div class="item">
+                    <i class="fa fa-angle-left fa-5 fl" aria-hidden="true"></i>
+                    <div class="obv-product-main-images"><image-select></image-select><img :src="url" alt="" height="500"></div>
+                    <i class="fa fa-angle-right fa-5 fr" aria-hidden="true"></i>
+                  </div>
 
-                    <div class="item"><div class="obv-product-main-images"><image-select></image-select><img :src="url" alt="" height="500"></div></div>
-                    
-                    <!-- <div class="item"><div class="obv-product-main-images"><img :src="imageProcessingUrl + '/products/54607c1317207c5f03d63af1/12323rdfcabc234/main/product-img.png'" alt=""></div>
-                    </div>
-                    <div class="item"><div class="obv-product-main-images"><img :src="imageProcessingUrl + '/products/54607c1317207c5f03d63af1/12323rdfcabc234/main/product-img.png'" alt="" ></div></div>
-                    <div class="item"><div class="obv-product-main-images"><img :src="imageProcessingUrl + '/products/54607c1317207c5f03d63af1/12323rdfcabc234/main/product-img.png'" alt="" ></div></div> -->
-                </div>
+              </div>
+
             </div>
         </div>
+
         </div>
         <div class="zoom-btn">
             <button class="zoom-in"><i class="icon-Plus"> </i> </button>
@@ -42,6 +43,18 @@
     display: inline-block;
     vertical-align: middle;
 }
+.fa-5 {
+  font-size: 5em !important;
+  cursor: pointer;
+}
+.fl {
+  float: left;
+  width: 10%;
+}
+.fr {
+  float: right;
+  width: 10%;
+}
 </style>
 <script>
 import { mapGetters } from 'vuex'
@@ -62,6 +75,14 @@ export default {
     ...mapGetters({
       url: 'getImageUrl'
     })
+  },
+  watch: {
+    url: function(val) {
+      alert(val)
+
+
+      // this.start()
+    }
   }
 }
 </script>
