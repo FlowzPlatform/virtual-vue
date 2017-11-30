@@ -26,12 +26,12 @@ export default {
     isTextOrImage: function() {
       return this.$store.state.isSelectedArea!= null ? true : false
     },
-   
+
   },
   watch: {
-    url: function {
+    url: function (val) {
         console.log('acalesads');
-      } 
+      }
   },
   methods: {
     selectedImage(img){
