@@ -300,7 +300,7 @@ export default class Temp {
         texturl: 'test',
         prefix: "obv-product-text-objects-text-",
         class: "vj-hotspot vj-objectArea-text",
-        childelement : '<div id="vj-page_view_textObjects_i{id}-previewShell" class="vj-hotspotPreview"></div>',
+        childelement : '<div id="vj-page_view_textObjects_i{id}-previewShell" class="vj-hotspotPreview"><i class="fa fa-repeat fa-2 rotate-icon" aria-hidden="true"></i></div>',
         textsize: 12,
         textcolor: '#000000',
         textfamily: "firstFontName",

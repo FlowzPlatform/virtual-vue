@@ -3,12 +3,14 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+// import Carousel from './Carousel'
 // import { createRouter } from './router'
 // import { createStore } from './store'
 import store from './store'
 import { sync } from 'vuex-router-sync'
 
-import Sortable from 'sortablejs'
+// import Sortable from 'sortablejs'
+
 Vue.directive('sortable', {
   inserted: function (el, binding) {
     var sortable = new Sortable(el, binding.value || {});
@@ -29,4 +31,5 @@ new Vue({
   router,
   template: '<App/>',
   components: { App }
+  // render: h => h(Carousel)
 })

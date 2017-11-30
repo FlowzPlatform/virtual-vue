@@ -6,8 +6,8 @@
           <h1><i class="icon-Layers-Large"></i> Layers </h1>
        </div>
        <div class="right-layer-panel layerposition">
-         <ul class="layer-list" id="draglayers" v-sortable="{ onUpdate: onUpdate }">
-           <li v-for="layer in currentLayers">
+         <ul class="layer-list" id="draglayers" v-sortable="{onEnd: reorder}">
+           <li v-for="layer in currentLayers" :key = "layer.key">
             <div class="layer-media clearfix">
              <div class="layer-icon" v-if="layer.type=='image'">
                  <span class="icon-Add-Image">
@@ -46,76 +46,26 @@ export default {
   },
   mounted() {
     this.baseUrl = userUploadeImageUrl
-    // this.layers = this.$store.state.imageCordinates.layers
-    // this.swapElement(3,1,[1,2,3,4])
   },
   methods: {
-    onUpdate: function (event) {
-      // console.log(this.currentLayers)
-      // this.currentLayers.splice(event.newIndex, 0, this.currentLayers.splice(event.oldIndex, 1)[0])
-      // console.log( newLayers.splice(event.oldIndex, 1)[0])
-
-      // newLayers.splice(event.newIndex, 0, newLayers.splice(event.oldIndex, 1)[0])
-      // console.log(event.newIndex)
-      // console.log(event.oldIndex)
-//
-      // console.log(this.currentLayers);
-      let newLayers = this.currentLayers
-      let newLayer = this.swapElement(event.oldIndex, event.newIndex, newLayers)
-      // console.log(this.currentLayers);
+    reorder ({oldIndex, newIndex}) {
+    	const movedItem = this.currentLayers.splice(oldIndex, 1)[0]
+      this.currentLayers.splice(newIndex, 0, movedItem)
 
       let newcordinates = this.cordinates
-      newcordinates.layers = newLayer;
+      newcordinates.layers = this.currentLayers;
       this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
       return this.$store.dispatch('generateSequence',this.cordinates)
-    },
-    swapElement(target, swap, arr){
-      // 3, 0
-      // [1,2,3,4]
-      // [4,1,2,3]
 
-      // 2, 0
-      // [1,2,3,4]
-      // [3,1,2,4]
-
-      // console.log(arr)
-
-      // let result = []
-      // result[swap] = arr[target]
-      // console.log(result)
-
-      // for (var i = 0; i < arr.length; i++) {
-      //   if(target > swap) {
-      //     if(i >= swap) {
-      //       if(i == swap) result[i] = arr[target]
-      //       else if(i == target) result[i] = arr[target]
-      //       else result[i] = arr[i-1]
-      //     }
-      //   }
-      // }
-      // let temp = arr[swap]
-      // arr[swap] = arr[target]
-      // arr[target] = temp
-      // console.log(arr)
-      // alert(arr.splice(target, 1)[0])
-      let result = []
-      result = arr
-      // console.log(result)
-
-      // let temp = arr[target]
-      // arr.splice(target, 1)[0]
-      let temp = result.splice(target, 1)[0]
-      result.splice(swap, 0, temp)
-      // arr[swap] = temp
-      // console.log(result)
-      // alert(swap)
-      return result
     }
   },
   computed: {
     currentLayers: {
       get: function () {
         return this.$store.state.imageCordinates.layers
+      },
+      set: function (val) {
+        alert(val)
       }
     },
     ...mapGetters({

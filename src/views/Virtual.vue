@@ -20,6 +20,7 @@ import ImageGallery from '../components/ImageGallery.vue'
 import ImageEditor from '../components/ImageEditor.vue'
 import NotFound from '../components/404.vue'
 import Loader from '../components/Loader.vue'
+import { imageProcessingUrl } from '../constants'
 
 
 export default {
@@ -62,6 +63,11 @@ export default {
       let imprint = {}
       let images = virtualImages.main
       this.$store.commit('setProductVariationImages', { images: images } )
+
+      // TODO this should be a product main image.
+      let pImage = images[0].image
+      this.$store.commit('setProductImage', { value: pImage } )
+      this.$store.commit('setImageUrl', { url: imageProcessingUrl+'products/'+pImage } )
     }
   },
   async beforeMount() {
@@ -77,37 +83,8 @@ export default {
         locale: this.$store.state.virtualData.culture
       }
       let productDetail = await this.productDetail(param)
-      console.log(productDetail);
-      
       this.defineImprintArea(productDetail.productImprint[0])
       await this.defineProductImages(productDetail.productImages.virtualImages)
-
-      $('#gallery-thumbnails').owlCarousel({
-          loop:false,
-          margin:10,
-          nav:true,
-          touchDrag:true,
-  		    mouseDrag:true,
-          dots:false,
-          responsiveClass:true,
-          responsive:{
-              0:{
-                  items:1
-              },
-              400:{
-                  items:3
-              },
-              600:{
-                  items:4
-              },
-              991:{
-                  items:4
-              },
-              1000:{
-                  items:4
-              }
-          }
-      });
     }
   },
   mounted() {
