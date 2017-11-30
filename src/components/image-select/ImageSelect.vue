@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="selector">
+    <div class="selector" v-show="show">
     </div>
   </div>
 </template>
@@ -57,7 +57,8 @@ let data = {
   artwork_top: 0,
   order: [],
   layers: [],
-  cropped: 0
+  cropped: 0,
+  show: false
 };
 export default {
   name: 'image-select',
@@ -136,6 +137,7 @@ export default {
          this.options.imageTop = parseInt(l_t[1])
 
          ch.imageArea("selector", this)
+         this.show = true
        }
     }
  },
