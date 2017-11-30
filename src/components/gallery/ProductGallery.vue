@@ -5,10 +5,10 @@
         <div class="image-display">
             <div class="panzoom">
               <div class="owl-carousel" id="image-gallery">
-
+                    {{zoomMsg}}
                     <div class="item"><div class="obv-product-main-images">
                     <!-- <img   ref="image"   src="http://localhost:8082/static/images/back-view-white.png" alt="" height="500"   @load="start" > -->
-                    <img  ref="image" :src="url" alt="" height="500"  @load="start"   >
+                    <img  ref="image" :src="url" alt="" height="500"  @load="start" id="image"  >
                     <image-select></image-select>
                     
                     </div>
@@ -48,6 +48,13 @@
     display: inline-block;
     vertical-align: middle;
 }
+.parent .cropper-wrap-box {
+overflow: inherit;
+}
+
+.parent .owl-carousel .owl-stage-outer {
+overflow: inherit;
+}
 </style>
 <script>
 import { mapGetters } from 'vuex'
@@ -64,7 +71,8 @@ export default {
       cropper: null,
       canvasData: null,
       cropBoxData: null,
-      data: null, 
+      data: null,
+      zoomMsg:'' 
     }
   },
   components : {'image-select':ImageSelect},
@@ -75,9 +83,6 @@ export default {
     }),editor() {
         return this.$store.state.editor;
       },url() {
-          
-         console.log('value **'  )
-         console.log(this.$store.state.imageUrl)
          $('.cropper-canvas img').attr('src',this.$store.state.imageUrl)
          return this.$store.state.imageUrl;
       }  
@@ -92,15 +97,36 @@ export default {
     },
 
    methods: {
-       zoomIn(){
+       zoomIn(e){
          const cropper = this.cropper;
-         cropper.zoom(0.1);
+         console.log(cropper)
+         var imageData = cropper.getImageData();
+         var zoomLevel = imageData.width / imageData.naturalWidth;
+            console.log(imageData)
+            if(zoomLevel <= 0.5){
+                cropper.zoom(0.1);
+                this.zoomMsg = ''
+            }
+                else{
+                    this.zoomMsg = 'Zoom limit over'
+                    console.log('Zoom limit over')
+                }
        },
-        zoomOut(){
+        zoomOut(e){
            const cropper = this.cropper;
-            cropper.zoom(-0.1);
+           var imageData = cropper.getImageData();
+            var zoomLevel = imageData.width / imageData.naturalWidth;
+                  console.log(imageData)
+                if(zoomLevel >= 0.15) {
+                 this.zoomMsg = ''
+                cropper.zoom(-0.1);
+            }
+             else{
+            this.zoomMsg = 'Zoom limit over'
+            console.log('Zoom limit over')
+        }
        },
-      click({ target }) {
+    /*  click({ target }) {
         const cropper = this.cropper;
         // const action = target.dataset.action || target.parentNode.dataset.action;
         const action = 'zoom-in';
@@ -137,9 +163,9 @@ export default {
           default:
         }
       },
-
+*/
       keydown(e) {
-        switch (e.key) {
+     /*   switch (e.key) {
           // Undo crop
           case 'z':
             if (e.ctrlKey) {
@@ -162,8 +188,7 @@ export default {
         if (!cropper) {
           return;
         }
-
-        switch (e.key) {
+   switch (e.key) {
           // Crop the image
           case 'Enter':
             this.crop();
@@ -240,27 +265,28 @@ export default {
             break;
 
           default:
-        }
+        } */
       },
 
       start() {
         const editor = this.editor;
-        console.log('start')
-         if (editor.cropped) {
+          if (editor.cropped) {
           return;
         }
+console.log('**  ' + ' ')
 
-        this.cropper = new Cropper(this.$refs.image, {
+         this.cropper = new Cropper(this.$refs.image, {
           autoCrop: false,
           dragMode: 'move',
           background: false,
           rotatable:true,
           scalable: true,
           checkCrossOrigin:false,
+          zoomOnWheel:false,
           ready: () => {
             if (this.data) {
               this.cropper
-                .crop()
+               // .crop()
                 .setData(this.data)
                 .setCanvasData(this.canvasData)
                 .setCropBoxData(this.cropBoxData);
@@ -270,6 +296,7 @@ export default {
               this.cropBoxData = null;
             }
           },
+          
           /* crop: ({ detail }) => {
             if (detail.width > 0 && detail.height > 0 && !editor.cropping) {
               this.$store.dispatch('editor/update', {
@@ -278,6 +305,7 @@ export default {
             }
           }, */
         });
+        console.log( this.cropper)
       },
 
       stop() {
@@ -290,7 +318,7 @@ export default {
         }
       },
 
-      crop() {
+    /*  crop() {
         const cropper = this.cropper;
         const { type, url } = this.loader;
 
@@ -311,7 +339,7 @@ export default {
           });
           this.stop();
         }
-      },
+      },  
 
       clear() {
         if (this.editor.cropping) {
@@ -338,7 +366,7 @@ export default {
         this.stop();
         this.$store.dispatch('editor/remove');
         this.$store.dispatch('loader/remove');
-      },
+      },*/
     }
 }
 </script>
