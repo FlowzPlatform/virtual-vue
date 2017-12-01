@@ -2,7 +2,7 @@
 <div class="image-gallery">
     <section>
         <div class="parent">
-        <div class="image-display">
+        <div class="image-display" @click="removeSelected">
             <div class="panzoom">
               <div class="owl-carousels" id="image-gallerys">
                   <div class="item">
@@ -20,6 +20,8 @@
         <div class="zoom-btn">
             <button class="zoom-in"><i class="icon-Plus"> </i> </button>
             <button class="zoom-out"> <i class="icon-Minus"> </i></button>
+            <button class="reset"> <i class="fa fa-repeat" aria-hidden="true"></i></button>
+
             <a href="http://demo.officebrain.com/html/virtual-desktop/product_detail.php" target="_blank" class="close-full-view js-close-full-view">
                 <span class="icon-shrink"></span>
             </a>
@@ -55,6 +57,12 @@
   float: right;
   width: 10%;
 }
+.hide {
+  display: none;
+}
+.show {
+  display: block;
+}
 </style>
 <script>
 import { mapGetters } from 'vuex'
@@ -76,9 +84,17 @@ export default {
       url: 'getImageUrl'
     })
   },
+  methods: {
+    removeSelected: () => {
+      let target = $(event.target);
+      if(!target.is(".vj-hotspot-selected")){
+        $('.vj-hotspot-selected').removeClass("vj-hotspot-selected");
+      }
+    }
+  },
   watch: {
     url: function(val) {
-      alert(val)
+      // alert(val)
 
 
       // this.start()

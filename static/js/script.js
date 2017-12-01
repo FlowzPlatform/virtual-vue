@@ -3,9 +3,9 @@ $(document).ready(function (){
         var img_src = $(this).find("img").attr("src");
         $(".panzoom .owl-item.active").find("img").attr("src", img_src);
     });
-	$('.image-display img').on('click',function (){
-		$(this).toggleClass('open');
-	});
+	// $('.image-display img').on('click',function (){
+	// 	$(this).toggleClass('open');
+	// });
 	$(".ui-image-editor .dropdown-submenu").click(function (event) {
 	   // stop bootstrap.js to hide the parents
 	   event.stopPropagation();
@@ -44,9 +44,20 @@ $(document).ready(function (){
 	$section.find('.panzoom').panzoom({
 		$zoomIn: $section.find(".zoom-in"),
 		$zoomOut: $section.find(".zoom-out"),
+    $reset: $section.find(".reset"),
 		panOnlyWhenZoomed: true,
 		minScale: 1
 	});
+
+  // $section.find('.obv-product-main-images').panzoom({
+	// 	$zoomIn: $section.find(".zoom-in"),
+	// 	$zoomOut: $section.find(".zoom-out"),
+	// 	panOnlyWhenZoomed: true,
+	// 	minScale: 1
+	// });
+
+
+
 	// END ZOOM EFFECT
 
     // START RIGHT-SIDE MENU

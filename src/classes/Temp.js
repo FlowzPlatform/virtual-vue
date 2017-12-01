@@ -112,13 +112,21 @@ export default class Temp {
 
           this.element.hover(function(){
             let selected = $(this)
-            if($(this).hasClass('child-selector')){
-              $(this).parent().find('.vj-hotspot-selected').each(function(index){
-                  $(this).removeClass('vj-hotspot-selected');
-              })
-              selected.addClass('vj-hotspot-selected');
+            if(!$(this).hasClass('child-selector')){
+              // $(this).parent().find('.vj-hotspot-selected').each(function(index){
+              //     $(this).removeClass('vj-hotspot-selected');
+              // })
+              // selected.addClass('vj-hotspot-selected');
+              selected.addClass('vj-hotspot-hover');
+              selected.find('.vj-hotspotPreview').removeClass('hide')
             }
-            if(id) imageSelectData.$store.commit('setIsSelectedArea', { value: {key: 'image',value: id } } )
+            // if(id) imageSelectData.$store.commit('setIsSelectedArea', { value: {key: 'image',value: id } } )
+
+          },
+          function(){
+            $(this).removeClass('vj-hotspot-hover');
+            $(this).find('.vj-hotspotPreview').addClass('hide')
+
           });
         },
         bindevent4text: function(id, imageSelectData) {
