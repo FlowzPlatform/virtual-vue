@@ -101,7 +101,7 @@ export default {
       let target = $(event.target);
       if(!target.is(".vj-hotspot-selected")){
         $('.vj-hotspot-selected').removeClass("vj-hotspot-selected");
-        this.$store.commit('setIsSelectedArea', { value: null })
+        this.$store.dispatch('setIsSelectedArea', null)
       }
     }
   },
