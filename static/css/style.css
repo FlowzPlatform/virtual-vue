@@ -83,7 +83,7 @@ font-size:14px; color: #888; font-family: 'Helvetica Neue LT Std'; font-weight: 
 /*--END ACTION BUTTON--*/
 
 /*START ZOOM BUTTON */
-#obv-gallery-slider .zoom-btn { position: fixed; bottom: 30px; right: 20px; padding: 5px; border: 1px solid #dcdcdc; width: 37px; height:120px; background: #fff; box-shadow: 2px 3px 1px 0px rgba(0, 0, 0, 0.2); border-radius: 4px; }
+#obv-gallery-slider .zoom-btn { position: fixed; bottom: 30px; right: 50px; padding: 5px; border: 1px solid #dcdcdc; width: 37px; height:160px; background: #fff; box-shadow: 2px 3px 1px 0px rgba(0, 0, 0, 0.2); border-radius: 4px; }
 #obv-gallery-slider .zoom-btn button { padding: 0px; width: 100%;text-align: center; border: 0px; height: 38px; line-height: 35px; display: block; background: transparent; border-bottom: 1px solid #ccc;}
 .close-full-view{ width:27px; text-align: center; display: block; line-height:42px;}
 .close-full-view .icon-shrink{ color:#333; font-size:18px;}

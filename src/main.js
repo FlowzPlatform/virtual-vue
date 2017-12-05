@@ -16,7 +16,6 @@ Vue.directive('sortable', {
     var sortable = new Sortable(el, binding.value || {});
   }
 });
-import 'cropperjs/dist/cropper.css';
 
 // Vue.use(Sortable)
 Vue.config.productionTip = false

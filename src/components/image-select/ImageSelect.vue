@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="selector">
+    <div class="selector" v-show="show">
     </div>
   </div>
 </template>
@@ -59,7 +59,8 @@ let data = {
   artwork_top: 0,
   order: [],
   layers: [],
-  cropped: 0
+  cropped: 0,
+  show: false
 };
 export default {
   name: 'image-select',
@@ -152,6 +153,7 @@ export default {
          this.options.imageTop = parseInt(l_t[1])
 
          ch.imageArea("selector", this)
+         this.show = true
        }
     }
  },
@@ -169,13 +171,17 @@ export default {
 
 <style>
 
-.selector, .selector .vj-hotspot-selected {
+.selector .vj-hotspot-selected {
   /*width: 100px;
   height: 100px;
   /*background-color: rgba(66,194,217,0.2);
   z-index: 1000;*/
   border: 1px dashed;
   /*position: absolute;*/
+}
+
+.vj-hotspot-hover {
+  border: 1px dashed;
 }
 .ui-resizable-e {
     cursor: e-resize;
