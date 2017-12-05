@@ -48,7 +48,7 @@ export default {
         return this.$store.state.productVariationImages
       },
       set: function(val) {
-        this.$store.commit('setProductVariationImages', { images: val } )
+        this.$store.dispatch('setProductVariationImages',val)
       }
     },
     isTextOrImage: function() {
@@ -57,8 +57,9 @@ export default {
   },
   methods: {
     selectedImage(img){
-      this.$store.commit('setProductImage', { value: img } )
-      this.$store.commit('setImageUrl', { url: imageProcessingUrl+'products/'+img } )
+      this.$store.dispatch('setProductImage',img)
+      this.$store.dispatch('setImageUrl',imageProcessingUrl+'products/'+img)
+
       if(this.isTextOrImage) return this.$store.dispatch('generateSequence',this.cordinates)
     },
     next () {

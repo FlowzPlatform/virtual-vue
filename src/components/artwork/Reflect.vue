@@ -66,7 +66,7 @@ export default {
         else newcordinates.text_flop[selected].value = this.flop;
       }
 
-      this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
+      this.$store.dispatch('setImageCordinates', newcordinates)
       return this.$store.dispatch('generateSequence',this.cordinates)
     }
   }

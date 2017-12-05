@@ -90,7 +90,7 @@
         } else {
 
         }
-        this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
+        this.$store.dispatch('setImageCordinates', newcordinates)
         return this.$store.dispatch('generateSequence',this.cordinates)
       }
     },

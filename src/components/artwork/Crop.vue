@@ -10,7 +10,7 @@
         </div>
         <div class="action-button">
           <a href="javascript:void(0);"  id="cancelCrop" class="btn-default">Cancel</a>
-            <a href="javascript:void(0);" id="confirmCrop" v-model="confirmCrop" @click="confirmCrop" class="btn-default">Confirm</a>
+            <a href="javascript:void(0);" id="confirmCrop" @click="confirmCrop" class="btn-default">Confirm</a>
         </div>
      </div>
  </li>
@@ -92,7 +92,7 @@ export default {
        this.jcrop_api.setImage(this.cropImageUrl);
 
        newcordinates.cropped = newcordinates.cropped+1
-       this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
+       this.$store.dispatch('setImageCordinates', newcordinates )
       return this.$store.dispatch('generateSequence',newcordinates)
     },
     initJcrop: function(oImg){

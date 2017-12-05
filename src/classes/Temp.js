@@ -107,7 +107,7 @@ export default class Temp {
               selected.addClass('vj-hotspot-selected');
             }else{
             }
-            if(id) imageSelectData.$store.commit('setIsSelectedArea', { value: {key: 'image',value: id } } )
+            if(id) imageSelectData.$store.dispatch('setIsSelectedArea',{key: 'image',value: id } )
           });
 
           this.element.hover(function(){
@@ -120,7 +120,6 @@ export default class Temp {
               selected.addClass('vj-hotspot-hover');
               selected.find('.vj-hotspotPreview').removeClass('hide')
             }
-            // if(id) imageSelectData.$store.commit('setIsSelectedArea', { value: {key: 'image',value: id } } )
 
           },
           function(){
@@ -179,7 +178,8 @@ export default class Temp {
             }else{
             }
             // imageSelectData.$store.state.isSelectedArea = id;
-            if(id) imageSelectData.$store.commit('setIsSelectedArea', { value: {key: 'text',value: id } } )
+            if(id) imageSelectData.$store.dispatch('setIsSelectedArea',{key: 'text',value: id } )
+            
           });
 
           this.element.hover(function(){
@@ -190,7 +190,8 @@ export default class Temp {
               })
               selected.addClass('vj-hotspot-selected');
             }
-            if(id) imageSelectData.$store.commit('setIsSelectedArea', { value: {key: 'text',value: id } } )
+            if(id) imageSelectData.$store.dispatch('setIsSelectedArea',{key: 'text',value: id } )
+            
           });
         },
         rotate: function(rotate,degree) {

@@ -1,13 +1,16 @@
 import { createUpload } from '../api/index'
 import { generateSequence, fontFamily, productExist, supplierDetail, productDetail } from '../api/index'
 import { imageProcessingUrl } from '../constants'
+import * as types from './mutation_types.js'
 
 export default {
 
     fetchImageUrl: async({ commit }, reader) => {
       let res = await createUpload({ commit }, reader);
-       commit('setIsUpload', { val: true })
+       commit(types.SET_IS_UPLOAD, { val: true })
+       commit(types.SET_USER_UPLOADED_IMAGE_NAME, { name: res.id })
     },
+
     cropImage: ({commit, state}, data) => {
       let cropImage  = data.cropImage
       let cropImageXAxis = data.cropAxis.x
@@ -22,22 +25,13 @@ export default {
         crossDomain: true,
         url:url,
         success: function(data) {
-
-          // console.log( 'if went wrong', status, err );
-          // generateSequence(state.imageCordinates);
           return TRUE
         },error: function( req, status, err ) {
-
-
-            return status
-            // console.log( JSON.stringify(state.imageCordinates) + ' '  + ' >> ');
-            // let a = JSON.parse(state.imageCordinates)
-            // console.log(JSON.stringify(a));
-              // generateSequence();
-            // generateSequence(state.imageCordinates);
+          return status
         }
       });
-     },
+    },
+
     generateSequence: async({commit, state}, data) => {
       let uuid = require("uuid");
       let sequence = uuid.v4();
@@ -54,23 +48,24 @@ export default {
         companyId:'a blank value'
       }
       let res = await generateSequence({ commit }, postData);
-      commit('setIsUpload', { val: false })
-      commit('setIsTextAdded', { value: false })
+      commit(types.SET_IMAGE_URL, { url: res.url })      
+      commit(types.SET_IS_UPLOAD, { val: false })
+      commit(types.SET_IS_TEXT_ADDED, { value: false })
     },
 
     defaultImprintMethod: async({ commit }, method) => {
       let res = await createUpload({ commit }, reader);
-      commit('setDefaultImprintMethod', { val: method })
+      commit(types.SET_DEFAULT_IMPRINT_METHOD, { val: method })
     },
 
     addText: async ({ commit }) => {
       let res = await createUpload({ commit }, reader);
-      commit('setIsUpload', { val: true })
+      commit(types.SET_IS_UPLOAD, { val: true })
     },
 
     fetchFontFamily: async ({ commit }) => {
       let res = await fontFamily({ commit });
-      commit('setFontFamily', { fonts: res })
+      commit(types.SET_FONT_FAMILY, { fonts: res })
     },
 
     productExist: async ({ commit, state}) => {
@@ -103,5 +98,41 @@ export default {
     productDetail: async ({ commit, state}, queryParams) => {
       let res = await productDetail({ commit }, queryParams);
       return res
+    },
+
+    setVirtualData: ({ commit, state}, data) => {
+      commit(types.SET_VIRTUAL_DATA, { virtual: data })      
+    },
+
+    setProductImprint: ({ commit, state}, data) => {
+      commit(types.SET_PRODUCT_IMPRINT, { imprint: data })      
+    },
+    setProductVariationImages: ({ commit, state}, data) => {
+      commit(types.SET_PRODUCT_VARIATION_IMAGES, { images: data })      
+    },
+    setProductImage: ({ commit, state}, data) => {
+      commit(types.SET_PRODUCT_IMAGE, { value: data })      
+    },
+    setImageUrl: ({ commit, state}, data) => {
+      commit(types.SET_IMAGE_URL, { url: data })      
+    },
+    setIsTextAdded: ({ commit, state}, data) => {
+      commit(types.SET_IS_TEXT_ADDED, { value: data })      
+    },
+    setText: ({ commit, state}, data) => {
+      commit(types.SET_TEXT, { value: data })      
+    },
+    setImageCordinates: ({ commit, state}, data) => {
+      commit(types.SET_IMAGE_CORDINATES, { cordinates: data })      
+    },
+    setIsSelectedArea: ({ commit, state}, data) => {
+      commit(types.SET_IS_SELECTED_AREA, { value: data })      
+    },
+    setDefaultImprintMethod: ({ commit, state}, data) => {
+      commit(types.SET_DEFAULT_IMPRINT_METHOD, { method: data })      
+    },
+    setImprintMethodImage: ({ commit, state}, data) => {
+      commit(types.SET_IMPRINT_METHOD_IMAGE, { image: data })      
     }
+    
 }

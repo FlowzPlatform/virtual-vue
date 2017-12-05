@@ -62,10 +62,12 @@ export default {
       $('.obv-product-design-objects-image-i'+this.$store.state.isSelectedArea.value).remove();
 
       if(newcordinates.layers.length==0) {
-        this.$store.commit('setIsSelectedArea', {value: null})
-        this.$store.commit('setImageUrl', {url: imageProcessingUrl+'products/'+this.productImage})
+
+        this.$store.dispatch('setIsSelectedArea',null)
+        this.$store.dispatch('setImageUrl',imageProcessingUrl+'products/'+this.productImage)
+
       } else {
-        this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
+        this.$store.dispatch('setImageCordinates',newcordinates)
         return this.$store.dispatch('generateSequence',newcordinates)
       }
     },
@@ -74,7 +76,6 @@ export default {
       let isSelectedAreaValue = this.selectedArea.value - 1
 
       let data = this.removeLayers("text",  this.selectedArea.value, newcordinates)
-      console.log(data)
 
       newcordinates = data.newcordinates
       let deleteIndex = data.deleteIndex
@@ -97,7 +98,7 @@ export default {
 
       $('.obv-product-design-objects-text-i'+this.$store.state.isSelectedArea.value).remove();
 
-      this.$store.commit('setImageCordinates', { cordinates:newcordinates })
+      this.$store.dispatch('setImageCordinates',newcordinates)
       return this.$store.dispatch('generateSequence',newcordinates)
     },
     removeLayers: function(type, isSelectedAreaValue, newcordinates){

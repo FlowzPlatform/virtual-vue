@@ -6,7 +6,6 @@ const uploadService = feathersClient.service('uploads');
 return uploadService
     .create({uri: reader.result})
     .then(function(response){
-      commit('setUserUploadedImageName', { name: response.id })
       return response;
     });
 }
@@ -19,7 +18,7 @@ export const generateSequence = ({commit}, requestData) => {
       .then(function(response){
         let requestData = JSON.parse(response.request)
         let url = makeUrl(requestData)
-        commit('setImageUrl', { url: url })
+        response.url = url
         return response;
       });
 }

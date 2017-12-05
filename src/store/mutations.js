@@ -1,44 +1,45 @@
+import * as types from './mutation_types.js'
 export default {
-    setImageUrl: (state,{ url } ) => {
+    [types.SET_IMAGE_URL]: (state,{ url } ) => {
       state.imageUrl = url
     },
-    setIsUpload: (state, {val}) => {
+    [types.SET_IS_UPLOAD]: (state, {val}) => {
       state.isUpload = val
     },
-    setUserUploadedImageName: (state, {name}) => {
+    [types.SET_USER_UPLOADED_IMAGE_NAME]: (state, {name}) => {
       state.userUploadedImageName = name
     },
-    setDefaultImprintMethod: (state, {method}) => {
+    [types.SET_DEFAULT_IMPRINT_METHOD]: (state, {method}) => {
      state.defaultImprintMethod = method
     },
-    setImageCordinates: (state, {cordinates}) => {
+    [types.SET_IMAGE_CORDINATES]: (state, {cordinates}) => {
       state.imageCordinates = cordinates
     },
-    setIsTextAdded: (state, {value}) => {
+    [types.SET_IS_TEXT_ADDED]: (state, {value}) => {
       state.isTextAdded = value
     },
-    setText: (state, { value }) => {
+    [types.SET_TEXT]: (state, { value }) => {
       state.text = value
     },
-    setProductImage: (state, { value }) => {
+    [types.SET_PRODUCT_IMAGE]: (state, { value }) => {
       state.productImage = value
     },
-    setIsSelectedArea: (state, { value }) => {
+    [types.SET_IS_SELECTED_AREA]: (state, { value }) => {
       state.isSelectedArea = value
     },
-    setFontFamily: (state, { fonts }) => {
+    [types.SET_FONT_FAMILY]: (state, { fonts }) => {
       state.fontFamily = fonts
     },
-    setVirtualData: (state, {virtual}) => {
+    [types.SET_VIRTUAL_DATA]: (state, {virtual}) => {
       state.virtualData = virtual
     },
-    setProductImprint: (state, {imprint}) => {
+    [types.SET_PRODUCT_IMPRINT]: (state, {imprint}) => {
       state.productImprint.push(imprint)
     },
-    setProductVariationImages: (state, {images}) => {
+    [types.SET_PRODUCT_VARIATION_IMAGES]: (state, {images}) => {
       state.productVariationImages = images
     },
-    setImprintMethodImage: (state, {image}) => {
+    [types.SET_IMPRINT_METHOD_IMAGE]: (state, {image}) => {
       state.imprintMethodImage = image
     }
 }

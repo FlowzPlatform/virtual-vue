@@ -32,6 +32,4 @@ export default {
   getProductImage: (state) =>{
     return state.productImage
   }
-
-
 }
