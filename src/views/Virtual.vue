@@ -56,22 +56,22 @@ export default {
       let imprint = {}
       var unserialize = require('../classes/unserialize')
       let unIm = unserialize(productImprint.imprintParam)
-      this.$store.commit('setProductImprint', { imprint: unIm } )
+      this.$store.dispatch('setProductImprint', unIm)
     },
 
     defineProductImages(virtualImages) {
       let imprint = {}
       let images = virtualImages.main
-      this.$store.commit('setProductVariationImages', { images: images } )
+      this.$store.dispatch('setProductVariationImages', images)
 
       // TODO this should be a product main image.
       let pImage = images[0].image
-      this.$store.commit('setProductImage', { value: pImage } )
-      this.$store.commit('setImageUrl', { url: imageProcessingUrl+'products/'+pImage } )
+      this.$store.dispatch('setProductImage', pImage)
+      this.$store.dispatch('setImageUrl', imageProcessingUrl+'products/'+pImage)
     }
   },
   async beforeMount() {
-    this.$store.commit('setVirtualData', { virtual: this.$route.query } )
+    this.$store.dispatch('setVirtualData',this.$route.query)
     let res = await this.productExist()
 
     this.isVirtual = res.status

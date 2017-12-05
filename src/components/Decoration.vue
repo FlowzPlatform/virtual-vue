@@ -213,7 +213,7 @@ export default {
         }
       }
       newcordinates.imprintColor = this.imprint_color;
-      this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
+      this.$store.dispatch('setImageCordinates', newcordinates)
       return this.$store.dispatch('generateSequence',this.cordinates)
     },
     onColorChange(){
@@ -226,7 +226,7 @@ export default {
         }
       }
       this.getPmsColor(this.imprint_color)
-      this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
+      this.$store.dispatch('setImageCordinates', newcordinates)
       return this.$store.dispatch('generateSequence',this.cordinates)
     },
     onPmsChange(){
@@ -237,7 +237,7 @@ export default {
           newcordinates.text_color[i].value = this.imprint_pms;
         }
       }
-      this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
+      this.$store.dispatch('setImageCordinates', newcordinates)
       return this.$store.dispatch('generateSequence',this.cordinates)
     },
      changeBackground(){
@@ -246,7 +246,7 @@ export default {
       selected = parseInt(selected)-1
       console.log(selected)
       newcordinates.background[selected].value = this.background.join('-')
-      this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
+      this.$store.dispatch('setImageCordinates', newcordinates)
       return this.$store.dispatch('generateSequence',this.cordinates)
     },
     getPmsColor(imprintColor){
@@ -351,8 +351,9 @@ export default {
         return this.$store.state.defaultImprintMethod
       },
       set: function(value) {
-        this.$store.commit('setDefaultImprintMethod', { method: value } )
-        this.$store.commit('setImprintMethodImage', { image: 'static/images/'+value+'.png' } )
+        // alert(value)
+        this.$store.dispatch('setDefaultImprintMethod', value)
+        this.$store.dispatch('setImprintMethodImage', 'static/images/'+value+'.png')
       }
     },
     ...mapGetters({

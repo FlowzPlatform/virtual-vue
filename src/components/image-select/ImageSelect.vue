@@ -159,7 +159,7 @@ export default {
  },
  methods:{
     generateSequence: function(){
-      this.$store.commit('setImageCordinates', { cordinates: data } )
+      this.$store.dispatch('setImageCordinates', data)
       return this.$store.dispatch('generateSequence',data)
     }
  },

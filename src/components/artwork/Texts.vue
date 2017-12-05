@@ -113,7 +113,8 @@ export default {
       let selected = this.selecteArea.value
       selected = parseInt(selected)-1
       newcordinates.font_size[selected].value = this.font_size;
-      this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
+      this.$store.dispatch('setImageCordinates', newcordinates)
+
       return this.$store.dispatch('generateSequence',this.cordinates)
     },
     setTextCurve(){
@@ -121,17 +122,18 @@ export default {
       let selected = this.selecteArea.value
       selected = parseInt(selected)-1
       newcordinates.text_curve[selected].value = this.text_curve;
-      this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
+      this.$store.dispatch('setImageCordinates', newcordinates)
+
       return this.$store.dispatch('generateSequence',this.cordinates)
     },
     setFontFamily(){
-      console.log()
       if(this.font_family!=""){
         let newcordinates = this.cordinates
         let selected = this.selecteArea.value
         selected = parseInt(selected)-1
         newcordinates.font_family[selected].value = this.font_family;
-        this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
+        this.$store.dispatch('setImageCordinates', newcordinates)
+
         return this.$store.dispatch('generateSequence',this.cordinates)
       }
     }

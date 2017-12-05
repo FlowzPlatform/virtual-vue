@@ -36,7 +36,7 @@ export default {
       // alert(this.opacity)
       let newcordinates = this.cordinates
       newcordinates.opacity = this.opacity;
-      this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
+      this.$store.dispatch('setImageCordinates', newcordinates)
        return this.$store.dispatch('generateSequence',this.cordinates)
     },
     isImageText() {
