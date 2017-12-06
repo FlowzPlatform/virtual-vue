@@ -18,6 +18,8 @@
 <script src="http://deepliquid.com/projects/Jcrop/js/jquery.Jcrop.js"> </script>
 <script>
 import { mapGetters } from 'vuex'
+import Temp from '../../classes/Temp'
+
 
 export default {
   name: 'crop',
@@ -90,25 +92,42 @@ export default {
       let res = await this.$store.dispatch('cropImage',crop)
       let  url;
       let time = new Date().getTime();
-       if(newcordinates.userUploadedImageUrl[isSelectedAreaKey].value.indexOf('?h=') != -1){
-         url = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value.replace('?', '?'+time)
+
+      
+      // TODO: A temporary hack, needs to change. Image stored in a browser cache so cache needs to clear.
+
+      if(newcordinates.userUploadedImageUrl[isSelectedAreaKey].value.indexOf('?h=') != -1){
+        url = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value.replace('?', '?'+time)
       }else{
-         url = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value + '?'+ time
+        url = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value + '?'+ time
       }
       this.cropImageUrl = url  //newcordinates.userUploadedImageUrl[isSelectedAreaKey].value+'?h='+Math.random()
       console.log(this.cropImageUrl)
        
       //  this.cropImageUrl = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value+'?h='+tempH
-       this.jcrop_api.setImage(this.cropImageUrl);
+      this.jcrop_api.setImage(this.cropImageUrl);
       
-       newcordinates.cropped = newcordinates.cropped+1
+      newcordinates.cropped = newcordinates.cropped+1
+
+      let ch = new Temp()
+      let imageProps = await ch.addImageProcess(url);
+      let imgCordinates = ch.imageCordinates(imageProps, this.cordinates.artwork_width, this.cordinates.artwork_height);
+      newcordinates.height[isSelectedAreaKey].value = imgCordinates.height
+      newcordinates.width[isSelectedAreaKey].value = imgCordinates.width
+
+      $('.obv-product-design-objects-image-i'+this.$store.state.isSelectedArea.value).imageArea('option','height',imgCordinates.height);
+      $('.obv-product-design-objects-image-i'+this.$store.state.isSelectedArea.value).imageArea('option','width',imgCordinates.width);
+      $('.obv-product-design-objects-image-i'+this.$store.state.isSelectedArea.value).imageArea('option','top',tempY);
+      $('.obv-product-design-objects-image-i'+this.$store.state.isSelectedArea.value).imageArea('option','left',tempX);
+
+
 // <<<<<<< HEAD
 //        this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
 //          $('#cropImageUrl').css('height','225px')
 //         $('.jcrop-holder').css({"height": "225px !important", "font-size": "200%"}) //.css('height','225px')
 //         $('.cropImage').css('height','225px')
 // =======
-       this.$store.dispatch('setImageCordinates', newcordinates )
+      this.$store.dispatch('setImageCordinates', newcordinates )
       return this.$store.dispatch('generateSequence',newcordinates)
     },
     initJcrop: function(oImg){

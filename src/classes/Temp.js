@@ -276,6 +276,7 @@ export default class Temp {
       },
       _update: function() {
         console.log("_update");
+        this.element.css({'width': this.options.width,'height': this.options.height,'left': this.options.imageLeft,'top': this.options.imageTop,'position': 'absolute'});        
       },
       _create: function() {
         // console.log(this.options.imageLeft+"==="+this.options.imageTop);
@@ -303,7 +304,6 @@ export default class Temp {
 
     if(imageSelectData.id !== undefined){
         $('.'+className).imageArea('option','id',imageSelectData.id);
-        // alert($('.'+className).imageArea('option','id'))
     }else{
       let passOptions = {
         id:imageSelectData.image_area_work,
@@ -387,7 +387,6 @@ export default class Temp {
 
   set_position(event, ui, id, imageSelectData, type, hId){
     id--;
-    // alert(id)
 
     if(type=='image'){
       //image width, leftN, leftS
@@ -569,85 +568,6 @@ export default class Temp {
         else imageSelectData.text_color.push({ key: id, type:type, value:'000000'})
       }
     }
-
-    //
-    // if(this.key_exists(id, imageSelectData.width) == true){
-    //   imageSelectData.width[id].value=$(event.target).width()
-    //   imageSelectData.leftN[id].value=$(event.target).width()/2-4
-    //   imageSelectData.leftS[id].value=$(event.target).width()/2-4
-    // }else{
-    //   if(type=='image'){
-    //     imageSelectData.userUploadedImageUrl.push({ key: id, type:type, value:imageProcessingUrl+'users/'+imageSelectData.$store.state.userUploadedImageName});
-    //     imageSelectData.userUploadedImage.push({ key: id, type:type, value:imageSelectData.$store.state.userUploadedImageName });
-    //   }else{
-    //   }
-    //   imageSelectData.width.push({ key: id, type:type, value:$(event.target).width() });
-    //   imageSelectData.leftN.push({ key: id, type:type, value:$(event.target).width()/2-4});
-    //   imageSelectData.leftS.push({ key: id, type:type, value:$(event.target).width()/2-4});
-    // }
-    //
-    // if(this.key_exists(id, imageSelectData.texts) == true){
-    //
-    // }else{
-    //   imageSelectData.texts.push({ key: id, type:type, value:imageSelectData.text})
-    // }
-    //
-    // if(this.key_exists(id, imageSelectData.font_size) == true){
-    //
-    // }else{
-    //   imageSelectData.font_size.push({ key: id, type:type, value:20})
-    // }
-    //
-    // if(this.key_exists(id, imageSelectData.text_color) == true){
-    //   imageSelectData.text_color[id].value=imageSelectData.$store.state.imageCordinates.imprintColor
-    // }else{
-    //   if(imageSelectData.$store.state.imageCordinates.imprintColor !== undefined)imageSelectData.text_color.push({ key: id, type:type, value:imageSelectData.$store.state.imageCordinates.imprintColor})
-    //   else imageSelectData.text_color.push({ key: id, type:type, value:'000000'})
-    // }
-    //
-    // if(this.key_exists(id, imageSelectData.flip) == true){
-    //
-    // }else{
-    //   if(type=='image')imageSelectData.flip.push({ key: id, type:type, value:'0'})
-    // }
-    // if(this.key_exists(id, imageSelectData.flop) == true){
-    //
-    // }else{
-    //   if(type=='image')imageSelectData.flop.push({ key: id, type:type, value:'0'})
-    // }
-    // if(this.key_exists(id, imageSelectData.text_flip) == true){
-    //
-    // }else{
-    //   if(type=='text')imageSelectData.text_flip.push({ key: id, type:type, value:'0'})
-    // }
-    // if(this.key_exists(id, imageSelectData.text_flop) == true){
-    //
-    // }else{
-    //   if(type=='text')imageSelectData.text_flop.push({ key: id, type:type, value:'0'})
-    // }
-    //
-    // if(this.key_exists(id, imageSelectData.height) == true){
-    //   imageSelectData.height[id].value=$(event.target).height()
-    //   imageSelectData.topE[id].value=$(event.target).height()/2-4
-    //   imageSelectData.topW[id].value=$(event.target).height()/2-4
-    // }else{
-    //   imageSelectData.height.push({ key: id, type:type, value:$(event.target).height() });
-    //   imageSelectData.topE.push({ key: id, type:type, value:$(event.target).height()/2-4});
-    //   imageSelectData.topW.push({ key: id, type:type, value:$(event.target).height()/2-4});
-    // }
-    //
-    // if(this.key_exists(id,  imageSelectData.top) == true){
-    //   imageSelectData.top[id].value = $(event.target).offset().top-$('.obv-product-main-images').offset().top
-    // }else{
-    //   imageSelectData.top.push({ key: id, type:type, value:$(event.target).offset().top-$('.obv-product-main-images').offset().top });
-    // }
-    //
-    // if(this.key_exists(id,  imageSelectData.left) == true){
-    //   imageSelectData.left[id].value = $(event.target).offset().left-$('.obv-product-main-images').offset().left
-    // }else{
-    //   imageSelectData.left.push({ key: id, type:type, value: $(event.target).offset().left-$('.obv-product-main-images').offset().left });
-    // }
-
   }
 
   key_exists(key, arr) {
