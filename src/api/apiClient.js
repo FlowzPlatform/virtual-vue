@@ -11,4 +11,4 @@ const socket = io(apiUrl, {transports: ['websocket']})
 // }
 export const feathersClient = feathers()
   .configure(hooks())
-  .configure(socketio(socket));
+  .configure(socketio(socket))

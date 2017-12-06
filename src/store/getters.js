@@ -1,35 +1,35 @@
 export default {
   getImageUrl: (state) => {
-      return state.imageUrl
+    return state.imageUrl
   },
-  getIsUpload: (state) =>{
+  getIsUpload: (state) => {
     return state.isUpload
   },
-  getUserUploadedImageName: (state) =>{
+  getUserUploadedImageName: (state) => {
     return state.userUploadedImageName
   },
-  getDefaultImprintMethod: (state) =>{
+  getDefaultImprintMethod: (state) => {
     return state.defaultImprintMethod
   },
-  getImageCordinates: (state) =>{
+  getImageCordinates: (state) => {
     return state.imageCordinates
   },
-  getIsTextAdded: (state) =>{
+  getIsTextAdded: (state) => {
     return state.isTextAdded
   },
-  getText: (state) =>{
+  getText: (state) => {
     return state.text
   },
-  getFontFamily: (state) =>{
+  getFontFamily: (state) => {
     return state.fontFamily
   },
-  getIsSelectedArea: (state) =>{
+  getIsSelectedArea: (state) => {
     return state.isSelectedArea
   },
-  getProductVariationImages: (state) =>{
+  getProductVariationImages: (state) => {
     return state.productVariationImages
   },
-  getProductImage: (state) =>{
+  getProductImage: (state) => {
     return state.productImage
   }
 }

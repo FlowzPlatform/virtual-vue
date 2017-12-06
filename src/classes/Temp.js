@@ -1,242 +1,239 @@
 import { imageProcessingUrl } from '../constants'
 export default class Temp {
-
-  constructor() {
-    this.baseArea();
+  constructor () {
+    this.baseArea()
   }
 
-  baseArea(){
-    let this_ = this;
+  baseArea () {
+    let this_ = this
+    $.widget ('virtualWorld.baseArea', {
+      options: {
+        rotate: 0,
+        previous: 0,
+        divid: ''
+      },
+      _create: function () {
+      },
+      bindevent: function (id, imageSelectData) {
+        id = this.element.imageArea('option', 'id')
+        let currentEle = this.element
 
-    $.widget( "virtualWorld.baseArea", {
-        options: {
-          rotate : 0,
-          previous : 0,
-          divid:""
-        },
-        _create: function() {
-        },
-        bindevent: function(id, imageSelectData) {
-          id = this.element.imageArea('option','id')
-          let currentEle = this.element
-
-          if(this.element.imageArea('option','isMovable')=="1") {
-            this.element.draggable({
-              scroll: false,
-              distance:1,
-              create: function(event, ui) {
-                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData,'image', id);
-                setTimeout(
-                  function()
-                  {
-                    currentEle.trigger( "click" );
-                  }, 2000);
-              },
-              start: function(event, ui) {
-              },
-              drag: function(event, ui){
-                // this_.set_position(event, id, imageSelectData);
-              },
-              stop: function(event, ui) {
-                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData,'image', id);
-                imageSelectData.generateSequence()
-                currentEle.trigger( "click" );
-              }
-            });
-          }
-          if(this.element.imageArea('option','isEditable')=="1") {
-            this.element.resizable({
-              handles: 'e, w, n, s, se, ne, sw, nw',
-              distance:1,
-              start: function(event, ui) {
-
-              },
-              create: function(event, ui) {
-                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image', id);
-                setTimeout(
-                  function()
-                  {
-                    currentEle.trigger( "click" );
-                  }, 2000);
-              },
-              resize: function(event, ui) {
-                // this_.set_position(event, id, imageSelectData);
-              },
-              aspectRatio: true,
-              stop: function(event, ui) {
-                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image', id);
-                imageSelectData.generateSequence()
-                currentEle.trigger( "click" );
-              }
-            });
-
-            this.element.rotatable({
-              rotate: function(event, ui){
-                // console.log(event)
-                // var degrees = ui.angle.current * 180/Math.PI
-                // if ( degrees < 0 ) degrees += 360
-                //
-                // // contain angle between 0 and 180 degrees
-                // if ( degrees > 270 ) {
-                //   ui.angle.current = 0
-                // } else if ( degrees > 180 ) {
-                //   ui.angle.current = Math.PI
-                // }
-                // console.log(event)
-
-              },
-              start: function(event, ui) {
-                // console.log(event)
-              },
-              stop: function(event, ui) {
-                // console.log(event)
-                // console.log(ui.angle)
-                // console.log(ui.angle.current * 180/Math.PI)
-                this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image', id);
-                imageSelectData.generateSequence()
-              }
-            });
-          }
-
-          this.element.click(function() {
-            let selected = $(this)
-            if($(this).hasClass('child-selector')){
-              $(this).parent().find('.vj-hotspot-selected').each(function(index){
-                  $(this).removeClass('vj-hotspot-selected');
-              })
-              selected.addClass('vj-hotspot-selected');
-            }else{
+        if (this.element.imageArea('option', 'isMovable') == '1') {
+          this.element.draggable({
+            scroll: false,
+            distance: 1,
+            create: function (event, ui) {
+              this_.set_position(event, ui, currentEle.imageArea('option', 'id'), imageSelectData, 'image', id)
+              setTimeout(
+                function () {
+                  currentEle.trigger('click')
+                }, 2000)
+            },
+            start: function (event, ui) {
+            },
+            drag: function (event, ui) {
+              // this_.set_position(event, id, imageSelectData);
+            },
+            stop: function (event, ui) {
+              this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData,'image', id);
+              imageSelectData.generateSequence()
+              currentEle.trigger('click')
             }
-            if(id) imageSelectData.$store.dispatch('setIsSelectedArea',{key: 'image',value: id } )
-          });
-
-          this.element.hover(function(){
-            let selected = $(this)
-            if(!$(this).hasClass('child-selector')){
-              // $(this).parent().find('.vj-hotspot-selected').each(function(index){
-              //     $(this).removeClass('vj-hotspot-selected');
-              // })
-              // selected.addClass('vj-hotspot-selected');
-              selected.addClass('vj-hotspot-hover');
-              selected.find('.vj-hotspotPreview').removeClass('hide')
-            }
-
-          },
-          function(){
-            $(this).removeClass('vj-hotspot-hover');
-            $(this).find('.vj-hotspotPreview').addClass('hide')
-
-          });
-        },
-        bindevent4text: function(id, imageSelectData) {
-          id = this.element.textArea('option','id')
-          let currentEle = this.element
-
-          if(this.element.textArea('option','isMovable')=="1") {
-            this.element.draggable({
-              scroll: false,
-              distance:1,
-              create: function(event, ui) {
-                this_.set_position(event, ui,currentEle.textArea('option','id'), imageSelectData, 'text', id);
-                setTimeout(
-                  function()
-                  {
-                    currentEle.trigger( "click" );
-                  }, 2000);
-              },
-              drag: function(event, ui){
-
-              },
-              start: function(event, ui) {
-
-              },
-              stop: function(event, ui) {
-                this_.set_position(event, ui,currentEle.textArea('option','id'), imageSelectData, 'text', id);
-                imageSelectData.generateSequence()
-                currentEle.trigger( "click" );
-              }
-            });
-
-            this.element.rotatable({
-              rotate: function(e, ui){
-
-              },
-              stop: function(event, ui) {
-                this_.set_position(event, ui,currentEle.textArea('option','id'), imageSelectData, 'text', id);
-                imageSelectData.generateSequence()
-              }
-            });
-          }
-
-          this.element.click(function() {
-            let selected = $(this)
-            if($(this).hasClass('child-selector')){
-              $(this).parent().find('.vj-hotspot-selected').each(function(index){
-                  $(this).removeClass('vj-hotspot-selected');
-              })
-              selected.addClass('vj-hotspot-selected');
-            }else{
-            }
-            // imageSelectData.$store.state.isSelectedArea = id;
-            if(id) imageSelectData.$store.dispatch('setIsSelectedArea',{key: 'text',value: id } )
-            
-          });
-
-          // this.element.hover(function(){
-          //   let selected = $(this)
-          //   if($(this).hasClass('child-selector')){
-          //     $(this).parent().find('.vj-hotspot-selected').each(function(index){
-          //         $(this).removeClass('vj-hotspot-selected');
-          //     })
-          //     selected.addClass('vj-hotspot-selected');
-          //   }
-          //   if(id) imageSelectData.$store.commit('setIsSelectedArea', { value: {key: 'text',value: id } } )
-          // });
-
-          this.element.hover(function(){
-            let selected = $(this)
-            if(!$(this).hasClass('child-selector')){
-              // $(this).parent().find('.vj-hotspot-selected').each(function(index){
-              //     $(this).removeClass('vj-hotspot-selected');
-              // })
-              // selected.addClass('vj-hotspot-selected');
-              selected.addClass('vj-hotspot-hover');
-              selected.find('.vj-hotspotPreview').removeClass('hide')
-            }
-            // if(id) imageSelectData.$store.commit('setIsSelectedArea', { value: {key: 'image',value: id } } )
-
-          },
-          function(){
-            $(this).removeClass('vj-hotspot-hover');
-            $(this).find('.vj-hotspotPreview').addClass('hide')
-
-          });
-
-        },
-        rotate: function(rotate,degree) {
-
-        },
-        textcurve: function(option){
-
-        },
-        flip: function(){
-
-        },
-        flop: function(){
-
-        },
-        removeblack: function(option){
-
-        },
-        removewhite: function(option){
-
-        },
-        align: function(alignval,elem){
-
-        },
-        imagealign: function(option) {
-
+          })
         }
+        if (this.element.imageArea('option','isEditable') == '1') {
+          this.element.resizable({
+            handles: 'e, w, n, s, se, ne, sw, nw',
+            distance:1,
+            start: function(event, ui) {
+
+            },
+            create: function(event, ui) {
+              this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image', id);
+              setTimeout(
+                function()
+                {
+                  currentEle.trigger( "click" );
+                }, 2000);
+            },
+            resize: function(event, ui) {
+              // this_.set_position(event, id, imageSelectData);
+            },
+            aspectRatio: true,
+            stop: function(event, ui) {
+              this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image', id);
+              imageSelectData.generateSequence()
+              currentEle.trigger( "click" );
+            }
+          });
+
+          this.element.rotatable({
+            rotate: function(event, ui){
+              // console.log(event)
+              // var degrees = ui.angle.current * 180/Math.PI
+              // if ( degrees < 0 ) degrees += 360
+              //
+              // // contain angle between 0 and 180 degrees
+              // if ( degrees > 270 ) {
+              //   ui.angle.current = 0
+              // } else if ( degrees > 180 ) {
+              //   ui.angle.current = Math.PI
+              // }
+              // console.log(event)
+
+            },
+            start: function(event, ui) {
+              // console.log(event)
+            },
+            stop: function(event, ui) {
+              // console.log(event)
+              // console.log(ui.angle)
+              // console.log(ui.angle.current * 180/Math.PI)
+              this_.set_position(event, ui, currentEle.imageArea('option','id'), imageSelectData, 'image', id);
+              imageSelectData.generateSequence()
+            }
+          })
+        }
+
+        this.element.click(function() {
+          let selected = $(this)
+          if($(this).hasClass('child-selector')){
+            $(this).parent().find('.vj-hotspot-selected').each(function(index){
+                $(this).removeClass('vj-hotspot-selected');
+            })
+            selected.addClass('vj-hotspot-selected');
+          }else{
+          }
+          if(id) imageSelectData.$store.dispatch('setIsSelectedArea',{key: 'image',value: id } )
+        });
+
+        this.element.hover(function(){
+          let selected = $(this)
+          if(!$(this).hasClass('child-selector')){
+            // $(this).parent().find('.vj-hotspot-selected').each(function(index){
+            //     $(this).removeClass('vj-hotspot-selected');
+            // })
+            // selected.addClass('vj-hotspot-selected');
+            selected.addClass('vj-hotspot-hover');
+            selected.find('.vj-hotspotPreview').removeClass('hide')
+          }
+
+        },
+        function(){
+          $(this).removeClass('vj-hotspot-hover');
+          $(this).find('.vj-hotspotPreview').addClass('hide')
+
+        });
+      },
+      bindevent4text: function(id, imageSelectData) {
+        id = this.element.textArea('option','id')
+        let currentEle = this.element
+
+        if(this.element.textArea('option','isMovable')=="1") {
+          this.element.draggable({
+            scroll: false,
+            distance:1,
+            create: function(event, ui) {
+              this_.set_position(event, ui,currentEle.textArea('option','id'), imageSelectData, 'text', id);
+              setTimeout(
+                function()
+                {
+                  currentEle.trigger( "click" );
+                }, 2000);
+            },
+            drag: function(event, ui){
+
+            },
+            start: function(event, ui) {
+
+            },
+            stop: function(event, ui) {
+              this_.set_position(event, ui,currentEle.textArea('option','id'), imageSelectData, 'text', id);
+              imageSelectData.generateSequence()
+              currentEle.trigger( "click" );
+            }
+          });
+
+          this.element.rotatable({
+            rotate: function(e, ui){
+
+            },
+            stop: function(event, ui) {
+              this_.set_position(event, ui,currentEle.textArea('option','id'), imageSelectData, 'text', id);
+              imageSelectData.generateSequence()
+            }
+          });
+        }
+
+        this.element.click(function() {
+          let selected = $(this)
+          if($(this).hasClass('child-selector')){
+            $(this).parent().find('.vj-hotspot-selected').each(function(index){
+                $(this).removeClass('vj-hotspot-selected');
+            })
+            selected.addClass('vj-hotspot-selected');
+          }else{
+          }
+          // imageSelectData.$store.state.isSelectedArea = id;
+          if(id) imageSelectData.$store.dispatch('setIsSelectedArea',{key: 'text',value: id } )
+          
+        });
+
+        // this.element.hover(function(){
+        //   let selected = $(this)
+        //   if($(this).hasClass('child-selector')){
+        //     $(this).parent().find('.vj-hotspot-selected').each(function(index){
+        //         $(this).removeClass('vj-hotspot-selected');
+        //     })
+        //     selected.addClass('vj-hotspot-selected');
+        //   }
+        //   if(id) imageSelectData.$store.commit('setIsSelectedArea', { value: {key: 'text',value: id } } )
+        // });
+
+        this.element.hover(function(){
+          let selected = $(this)
+          if(!$(this).hasClass('child-selector')){
+            // $(this).parent().find('.vj-hotspot-selected').each(function(index){
+            //     $(this).removeClass('vj-hotspot-selected');
+            // })
+            // selected.addClass('vj-hotspot-selected');
+            selected.addClass('vj-hotspot-hover');
+            selected.find('.vj-hotspotPreview').removeClass('hide')
+          }
+          // if(id) imageSelectData.$store.commit('setIsSelectedArea', { value: {key: 'image',value: id } } )
+
+        },
+        function(){
+          $(this).removeClass('vj-hotspot-hover');
+          $(this).find('.vj-hotspotPreview').addClass('hide')
+
+        });
+
+      },
+      rotate: function(rotate,degree) {
+
+      },
+      textcurve: function(option){
+
+      },
+      flip: function(){
+
+      },
+      flop: function(){
+
+      },
+      removeblack: function(option){
+
+      },
+      removewhite: function(option){
+
+      },
+      align: function(alignval,elem){
+
+      },
+      imagealign: function(option) {
+
+      }
     });
   }
 

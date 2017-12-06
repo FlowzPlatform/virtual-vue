@@ -1,0 +1,4 @@
+node_modules
+lib/*-rules.js
+coverage
+.nyc_output
