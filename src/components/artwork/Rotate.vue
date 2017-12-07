@@ -31,49 +31,41 @@ export default {
       rotate: 0
     }
   },
-  methods:{
-    changeRotate(){
+  methods: {
+    changeRotate () {
       let selected = this.selecteArea.value
       let selectedKey = this.selecteArea.key
       let newcordinates = this.cordinates
-      selected = parseInt(selected)-1
+      selected = parseInt(selected) - 1
 
-      if(selectedKey=='image') newcordinates.rotate[selected].value = this.rotate;
+      if (selectedKey === 'image') newcordinates.rotate[selected].value = this.rotate
       else newcordinates.text_rotate[selected].value = this.rotate
-
-
       // newcordinates.rotate = this.rotate;
       this.$store.dispatch('setImageCordinates', newcordinates)
-      return this.$store.dispatch('generateSequence',this.cordinates)
+      return this.$store.dispatch('generateSequence', this.cordinates)
     },
-
-    isImageText() {
-      if(this.isWorkSelected === false){
-        alert("Please select a Image/Text")
+    isImageText () {
+      if (this.isWorkSelected === false) {
+        alert('Please select a Image/Text')
         return false
       }
     }
   },
-    watch: {
-      // cordinates: function (val) {
-      //   console.log("Rahul")
-      //   console.log(val)
-      // }
-      cordinates:{
-        handler: function (val, oldVal) {
-
-        },
-        deep: true
-      }
-   },
-   computed: {
-     ...mapGetters({
-       cordinates: 'getImageCordinates',
-       selecteArea: 'getIsSelectedArea'
-     }),
-     isWorkSelected: function() {
-       return (this.selecteArea==null) ? false : true
-     }
-   }
+  watch: {
+    cordinates: {
+      handler: function (val, oldVal) {
+      },
+      deep: true
+    }
+  },
+  computed: {
+    ...mapGetters({
+      cordinates: 'getImageCordinates',
+      selecteArea: 'getIsSelectedArea'
+    }),
+    isWorkSelected: function () {
+      return (this.selecteArea === null) ? false : true
+    }
+  }
 }
 </script>

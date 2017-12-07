@@ -7,7 +7,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import generateSequence from '../../store/actions.js'
+// import generateSequence from '../../store/actions.js'
 import Temp from '../../classes/Temp'
 import { userUploadeImageUrl, imageProcessingUrl } from '../../constants'
 
@@ -50,7 +50,6 @@ let data = {
   text_curve: [],
   text_alignment: [],
   font_family: [],
-  layers: [],
   imprintMethod: null,
   imprintColor: '000000',
   artwork_height: 0,
@@ -61,7 +60,8 @@ let data = {
   layers: [],
   cropped: 0,
   show: false
-};
+}
+
 export default {
   name: 'image-select',
   data () {
@@ -76,96 +76,95 @@ export default {
       productImage: 'getProductImage'
     }),
 
-    productImprintArea: function() {
-       return (this.$store.state.productImprint.length==0)?null:this.$store.state.productImprint[0]
+    productImprintArea: function () {
+      return this.$store.state.productImprint.length === 0 ? null : this.$store.state.productImprint[0]
     }
   },
   watch: {
-    isUploaded: async function(value) {
-      if(value==true){
-
+    isUploaded: async function (value) {
+      if (value === true) {
         let ch = new Temp()
-        let imageUrl = userUploadeImageUrl+this.userUploadedImageName;
-        let imageProps = await ch.addImageProcess(imageUrl);
-        let imgCordinates = ch.imageCordinates(imageProps, this.artwork_width, this.artwork_height);
+        let imageUrl = userUploadeImageUrl + this.userUploadedImageName
+        let imageProps = await ch.addImageProcess(imageUrl)
+        let imgCordinates = ch.imageCordinates(imageProps, this.artwork_width, this.artwork_height)
 
-        let productImage = imageProcessingUrl+'products/'+this.productImage
-        let productImageProps = await ch.addImageProcess(productImage);
-        let productImageCordinates = ch.imageCordinates(productImageProps, 500, 500);
+        let productImage = imageProcessingUrl + 'products/' + this.productImage
+        let productImageProps = await ch.addImageProcess(productImage)
+        let productImageCordinates = ch.imageCordinates(productImageProps, 500, 500)
 
         this.productHeight = productImageCordinates.height
         this.productWidth = productImageCordinates.width
-        this.image_area_work++;
-        this.options.isEditable=1;
-        this.options.height=imgCordinates.height;
-        this.options.width=imgCordinates.width;
-        this.options.imageLeft=0;
-        this.options.imageTop=0
-        this.options.isMovable=1;
-        this.options.isRemovable=1;
-        $('.selector').append('<div class="obv-product-design-objects-image-i'+this.image_area_work+' vj-hotspot-selected child-selector"></div>');
-        ch.imageArea("obv-product-design-objects-image-i"+this.image_area_work, this)
-        this.generateSequence();
+        this.image_area_work++
+        this.options.isEditable = 1
+        this.options.height = imgCordinates.height
+        this.options.width = imgCordinates.width
+        this.options.imageLeft = 0
+        this.options.imageTop = 0
+        this.options.isMovable = 1
+        this.options.isRemovable = 1
+        $('.selector').append('<div class="obv-product-design-objects-image-i' + this.image_area_work + ' vj-hotspot-selected child-selector"></div>')
+        ch.imageArea('obv-product-design-objects-image-i' + this.image_area_work, this)
+        this.generateSequence()
       }
     },
 
-    isTextAdded: async function(value) {
-      if(value===true){
+    isTextAdded: async function (value) {
+      if (value === true) {
         let ch = new Temp()
 
-        let productImage = imageProcessingUrl+'products/'+this.productImage
-        let productImageProps = await ch.addImageProcess(productImage);
-        let productImageCordinates = ch.imageCordinates(productImageProps, 500, 500);
+        let productImage = imageProcessingUrl + 'products/' + this.productImage
+        let productImageProps = await ch.addImageProcess(productImage)
+        let productImageCordinates = ch.imageCordinates(productImageProps, 500, 500)
 
         this.productHeight = productImageCordinates.height
         this.productWidth = productImageCordinates.width
-        this.text_area_work++;
-        this.options.isEditable=1;
-        this.options.height=70
-        this.options.width=this.artwork_width
-        this.options.imageLeft=0;
-        this.options.imageTop=0
-        this.options.isMovable=1;
-        this.options.isRemovable=1;
-        this.options.text=this.text;
-        $('.selector').append('<div class="obv-product-design-objects-text-i'+this.text_area_work+' vj-hotspot-selected child-selector"></div>');
-        ch.textArea("obv-product-design-objects-text-i"+this.text_area_work, this)
-        this.generateSequence();
+        this.text_area_work++
+        this.options.isEditable = 1
+        this.options.height = 70
+        this.options.width = this.artwork_width
+        this.options.imageLeft = 0
+        this.options.imageTop = 0
+        this.options.isMovable = 1
+        this.options.isRemovable = 1
+        this.options.text = this.text
+        $('.selector').append('<div class="obv-product-design-objects-text-i' + this.text_area_work + ' vj-hotspot-selected child-selector"></div>')
+        ch.textArea('obv-product-design-objects-text-i' + this.text_area_work, this)
+        this.generateSequence()
       }
     },
 
-    productImprintArea: function(value) {
-       if(value!==null){
-         let w_h = value.product_imprint_image_size.split("X");
-         let l_t = value.product_template_left_top.split(",");
+    productImprintArea: function (value) {
+      if (value !== null) {
+        let wH = value.product_imprint_image_size.split('X')
+        let lT = value.product_template_left_top.split(',')
 
-         let ch = new Temp()
-         this.options.isEditable=0;
-         this.options.isMovable=0;
-         this.options.isRemovable=0;
-         this.options.height = parseInt(w_h[1])
-         this.options.width = parseInt(w_h[0])
-         this.artwork_width = parseInt(w_h[0])
-         this.artwork_height = parseInt(w_h[1])
-         this.artwork_left = parseInt(l_t[0])
-         this.artwork_top = parseInt(l_t[1])
-         this.options.imageLeft = parseInt(l_t[0])
-         this.options.imageTop = parseInt(l_t[1])
+        let ch = new Temp()
+        this.options.isEditable = 0
+        this.options.isMovable = 0
+        this.options.isRemovable = 0
+        this.options.height = parseInt(wH[1])
+        this.options.width = parseInt(wH[0])
+        this.artwork_width = parseInt(wH[0])
+        this.artwork_height = parseInt(wH[1])
+        this.artwork_left = parseInt(lT[0])
+        this.artwork_top = parseInt(lT[1])
+        this.options.imageLeft = parseInt(lT[0])
+        this.options.imageTop = parseInt(lT[1])
 
-         ch.imageArea("selector", this)
-         this.show = true
-       }
+        ch.imageArea('selector', this)
+        this.show = true
+      }
     }
- },
- methods:{
-    generateSequence: function(){
+  },
+  methods: {
+    generateSequence: function () {
       this.$store.dispatch('setImageCordinates', data)
-      return this.$store.dispatch('generateSequence',data)
+      return this.$store.dispatch('generateSequence', data)
     }
- },
- mounted: function(){
+  },
+  mounted: function () {
 
- }
+  }
 }
 </script>
 

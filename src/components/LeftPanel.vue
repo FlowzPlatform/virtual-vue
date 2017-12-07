@@ -23,8 +23,8 @@
 
 <script>
 import AddText from './artwork/AddText.vue'
-import fetchImageUrl from '../store/actions.js'
-const reader  = new FileReader();
+// import fetchImageUrl from '../store/actions.js'
+const reader = new FileReader()
 
 export default {
   name: 'left-panel',
@@ -35,16 +35,16 @@ export default {
   },
   methods: {
     uploadFile: function (event) {
-      let store = this.$store;
-      let file = event.target.files[0];
-      reader.readAsDataURL(file);
-      reader.onload = function(event) {
-        return store.dispatch('fetchImageUrl',reader)
-      };
+      let store = this.$store
+      let file = event.target.files[0]
+      reader.readAsDataURL(file)
+      reader.onload = function (event) {
+        return store.dispatch('fetchImageUrl', reader)
+      }
     }
   },
   components: {
     'add-text': AddText
-  },
+  }
 }
 </script>

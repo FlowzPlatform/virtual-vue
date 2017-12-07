@@ -19,7 +19,7 @@ export default {
     }
   },
   components: {
-    'decoration': Decoration, 'history': History, 'layers':Layers
-  },
+    'decoration': Decoration, 'history': History, 'layers': Layers
+  }
 }
 </script>

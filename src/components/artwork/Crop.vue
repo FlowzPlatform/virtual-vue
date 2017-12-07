@@ -24,48 +24,48 @@ export default {
   data () {
     return {
       open: true,
-      cropImageUrl:'',
-      imageAxis:[],
-      jcrop_api:'',
-      imageDimension:[]
-     }
+      cropImageUrl: '',
+      imageAxis: [],
+      jcrop_api: '',
+      imageDimension: []
+    }
   },
-  methods:{
-    isImageText() {
-      if(this.isWorkSelected === false){
-        alert("Please select a Image/Text")
+  methods: {
+    isImageText () {
+      if (this.isWorkSelected === false) {
+        alert('Please select a Image/Text')
         return false
-      }else {
-        let isSelectedAreaKey = this.$store.state.isSelectedArea.value - 1;
-        let newcordinates = this.cordinates;
+      } else {
+        let isSelectedAreaKey = this.$store.state.isSelectedArea.value - 1
+        let newcordinates = this.cordinates
         this.cropImageUrl = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value
-       }
+      }
     },
-    confirmCrop: async function(){
-      let crop= []
-      let isSelectedAreaKey = this.$store.state.isSelectedArea.value - 1;
-      let newcordinates = this.cordinates;
-      let cropImage = newcordinates.userUploadedImage[isSelectedAreaKey].value;
+    confirmCrop: async function () {
+      let crop = []
+      let isSelectedAreaKey = this.$store.state.isSelectedArea.value - 1
+      let newcordinates = this.cordinates
+      let cropImage = newcordinates.userUploadedImage[isSelectedAreaKey].value
 
       // calculate crop dimension
-      this.cropImageUrl = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value;
-       var imgWidth,imgHeight,
-          imgLoad = $("<img />");
+      this.cropImageUrl = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value
+      let imgWidth, imgHeight
+      let imgLoad = $('<img />')
 
-      imgLoad.attr("src",this.cropImageUrl);
-       imgLoad.on("load", function () {
-        imgWidth = this.width;
-        imgHeight =this.height
-       });
+      imgLoad.attr('src', this.cropImageUrl)
+      imgLoad.on('load', function () {
+        imgWidth = this.width
+        imgHeight = this.height
+      })
 
-      imgWidth = imgLoad[0].width;
-      imgHeight = imgLoad[0].height;
-      let $img = $("#cropImageUrl");
-      let width = $img.width();
-      let height = $img.height();
-      let tempHeight =(imgHeight/height).toFixed(2)
-      let tempWidth =  (imgWidth/width).toFixed(2)
-      let tempX = (tempWidth *  this.imageAxis['x'])
+      imgWidth = imgLoad[0].width
+      imgHeight = imgLoad[0].height
+      let $img = $('#cropImageUrl')
+      let width = $img.width()
+      let height = $img.height()
+      let tempHeight = (imgHeight / height).toFixed(2)
+      let tempWidth = (imgWidth / width).toFixed(2)
+      let tempX = (tempWidth * this.imageAxis['x'])
       let tempY = (tempHeight * this.imageAxis['y'])
       let tempH = (tempHeight * this.imageAxis['h']).toFixed(2)
       let tempW = (tempWidth * this.imageAxis['w']).toFixed(2)
@@ -73,80 +73,68 @@ export default {
       this.imageAxis['y'] = tempY
       this.imageAxis['w'] = tempW
       this.imageAxis['h'] = tempH
-       //ends calculation
-      crop['cropAxis']=this.imageAxis
-      crop['cropImage']=cropImage
-      let res = await this.$store.dispatch('cropImage',crop)
-      let  url;
-      let time = new Date().getTime();
-       if(newcordinates.userUploadedImageUrl[isSelectedAreaKey].value.indexOf('?h=') != -1){
-         url = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value.replace('?', '?'+time)
-      }else{
-         url = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value + '?'+ time
+      crop['cropAxis'] = this.imageAxis
+      crop['cropImage'] = cropImage
+      await this.$store.dispatch('cropImage', crop)
+      let url
+      let time = new Date().getTime()
+      if (newcordinates.userUploadedImageUrl[isSelectedAreaKey].value.indexOf('?h=') !== -1) {
+        url = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value.replace('?', '?' + time)
+      } else {
+        url = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value + '?' + time
       }
-      this.cropImageUrl = url  //newcordinates.userUploadedImageUrl[isSelectedAreaKey].value+'?h='+Math.random()
-      console.log(this.cropImageUrl)
-       
-      //  this.cropImageUrl = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value+'?h='+tempH
-       this.jcrop_api.setImage(this.cropImageUrl);
-      
-       newcordinates.cropped = newcordinates.cropped+1
-// <<<<<<< HEAD
-//        this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
-//          $('#cropImageUrl').css('height','225px')
-//         $('.jcrop-holder').css({"height": "225px !important", "font-size": "200%"}) //.css('height','225px')
-//         $('.cropImage').css('height','225px')
-// =======
-       this.$store.dispatch('setImageCordinates', newcordinates )
-      return this.$store.dispatch('generateSequence',newcordinates)
+      this.cropImageUrl = url
+      this.jcrop_api.setImage(this.cropImageUrl)
+      newcordinates.cropped = newcordinates.cropped + 1
+
+      this.$store.dispatch('setImageCordinates', newcordinates)
+      return this.$store.dispatch('generateSequence', newcordinates)
     },
-    initJcrop: function(oImg){
+    initJcrop: function (oImg) {
       let vthis = this
       oImg.Jcrop({
-         setSelect:   [0,0,150,150 ],
-        onChange:   this.showCoords
-      },function(){
-         vthis.jcrop_api = this;
-      });
+        setSelect: [0, 0, 150, 150],
+        onChange: this.showCoords
+      }, function () {
+        vthis.jcrop_api = this
+      })
     },
-    showCoords: function(c){
+    showCoords: function (c) {
       this.imageAxis['x'] = c.x
       this.imageAxis['y'] = c.y
       this.imageAxis['w'] = c.w
       this.imageAxis['h'] = c.h
-      }
+    }
   },
   watch: {
-    cordinates:{
+    cordinates: {
       handler: function (val, oldVal) {
-        //console.log(val)
       },
-       deep: true
+      deep: true
     }
   },
   computed: {
-     ...mapGetters({
+    ...mapGetters({
       cordinates: 'getImageCordinates',
       selecteArea: 'getIsSelectedArea'
     }),
 
-    isWorkSelected: function() {
-      if(this.selecteArea==null) {
+    isWorkSelected: function () {
+      if (this.selecteArea === null) {
         return false
-      } else if (this.selecteArea.key=='text') {
+      } else if (this.selecteArea.key === 'text') {
         return false
       } else {
         return true
       }
     }
   },
-  mounted() {
-     this.initJcrop($('.cropImage'));
+  mounted () {
+    this.initJcrop($('.cropImage'))
   }
 }
-
- </script>
-<<style>
+</script>
+<style>
 #obv-editor .crop-ui-col{
   height:225px; 
 }

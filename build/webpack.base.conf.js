@@ -28,10 +28,16 @@ module.exports = {
   module: {
     rules: [
       {
-        enforce: "pre",
+        enforce: 'pre',
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "eslint-loader"
+        loader: 'eslint-loader'
+      },
+      {
+        enforce: 'pre',
+        test: /\.vue$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader'
       },
       {
         test: /\.vue$/,

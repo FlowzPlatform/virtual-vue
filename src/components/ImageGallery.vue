@@ -18,7 +18,6 @@ export default {
   },
   components: {
     'product-gallery': ProductGallery, 'product-thumb-gallery': ProductThumbGallery
-  },
-
+  }
 }
 </script>

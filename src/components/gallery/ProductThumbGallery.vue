@@ -44,23 +44,22 @@ export default {
       // variations: 'getProductVariationImages'
     }),
     variations: {
-      get: function() {
+      get: function () {
         return this.$store.state.productVariationImages
       },
-      set: function(val) {
-        this.$store.dispatch('setProductVariationImages',val)
+      set: function (val) {
+        this.$store.dispatch('setProductVariationImages', val)
       }
     },
-    isTextOrImage: function() {
-      return this.$store.state.isSelectedArea!= null ? true : false
+    isTextOrImage: function () {
+      return this.$store.state.isSelectedArea !== null ? true : false
     }
   },
   methods: {
-    selectedImage(img){
-      this.$store.dispatch('setProductImage',img)
-      this.$store.dispatch('setImageUrl',imageProcessingUrl+'products/'+img)
-
-      if(this.isTextOrImage) return this.$store.dispatch('generateSequence',this.cordinates)
+    selectedImage (img) {
+      this.$store.dispatch('setProductImage', img)
+      this.$store.dispatch('setImageUrl', imageProcessingUrl + 'products/' + img)
+      if (this.isTextOrImage) return this.$store.dispatch('generateSequence', this.cordinates)
     },
     next () {
       const first = this.variations.shift()

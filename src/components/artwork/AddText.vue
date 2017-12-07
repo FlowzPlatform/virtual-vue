@@ -19,11 +19,11 @@
     },
     methods: {
       addText: function () {
-        if(this.inputText) {
-          this.$store.dispatch('setIsTextAdded',true)
+        if (this.inputText) {
+          this.$store.dispatch('setIsTextAdded', true)
           this.$store.dispatch('setText', this.inputText)
-        }else{
-          alert("Please add text.")
+        } else {
+          alert('Please add text.')
         }
       }
     }

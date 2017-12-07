@@ -37,20 +37,20 @@ export default {
     }
   },
   methods: {
-    isImageText() {
-      if(this.isWorkSelected === false){
-        alert("Please select a Image/Text")
+    isImageText () {
+      if (this.isWorkSelected === false) {
+        alert('Please select a Image/Text')
         return false
       }
     }
   },
   computed: {
-    isWorkSelected: function() {
-      return (this.selecteArea==null) ? false : true
+    isWorkSelected: function () {
+      return (this.selecteArea === null) ? false : true
     },
     ...mapGetters({
       selecteArea: 'getIsSelectedArea'
-    }),
+    })
   }
 }
 </script>

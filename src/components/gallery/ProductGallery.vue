@@ -85,10 +85,10 @@ export default {
     return {
       open: true,
       imageProcessingUrl: imageProcessingUrl,
-      data: null,
+      data: null
     }
   },
-  components : {'image-select':ImageSelect},
+  components: {'image-select': ImageSelect},
 
   computed: {
     ...mapGetters({
@@ -96,20 +96,18 @@ export default {
     })
   },
   methods: {
-    removeSelected: function() {
-
-      let target = $(event.target);
-      if(!target.is(".vj-hotspot-selected")){
-        $('.vj-hotspot-selected').removeClass("vj-hotspot-selected");
+    removeSelected: function () {
+      let target = $(event.target)
+      if (!target.is('.vj-hotspot-selected')) {
+        $('.vj-hotspot-selected').removeClass('vj-hotspot-selected')
         this.$store.dispatch('setIsSelectedArea', null)
       }
     }
   },
   watch: {
-    url: function(val) {
+    url: function (val) {
       // alert(val)
     }
   }
 }
-
 </script>

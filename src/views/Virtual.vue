@@ -22,61 +22,54 @@ import NotFound from '../components/404.vue'
 import Loader from '../components/Loader.vue'
 import { imageProcessingUrl } from '../constants'
 
-
 export default {
   name: 'virtual-popup',
-
   components: {
     HeaderContent, LeftPanel, RightPanel, ImageGallery, ImageEditor, NotFound, Loader
   },
-
   data () {
     return {
       isVirtual: true
     }
   },
-
   computed: {
-
   },
   methods: {
-    productExist() {
+    productExist () {
       return this.$store.dispatch('productExist')
     },
 
-    supplierDetail() {
+    supplierDetail () {
       return this.$store.dispatch('supplierDetail')
     },
 
-    productDetail(params) {
+    productDetail (params) {
       return this.$store.dispatch('productDetail', params)
     },
 
-    defineImprintArea(productImprint) {
-      let imprint = {}
+    defineImprintArea (productImprint) {
       var unserialize = require('../classes/unserialize')
       let unIm = unserialize(productImprint.imprintParam)
       this.$store.dispatch('setProductImprint', unIm)
     },
 
-    defineProductImages(virtualImages) {
-      let imprint = {}
+    defineProductImages (virtualImages) {
       let images = virtualImages.main
       this.$store.dispatch('setProductVariationImages', images)
 
       // TODO this should be a product main image.
       let pImage = images[0].image
       this.$store.dispatch('setProductImage', pImage)
-      this.$store.dispatch('setImageUrl', imageProcessingUrl+'products/'+pImage)
+      this.$store.dispatch('setImageUrl', imageProcessingUrl + 'products/' + pImage)
     }
   },
-  async beforeMount() {
-    this.$store.dispatch('setVirtualData',this.$route.query)
+  async beforeMount () {
+    this.$store.dispatch('setVirtualData', this.$route.query)
     let res = await this.productExist()
 
     this.isVirtual = res.status
-    if(res.status === true) {
-      let response = await this.supplierDetail()
+    if (res.status === true) {
+      await this.supplierDetail()
       let param = {
         _id: this.$store.state.virtualData.product_id,
         sku: this.$store.state.virtualData.sku,
@@ -87,10 +80,8 @@ export default {
       await this.defineProductImages(productDetail.productImages.virtualImages)
     }
   },
-  mounted() {
-
+  mounted () {
   }
-
 }
 </script>
 

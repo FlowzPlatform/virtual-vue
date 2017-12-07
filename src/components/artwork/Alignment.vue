@@ -33,65 +33,61 @@
       }
     },
     methods: {
-      isImageText() {
-        if(this.isWorkSelected === false){
-          alert("Please select a Image/Text")
+      isImageText () {
+        if (this.isWorkSelected === null) {
+          alert('Please select a Image/Text')
           return false
         }
       },
-      setAlign(type){
-
+      setAlign (type) {
         this.isImageText()
 
         this.alignment = type
 
         let selectedval = this.selecteArea.value
         let selectedKey = this.selecteArea.key
-        let selected = parseInt(selectedval)-1
+        let selected = parseInt(selectedval) - 1
 
         let newcordinates = this.cordinates
 
-        if(this.alignment == 'left'){
-          $('.obv-product-design-objects-'+selectedKey+'-i'+selectedval).css('left', 0);
+        if (this.alignment === 'left') {
+          $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval).css('left', 0)
 
-          if(selectedKey=='image') newcordinates.left[selected].value = 0;
-          else newcordinates.text_left[selected].value = 0;
-        } else if (this.alignment == 'right') {
-          let ele = $('.obv-product-design-objects-'+selectedKey+'-i'+selectedval)
+          if (selectedKey === 'image') newcordinates.left[selected].value = 0
+          else newcordinates.text_left[selected].value = 0
+        } else if (this.alignment === 'right') {
+          let ele = $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval)
 
-          $('.obv-product-design-objects-'+selectedKey+'-i'+selectedval).css('left', ele.parent().width()-ele.width());
-          if(selectedKey=='image') newcordinates.left[selected].value = ele.parent().width()-ele.width();
-          else newcordinates.text_left[selected].value = ele.parent().width()-ele.width();
-        } else if (this.alignment == 'top') {
-          $('.obv-product-design-objects-'+selectedKey+'-i'+selectedval).css('top', 0);
+          $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval).css('left', ele.parent().width() - ele.width())
+          if (selectedKey === 'image') newcordinates.left[selected].value = ele.parent().width() - ele.width()
+          else newcordinates.text_left[selected].value = ele.parent().width() - ele.width()
+        } else if (this.alignment === 'top') {
+          $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval).css('top', 0)
 
-          if(selectedKey=='image') newcordinates.top[selected].value = 0;
-          else newcordinates.text_top[selected].value = 0;
-        } else if (this.alignment == 'bottom') {
-          let ele = $('.obv-product-design-objects-'+selectedKey+'-i'+selectedval)
+          if (selectedKey === 'image') newcordinates.top[selected].value = 0
+          else newcordinates.text_top[selected].value = 0
+        } else if (this.alignment === 'bottom') {
+          let ele = $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval)
 
-          $('.obv-product-design-objects-'+selectedKey+'-i'+selectedval).css('top', ele.parent().height()-ele.height());
-          if(selectedKey=='image') newcordinates.top[selected].value = ele.parent().height()-ele.height();
-          else newcordinates.text_top[selected].value = ele.parent().height()-ele.height();
+          $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval).css('top', ele.parent().height() - ele.height())
+          if (selectedKey === 'image') newcordinates.top[selected].value = ele.parent().height() - ele.height()
+          else newcordinates.text_top[selected].value = ele.parent().height() - ele.height()
+        } else if (this.alignment === 'center') {
+          let ele = $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval)
+          console.log((ele.parent().height() - ele.height()) / 2)
+          console.log((ele.parent().width() - ele.width()) / 2)
 
-        } else if (this.alignment == 'center') {
-          let ele = $('.obv-product-design-objects-'+selectedKey+'-i'+selectedval)
-          console.log((ele.parent().height()-ele.height())/2)
-          console.log((ele.parent().width()-ele.width())/2)
+          $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval).css('top', (ele.parent().height() - ele.height()) / 2)
+          if (selectedKey === 'image') newcordinates.top[selected].value = (ele.parent().height() - ele.height()) / 2
+          else newcordinates.text_top[selected].value = (ele.parent().height() - ele.height()) / 2
 
-          $('.obv-product-design-objects-'+selectedKey+'-i'+selectedval).css('top', (ele.parent().height()-ele.height())/2);
-          if(selectedKey=='image') newcordinates.top[selected].value = (ele.parent().height()-ele.height())/2;
-          else newcordinates.text_top[selected].value = (ele.parent().height()-ele.height())/2;
-
-          $('.obv-product-design-objects-'+selectedKey+'-i'+selectedval).css('left', (ele.parent().width()-ele.width())/2);
-          if(selectedKey=='image') newcordinates.left[selected].value = (ele.parent().width()-ele.width())/2;
-          else newcordinates.text_left[selected].value = (ele.parent().width()-ele.width())/2;
-
+          $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval).css('left', (ele.parent().width() - ele.width()) / 2)
+          if (selectedKey === 'image') newcordinates.left[selected].value = (ele.parent().width() - ele.width()) / 2
+          else newcordinates.text_left[selected].value = (ele.parent().width() - ele.width()) / 2
         } else {
-
         }
         this.$store.dispatch('setImageCordinates', newcordinates)
-        return this.$store.dispatch('generateSequence',this.cordinates)
+        return this.$store.dispatch('generateSequence', this.cordinates)
       }
     },
     computed: {
@@ -99,9 +95,8 @@
         cordinates: 'getImageCordinates',
         selecteArea: 'getIsSelectedArea'
       }),
-
-      isWorkSelected: function() {
-        return (this.selecteArea==null) ? false : true
+      isWorkSelected: function () {
+        return this.selecteArea
       }
     }
   }

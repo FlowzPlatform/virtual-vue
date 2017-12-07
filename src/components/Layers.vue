@@ -44,19 +44,18 @@ export default {
       layers: []
     }
   },
-  mounted() {
+  mounted () {
     this.baseUrl = userUploadeImageUrl
   },
   methods: {
     reorder ({oldIndex, newIndex}) {
-    	const movedItem = this.currentLayers.splice(oldIndex, 1)[0]
+      const movedItem = this.currentLayers.splice(oldIndex, 1)[0]
       this.currentLayers.splice(newIndex, 0, movedItem)
 
       let newcordinates = this.cordinates
-      newcordinates.layers = this.currentLayers;
+      newcordinates.layers = this.currentLayers
       this.$store.dispatch('setImageCordinates', newcordinates)
-      return this.$store.dispatch('generateSequence',this.cordinates)
-
+      return this.$store.dispatch('generateSequence', this.cordinates)
     }
   },
   computed: {
@@ -69,11 +68,11 @@ export default {
       }
     },
     ...mapGetters({
-      cordinates: 'getImageCordinates',
+      cordinates: 'getImageCordinates'
     }),
     prettyJson: function () {
-      if(this.currentLayers) return JSON.stringify(this.currentLayers)
-      else return ""
+      if (this.currentLayers) return JSON.stringify(this.currentLayers)
+      else return ''
     }
   }
 }

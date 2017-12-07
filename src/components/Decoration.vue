@@ -185,7 +185,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import defaultImprintMethod from '../store/actions'
+// import defaultImprintMethod from '../store/actions'
 
 export default {
   name: 'decoration',
@@ -193,182 +193,172 @@ export default {
     return {
       open: 'fabric',
       imprint_color: '000000',
-      imprint_pms:'63666A',
-      imprint_color_name:'white',
-      imprint_swatch:'000000',
+      imprint_pms: '63666A',
+      imprint_color_name: 'white',
+      imprint_swatch: '000000',
       isSwatches: false,
       swatches: [],
       background: []
     }
   },
   methods: {
-    getImageData(){
-      console.log("here")
+    getImageData () {
     },
-    onChange(){
+    onChange () {
       let newcordinates = this.cordinates
-      if(newcordinates.text_color.length>0){
-        for(let i=0;i<newcordinates.text_color.length;i++){
+      if (newcordinates.text_color.length > 0) {
+        for (let i = 0; i < newcordinates.text_color.length; i++) {
           newcordinates.text_color[i].value = this.imprint_color
         }
       }
-      newcordinates.imprintColor = this.imprint_color;
+      newcordinates.imprintColor = this.imprint_color
       this.$store.dispatch('setImageCordinates', newcordinates)
-      return this.$store.dispatch('generateSequence',this.cordinates)
+      return this.$store.dispatch('generateSequence', this.cordinates)
     },
-    onColorChange(){
+    onColorChange () {
       let newcordinates = this.cordinates
-      this.swatches =[];
-      newcordinates.imprintColor = this.imprint_color;
-      if(newcordinates.text_color.length>0){
-        for(let i=0; i<newcordinates.text_color.length; i++){
-          newcordinates.text_color[i].value = this.imprint_color;
+      this.swatches = []
+      newcordinates.imprintColor = this.imprint_color
+      if (newcordinates.text_color.length > 0) {
+        for (let i = 0; i < newcordinates.text_color.length; i++) {
+          newcordinates.text_color[i].value = this.imprint_color
         }
       }
       this.getPmsColor(this.imprint_color)
       this.$store.dispatch('setImageCordinates', newcordinates)
-      return this.$store.dispatch('generateSequence',this.cordinates)
+      return this.$store.dispatch('generateSequence', this.cordinates)
     },
-    onPmsChange(){
+    onPmsChange () {
       let newcordinates = this.cordinates
-      newcordinates.imprintColor = this.imprint_pms;
-      if(newcordinates.text_color.length>0){
-        for(let i=0;i<newcordinates.text_color.length;i++){
-          newcordinates.text_color[i].value = this.imprint_pms;
+      newcordinates.imprintColor = this.imprint_pms
+      if (newcordinates.text_color.length > 0) {
+        for (let i = 0; i < newcordinates.text_color.length; i++) {
+          newcordinates.text_color[i].value = this.imprint_pms
         }
       }
       this.$store.dispatch('setImageCordinates', newcordinates)
-      return this.$store.dispatch('generateSequence',this.cordinates)
+      return this.$store.dispatch('generateSequence', this.cordinates)
     },
-     changeBackground(){
+    changeBackground () {
       let newcordinates = this.cordinates
       let selected = this.selecteArea.value
-      selected = parseInt(selected)-1
+      selected = parseInt(selected) - 1
       console.log(selected)
       newcordinates.background[selected].value = this.background.join('-')
       this.$store.dispatch('setImageCordinates', newcordinates)
-      return this.$store.dispatch('generateSequence',this.cordinates)
+      return this.$store.dispatch('generateSequence', this.cordinates)
     },
-    getPmsColor(imprintColor){
-      let selected_color = imprintColor
-      let bpl=8
+    getPmsColor (imprintColor) {
+      let selectedColor = imprintColor
+      let bpl = 8
       let distance = 32
-	    let a = new Array();
-	    let aDis = new Array();
-	     //exact pms
-      let i = this.$store.state.aRGB.indexOf(selected_color)
-      let m =''
-      if (i >= 0 ){
-  		    m = this.$store.state.aPMS[i]
-  	  }
-   	  if (m != "") {a[0] = m;}
+      let a = []
+      let aDis = []
+      let i = this.$store.state.aRGB.indexOf(selectedColor)
+      let m = ''
+      if (i >= 0) {
+        m = this.$store.state.aPMS[i]
+      }
+      if (m !== '') { a[0] = m }
+      let r = parseInt(selectedColor.substr(0, 2), 16)
+      let g = parseInt(selectedColor.substr(2, 2), 16)
+      let b = parseInt(selectedColor.substr(4, 2), 16)
 
-    	let r = parseInt(selected_color.substr(0,2), 16);
-    	let g = parseInt(selected_color.substr(2,2), 16);
-    	let b = parseInt(selected_color.substr(4,2), 16);
-      for (let i=0; i < this.$store.state.aRGB.length ;i++){
-    		let rgb1 = this.$store.state.aRGB[i];
-    		let r1 = parseInt(rgb1.substr(0,2), 16);
-    		let g1 = parseInt(rgb1.substr(2,2), 16);
-    		let b1 = parseInt(rgb1.substr(4,2), 16);
-    		//3D distance
-    		aDis[i] = Math.sqrt(Math.pow((r - r1),2) + Math.pow((g - g1),2) + Math.pow((b - b1),2));
-  	  }
-	    for (let i=0; i < aDis.length ;i++){
-  		    if (aDis[i] <= distance){
-    			     if (a.indexOf(this.$store.state.aPMS[i]) == -1 )
-    			     {
-     				        a.push(this.$store.state.aPMS[i])
-    			     }
-  		   }
-	    }
-      this.createpmspalette(a,bpl,selected_color)
-    },
-    createpmspalette(m,bpl,selectcolor){
-      let m2=''
-      if ((m.length) > 0){
-         let  m2 = "<span class='obv-pms-color-shades-label'>Shades</span><ul class='colorbox-panel clearfix swatch-box-open'>";
-          let ipms = 0;
-          let mtr = Math.ceil(m.length / bpl);
-           for(let i=0; i < mtr ;i++){
-            for(let j=0; j < bpl ;j++){
-              if (ipms < m.length){
-                  let  rgbcode = this.PMS2RGB(m[ipms]);
-                   this.$set(this.swatches,j,rgbcode)
-                  ipms = ipms + 1;
-                }
-            }
+      for (let i = 0; i < this.$store.state.aRGB.length; i++) {
+        let rgb1 = this.$store.state.aRGB[i]
+        let r1 = parseInt(rgb1.substr(0, 2), 16)
+        let g1 = parseInt(rgb1.substr(2, 2), 16)
+        let b1 = parseInt(rgb1.substr(4, 2), 16)
+        aDis[i] = Math.sqrt(Math.pow((r - r1), 2) + Math.pow((g - g1), 2) + Math.pow((b - b1), 2))
+      }
+      for (let i = 0; i < aDis.length; i++) {
+        if (aDis[i] <= distance) {
+          if (a.indexOf(this.$store.state.aPMS[i]) === -1) {
+            a.push(this.$store.state.aPMS[i])
           }
-          m2 = m2 + '</ul>';
-       } else {
-        m2 = '<ul>';
-        if(selectcolor!='') {
-          m2= m2 + "<li><a href='javascript:void(0);' role='menuitem' title='"+ selectcolor +"'><span style='background-color:#" + selectcolor + ";'></span></a></li>";
-        } else {
-          m2= m2 + "<li><i>Not Found</i></li>";
-        }
-        m2 = m2 + '</ul>';
-     }
-    },
-    PMS2RGB(pms){
-      let i = this.$store.state.aPMS.indexOf(pms);
-    	if (i >= 0 ){
-    		return this.$store.state.aRGB[i];
-    	} else {
-    		return '';
-    	}
-    },
-    searchPmsColor(e){
-     if(event.keyCode==13 || e == 1){
-       let pmscolor =this.imprint_color_name.trim()
-       let m=[];
-       let j=0;
-      this.swatches =[];
-      for(let i=0;i<this.$store.state.aPMS.length;i++){
-        if(this.$store.state.aPMS[i].toLowerCase().indexOf(pmscolor.toLowerCase())!=-1){
-            m[j]=this.$store.state.aPMS[i];
-            j++;
-          }
-             this.createpmspalette(m,8,'')
         }
       }
-    //else {
-      //   console.log('not found  ' + event.keyCode)
-      // }
-  },
+      this.createpmspalette(a, bpl, selectedColor)
+    },
+    createpmspalette (m, bpl, selectcolor) {
+      let m2 = ''
+      if ((m.length) > 0) {
+        m2 = '<span class="obv-pms-color-shades-label">Shades</span><ul class="colorbox-panel clearfix swatch-box-open">'
+        let ipms = 0
+        let mtr = Math.ceil(m.length / bpl)
+        for (let i = 0; i < mtr; i++) {
+          for (let j = 0; j < bpl; j++) {
+            if (ipms < m.length) {
+              let rgbcode = this.PMS2RGB(m[ipms])
+              this.$set(this.swatches, j, rgbcode)
+              ipms = ipms + 1
+            }
+          }
+        }
+        m2 = m2 + '</ul>'
+      } else {
+        m2 = '<ul>'
+        if (selectcolor !== '') {
+          m2 = m2 + '<li><a href="javascript:void(0);" role="menuitem" title=' + selectcolor + '><span style="background-color:#' + selectcolor + '"></span></a></li>'
+        } else {
+          m2 = m2 + '<li><i>Not Found</i></li>'
+        }
+        m2 = m2 + '</ul>'
+      }
+    },
+    PMS2RGB (pms) {
+      let i = this.$store.state.aPMS.indexOf(pms)
+      if (i >= 0) {
+        return this.$store.state.aRGB[i]
+      } else {
+        return ''
+      }
+    },
+    searchPmsColor (e) {
+      if (event.keyCode === 13 || e === 1) {
+        let pmscolor = this.imprint_color_name.trim()
+        let m = []
+        let j = 0
+        this.swatches = []
+        for (let i = 0; i < this.$store.state.aPMS.length; i++) {
+          if (this.$store.state.aPMS[i].toLowerCase().indexOf(pmscolor.toLowerCase()) !== -1) {
+            m[j] = this.$store.state.aPMS[i]
+            j++
+          }
+          this.createpmspalette(m, 8, '')
+        }
+      }
+    }
   },
   watch: {
-    cordinates:{
+    cordinates: {
       handler: function (val, oldVal) {
-      //  console.log(val)
       },
       deep: true
     }
   },
   computed: {
     defaultImprintMethod: {
-      get: function(){
+      get: function () {
         return this.$store.state.defaultImprintMethod
       },
-      set: function(value) {
-        // alert(value)
+      set: function (value) {
         this.$store.dispatch('setDefaultImprintMethod', value)
-        this.$store.dispatch('setImprintMethodImage', 'static/images/'+value+'.png')
+        this.$store.dispatch('setImprintMethodImage', 'static/images/' + value + '.png')
       }
     },
     ...mapGetters({
       cordinates: 'getImageCordinates',
       selecteArea: 'getIsSelectedArea'
     }),
-    isTextorImage: function() {
-      if(Object.keys(this.cordinates).length === 0 && this.cordinates.constructor === Object){
+    isTextorImage: function () {
+      if (Object.keys(this.cordinates).length === 0 && this.cordinates.constructor === Object) {
         return true
-      }else{
+      } else {
         return false
       }
     },
-
-    imprintMethodImage: function() {
+    imprintMethodImage: function () {
       return this.$store.state.imprintMethodImage
     },
 
@@ -376,8 +366,7 @@ export default {
       return true
     }
   },
-  mounted: function(){
-      // console.log(this.defaultImprintMethod);
+  mounted: function () {
   }
 }
 </script>

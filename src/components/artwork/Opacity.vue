@@ -28,44 +28,38 @@ export default {
   data () {
     return {
       open: true,
-      opacity:0
+      opacity: 0
     }
   },
-  methods:{
-    changeOpacity(){
-      // alert(this.opacity)
+  methods: {
+    changeOpacity () {
       let newcordinates = this.cordinates
-      newcordinates.opacity = this.opacity;
+      newcordinates.opacity = this.opacity
       this.$store.dispatch('setImageCordinates', newcordinates)
-       return this.$store.dispatch('generateSequence',this.cordinates)
+      return this.$store.dispatch('generateSequence', this.cordinates)
     },
-    isImageText() {
-      if(this.isWorkSelected === false){
-        alert("Please select a Image/Text")
+    isImageText () {
+      if (this.isWorkSelected === false) {
+        alert('Please select a Image/Text')
         return false
       }
     }
-
   },
-    watch: {
-      // cordinates: function (val) {
-      //   console.log("Rahul")
-      //   console.log(val)
-      // }
-      cordinates:{
-        handler: function (val, oldVal) {
+  watch: {
+    cordinates: {
+      handler: function (val, oldVal) {
       },
-        deep: true
-      }
-   },
-   computed: {
-     ...mapGetters({
-       cordinates: 'getImageCordinates',
-       selecteArea: 'getIsSelectedArea'
-     }),
-     isWorkSelected: function() {
-       return (this.selecteArea==null) ? false : true
-     }
-   }
+      deep: true
+    }
+  },
+  computed: {
+    ...mapGetters({
+      cordinates: 'getImageCordinates',
+      selecteArea: 'getIsSelectedArea'
+    }),
+    isWorkSelected: function () {
+      return (this.selecteArea === null) ? false : true
+    }
+  }
 }
 </script>

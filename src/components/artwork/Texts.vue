@@ -83,58 +83,58 @@ export default {
       font_family: ''
     }
   },
-  created() {
+  created () {
     this.getFontFamily()
   },
   methods: {
-    isTextOrImage() {
-      if(this.isWorkSelected === false){
-        alert("Please select a Text")
+    isTextOrImage () {
+      if (this.isWorkSelected === false) {
+        alert('Please select a Text')
         return false
       }
     },
-    generateSequence(){
+    generateSequence () {
       // let newcordinates = this.cordinates
       // newcordinates.imprintColor = pms;
       // this.$store.commit('setImageCordinates', { cordinates:newcordinates } )
       // return this.$store.dispatch('generateSequence',this.cordinates)
     },
-    getFontFamily(){
+    getFontFamily () {
       return this.$store.dispatch('fetchFontFamily')
     },
-    setTextAlign(align){
+    setTextAlign (align) {
       this.text_align = align
     },
-    setFontStyle(style){
+    setFontStyle (style) {
       this.font_style = style
     },
-    setFontSize(){
+    setFontSize () {
       let newcordinates = this.cordinates
       let selected = this.selecteArea.value
-      selected = parseInt(selected)-1
-      newcordinates.font_size[selected].value = this.font_size;
+      selected = parseInt(selected) - 1
+      newcordinates.font_size[selected].value = this.font_size
       this.$store.dispatch('setImageCordinates', newcordinates)
 
-      return this.$store.dispatch('generateSequence',this.cordinates)
+      return this.$store.dispatch('generateSequence', this.cordinates)
     },
-    setTextCurve(){
+    setTextCurve () {
       let newcordinates = this.cordinates
       let selected = this.selecteArea.value
-      selected = parseInt(selected)-1
-      newcordinates.text_curve[selected].value = this.text_curve;
+      selected = parseInt(selected) - 1
+      newcordinates.text_curve[selected].value = this.text_curve
       this.$store.dispatch('setImageCordinates', newcordinates)
 
-      return this.$store.dispatch('generateSequence',this.cordinates)
+      return this.$store.dispatch('generateSequence', this.cordinates)
     },
-    setFontFamily(){
-      if(this.font_family!=""){
+    setFontFamily () {
+      if (this.font_family !== '') {
         let newcordinates = this.cordinates
         let selected = this.selecteArea.value
-        selected = parseInt(selected)-1
-        newcordinates.font_family[selected].value = this.font_family;
+        selected = parseInt(selected) - 1
+        newcordinates.font_family[selected].value = this.font_family
         this.$store.dispatch('setImageCordinates', newcordinates)
 
-        return this.$store.dispatch('generateSequence',this.cordinates)
+        return this.$store.dispatch('generateSequence', this.cordinates)
       }
     }
   },
@@ -145,17 +145,17 @@ export default {
       selecteArea: 'getIsSelectedArea'
     }),
 
-    isWorkSelected: function() {
-      if(this.selecteArea==null) {
+    isWorkSelected: function () {
+      if (this.selecteArea === null) {
         return false
-      } else if (this.selecteArea.key=='image') {
+      } else if (this.selecteArea.key === 'image') {
         return false
       } else {
         return true
       }
     }
   },
-  mounted(){
+  mounted () {
     // $('#Size-slider').val(10).change();
   }
 }

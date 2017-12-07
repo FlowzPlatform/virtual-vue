@@ -30,21 +30,19 @@ import Delete from './artwork/Delete.vue'
 export default {
   name: 'image-editor',
   components: {
-    'swatches': Swatches, 'alignment': Alignment, 'opacity': Opacity,
-    'rotate':Rotate,'reflect': Reflect, 'crop': Crop, 'layer':Layer, 'texts':Texts,
-    'delete':Delete
+    'swatches': Swatches, 'alignment': Alignment, 'opacity': Opacity, 'rotate': Rotate, 'reflect': Reflect, 'crop': Crop, 'layer': Layer, 'texts': Texts, 'delete': Delete
   },
   data () {
     return {
       imageCordinates: null
     }
   },
-  created(){
+  created () {
     this.imageCordinates = this.$store.state.imageCordinates
   },
-  computed:{
-    isTextOrImage: function() {
-      return this.$store.state.isSelectedArea!= null ? this.$store.state.isSelectedArea.key : this.$store.state.isSelectedArea
+  computed: {
+    isTextOrImage: function () {
+      return this.$store.state.isSelectedArea !== null ? this.$store.state.isSelectedArea.key : this.$store.state.isSelectedArea
     }
   }
 }
