@@ -1,3 +1,4 @@
+/*eslint-disable */
 import { createUpload, generateSequence, fontFamily, productExist, supplierDetail, productDetail } from '../api/index'
 import { imageProcessingUrl } from '../constants'
 import * as types from './mutation_types.js'

@@ -41,17 +41,6 @@ export default {
         this.cropImageUrl = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value
        }
     },
-
-    // cropImage: function(){
-    //     if(this.$store.state.isSelectedArea != null){
-    //       let isSelectedAreaKey = this.$store.state.isSelectedArea.value - 1;
-    //       let newcordinates = this.cordinates;
-    //       this.cropImageUrl = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value;
-    //        }else{
-    //      alert('Please select image to crop')
-    //      return false;
-    //    }
-    // },
     confirmCrop: async function(){
       let crop= []
       let isSelectedAreaKey = this.$store.state.isSelectedArea.value - 1;
