@@ -281,9 +281,9 @@ export default {
       this.createpmspalette(a, bpl, selectedColor)
     },
     createpmspalette (m, bpl, selectcolor) {
-      let m2 = ''
+      // let m2 = ''
       if ((m.length) > 0) {
-        m2 = '<span class="obv-pms-color-shades-label">Shades</span><ul class="colorbox-panel clearfix swatch-box-open">'
+        // m2 = '<span class="obv-pms-color-shades-label">Shades</span><ul class="colorbox-panel clearfix swatch-box-open">'
         let ipms = 0
         let mtr = Math.ceil(m.length / bpl)
         for (let i = 0; i < mtr; i++) {
@@ -295,16 +295,17 @@ export default {
             }
           }
         }
-        m2 = m2 + '</ul>'
+        // m2 = m2 + '</ul>'
       } else {
-        m2 = '<ul>'
+        // m2 = '<ul>'
         if (selectcolor !== '') {
-          m2 = m2 + '<li><a href="javascript:void(0);" role="menuitem" title=' + selectcolor + '><span style="background-color:#' + selectcolor + '"></span></a></li>'
+          // m2 = m2 + '<li><a href="javascript:void(0);" role="menuitem" title=' + selectcolor + '><span style="background-color:#' + selectcolor + '"></span></a></li>'
         } else {
-          m2 = m2 + '<li><i>Not Found</i></li>'
+          // m2 = m2 + '<li><i>Not Found</i></li>'
         }
-        m2 = m2 + '</ul>'
+        // m2 = m2 + '</ul>'
       }
+      // console.log(m2)
     },
     PMS2RGB (pms) {
       let i = this.$store.state.aPMS.indexOf(pms)
