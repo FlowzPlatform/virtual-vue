@@ -50,40 +50,43 @@
 
         let newcordinates = this.cordinates
 
+        let parentELement = $('.selector')
+
+        let parentLeft = parentELement.offset().left - $('.obv-product-main-images').offset().left
+        let parentTop = parentELement.offset().top - $('.obv-product-main-images').offset().top
+
         if (this.alignment === 'left') {
           $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval).css('left', 0)
 
-          if (selectedKey === 'image') newcordinates.left[selected].value = 0
-          else newcordinates.text_left[selected].value = 0
+          if (selectedKey === 'image') newcordinates.left[selected].value = parentLeft
+          else newcordinates.text_left[selected].value = parentLeft
         } else if (this.alignment === 'right') {
           let ele = $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval)
 
           $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval).css('left', ele.parent().width() - ele.width())
-          if (selectedKey === 'image') newcordinates.left[selected].value = ele.parent().width() - ele.width()
-          else newcordinates.text_left[selected].value = ele.parent().width() - ele.width()
+          if (selectedKey === 'image') newcordinates.left[selected].value = ele.parent().width() + parentLeft - ele.width()
+          else newcordinates.text_left[selected].value = ele.parent().width() + parentLeft - ele.width()
         } else if (this.alignment === 'top') {
           $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval).css('top', 0)
 
-          if (selectedKey === 'image') newcordinates.top[selected].value = 0
-          else newcordinates.text_top[selected].value = 0
+          if (selectedKey === 'image') newcordinates.top[selected].value = parentTop
+          else newcordinates.text_top[selected].value = parentTop
         } else if (this.alignment === 'bottom') {
           let ele = $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval)
 
           $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval).css('top', ele.parent().height() - ele.height())
-          if (selectedKey === 'image') newcordinates.top[selected].value = ele.parent().height() - ele.height()
-          else newcordinates.text_top[selected].value = ele.parent().height() - ele.height()
+          if (selectedKey === 'image') newcordinates.top[selected].value = ele.parent().height() + parentTop - ele.height()
+          else newcordinates.text_top[selected].value = ele.parent().height() + parentTop - ele.height()
         } else if (this.alignment === 'center') {
           let ele = $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval)
-          console.log((ele.parent().height() - ele.height()) / 2)
-          console.log((ele.parent().width() - ele.width()) / 2)
 
           $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval).css('top', (ele.parent().height() - ele.height()) / 2)
-          if (selectedKey === 'image') newcordinates.top[selected].value = (ele.parent().height() - ele.height()) / 2
-          else newcordinates.text_top[selected].value = (ele.parent().height() - ele.height()) / 2
+          if (selectedKey === 'image') newcordinates.top[selected].value = ((ele.parent().height() - ele.height()) / 2) + parentTop
+          else newcordinates.text_top[selected].value = (ele.parent().height() + parentTop - ele.height()) / 2
 
           $('.obv-product-design-objects-' + selectedKey + '-i' + selectedval).css('left', (ele.parent().width() - ele.width()) / 2)
-          if (selectedKey === 'image') newcordinates.left[selected].value = (ele.parent().width() - ele.width()) / 2
-          else newcordinates.text_left[selected].value = (ele.parent().width() - ele.width()) / 2
+          if (selectedKey === 'image') newcordinates.left[selected].value = ((ele.parent().width() - ele.width()) / 2) + parentLeft
+          else newcordinates.text_left[selected].value = (ele.parent().width() + parentLeft - ele.width()) / 2
         } else {
         }
         this.$store.dispatch('setImageCordinates', newcordinates)
