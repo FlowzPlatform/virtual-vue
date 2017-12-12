@@ -49,12 +49,12 @@ export default {
 
     defineImprintArea (productImprint) {
       var unserialize = require('../classes/unserialize')
-      let unIm = unserialize(productImprint.imprintParam)
+      let unIm = unserialize(productImprint)
       this.$store.dispatch('setProductImprint', unIm)
     },
 
     defineProductImages (virtualImages) {
-      let images = virtualImages.main
+      let images = virtualImages
       this.$store.dispatch('setProductVariationImages', images)
 
       // TODO this should be a product main image.
@@ -70,14 +70,10 @@ export default {
     this.isVirtual = res.status
     if (res.status === true) {
       await this.supplierDetail()
-      let param = {
-        _id: this.$store.state.virtualData.product_id,
-        sku: this.$store.state.virtualData.sku,
-        locale: this.$store.state.virtualData.culture
-      }
-      let productDetail = await this.productDetail(param)
-      this.defineImprintArea(productDetail.productImprint[0])
-      await this.defineProductImages(productDetail.productImages.virtualImages)
+      let productDetail = await this.productDetail(this.$store.state.virtualData.product_id)
+      console.log(productDetail)
+      this.defineImprintArea(productDetail.imprintDetail[0].imprintParam)
+      await this.defineProductImages(productDetail.imprintDetail[0].images)
     }
   },
   mounted () {

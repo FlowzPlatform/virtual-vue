@@ -47,8 +47,8 @@ export const supplierDetail = ({ commit }, params) => {
 }
 
 export const productDetail = ({ commit }, params) => {
-  const product = feathersClient.service('product-details')
-  return product.find({query: params})
+  const product = feathersClient.service('products')
+  return product.get(params)
     .then(function (response) {
       return response
     })
