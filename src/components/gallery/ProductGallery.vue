@@ -6,12 +6,12 @@
             <div class="panzoom">
               <div class="owl-carousels" id="image-gallerys">
                   <div class="item">
-                    <i class="fa fa-angle-left fa-5 fl" aria-hidden="true"></i>
+                    <i class="fa fa-angle-left fa-5 fl" aria-hidden="true" @click="changeSide('left')"></i>
                     <div class="obv-product-main-images">
                       <img  ref="image" :src="url" alt="" height="500" id="image"  >
                       <image-select></image-select>
                     </div>
-                    <i class="fa fa-angle-right fa-5 fr" aria-hidden="true"></i>
+                    <i class="fa fa-angle-right fa-5 fr" aria-hidden="true" @click="changeSide('right')"></i>
                   </div>
 
               </div>
@@ -83,7 +83,7 @@ export default {
   name: 'product-gallery',
   data () {
     return {
-      open: true,
+      side: 0,
       imageProcessingUrl: imageProcessingUrl,
       data: null
     }
@@ -101,6 +101,20 @@ export default {
       if (!target.is('.vj-hotspot-selected')) {
         $('.vj-hotspot-selected').removeClass('vj-hotspot-selected')
         this.$store.dispatch('setIsSelectedArea', null)
+      }
+    },
+
+    changeSide: function (side) {
+      if (side === 'left') {
+        if (this.side > 0) {
+          this.side--
+          alert(this.side)
+        }
+      } else {
+        if (this.side < this.$store.state.productImprint.length) {
+          this.side++
+          alert(this.side)
+        }
       }
     }
   },

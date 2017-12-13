@@ -42,6 +42,8 @@ export default {
     data.opacity = state.imageCordinates.opacity
     data.text = state.text
     data.productImage = state.productImage
+    data.shape = state.productImprint[0].product_template_object_shape
+
     let postData = {
       request: JSON.stringify(data),
       sequence: sequence,
@@ -55,12 +57,10 @@ export default {
   },
 
   defaultImprintMethod: async ({ commit }, method) => {
-    // let res = await createUpload({ commit }, reader)
     commit(types.SET_DEFAULT_IMPRINT_METHOD, { val: method })
   },
 
   addText: async ({ commit }) => {
-    // let res = await createUpload({ commit }, reader)
     commit(types.SET_IS_UPLOAD, { val: true })
   },
 
@@ -134,5 +134,8 @@ export default {
   },
   setImprintMethodImage: ({commit, state}, data) => {
     commit(types.SET_IMPRINT_METHOD_IMAGE, { image: data })
+  },
+  setProductImprintDetails: ({commit, state}, data) => {
+    commit(types.SET_PRODUCT_IMPRINT_DETAILS, { imprint: data })
   }
 }

@@ -41,5 +41,8 @@ export default {
   },
   [types.SET_IMPRINT_METHOD_IMAGE]: (state, {image}) => {
     state.imprintMethodImage = image
+  },
+  [types.SET_PRODUCT_IMPRINT_DETAILS]: (state, {imprint}) => {
+    state.productImprintDetails = imprint
   }
 }

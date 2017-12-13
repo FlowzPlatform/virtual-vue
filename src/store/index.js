@@ -34,6 +34,7 @@ export default new Vuex.Store({
       }
     ],
     productImprint: [],
+    productImprintDetails: null,
     isSelectedArea: null,
     virtualData: {},
     fontFamily: [],
