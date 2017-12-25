@@ -59,7 +59,8 @@ let data = {
   order: [],
   layers: [],
   cropped: 0,
-  show: false
+  show: false,
+  position: null
 }
 
 export default {
@@ -102,6 +103,7 @@ export default {
         this.options.imageTop = 0
         this.options.isMovable = 1
         this.options.isRemovable = 1
+        this.position = this.$store.state.productSelectedImprint
         $('.selector').append('<div class="obv-product-design-objects-image-i' + this.image_area_work + ' vj-hotspot-selected child-selector"></div>')
         ch.imageArea('obv-product-design-objects-image-i' + this.image_area_work, this)
         this.generateSequence()

@@ -31,5 +31,8 @@ export default {
   },
   getProductImage: (state) => {
     return state.productImage
+  },
+  getProductImprintDetails: (state) => {
+    return state.productImprintDetails
   }
 }

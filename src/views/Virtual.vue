@@ -58,6 +58,7 @@ export default {
       // let unIm = unserialize(productImprint)
       console.log(imprint)
       this.$store.dispatch('setProductImprintDetails', imprint)
+      this.$store.dispatch('setProductSelectedImprint', imprint[0].locationKey)
     },
 
     defineProductImages (virtualImages) {

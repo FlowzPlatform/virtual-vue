@@ -137,5 +137,8 @@ export default {
   },
   setProductImprintDetails: ({commit, state}, data) => {
     commit(types.SET_PRODUCT_IMPRINT_DETAILS, { imprint: data })
+  },
+  setProductSelectedImprint: ({commit, state}, data) => {
+    commit(types.SET_PRODUCT_SELECTED_IMPRINT, { imprint: data })
   }
 }

@@ -92,7 +92,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      url: 'getImageUrl'
+      url: 'getImageUrl',
+      productImprintDetails: 'getProductImprintDetails'
     })
   },
   methods: {
@@ -108,12 +109,14 @@ export default {
       if (side === 'left') {
         if (this.side > 0) {
           this.side--
-          alert(this.side)
+          this.$store.dispatch('setProductVariationImages', this.productImprintDetails[this.side].images)
+          this.$store.dispatch('setProductSelectedImprint', this.productImprintDetails[this.side].locationKey)
         }
       } else {
         if (this.side < this.$store.state.productImprint.length) {
           this.side++
-          alert(this.side)
+          this.$store.dispatch('setProductVariationImages', this.productImprintDetails[this.side].images)
+          this.$store.dispatch('setProductSelectedImprint', this.productImprintDetails[this.side].locationKey)
         }
       }
     }

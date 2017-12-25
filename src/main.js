@@ -11,6 +11,10 @@ import router from './router'
 import store from './store'
 import { sync } from 'vuex-router-sync'
 
+import lodash from 'lodash';
+Object.defineProperty(Vue.prototype, '_', { value: lodash });
+
+
 import Sortable from 'sortablejs'
 
 Vue.directive('sortable', {

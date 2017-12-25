@@ -333,6 +333,9 @@ export default class Temp {
   set_position(event, ui, id, imageSelectData, type, hId) {
     id--
     if (type == 'image') {
+      console.log(imageSelectData)
+      // console.log(_.findIndex(imageSelectData.$store.state.productSelectedImprint))
+
       // image width, leftN, leftS
       if (this.keyExists(id, imageSelectData.width) == true) {
         imageSelectData.width[id].value = $(event.target).width()
@@ -530,10 +533,6 @@ export default class Temp {
   imageCordinates (imageProps, width, height) {
     /** formuala **/
     // (original height / original width) x new width = new height
-
-    // TODO this needs to change
-    // let height=300;
-    // let width=200;
 
     let imgCordinates = {
       height: imageProps.height,
