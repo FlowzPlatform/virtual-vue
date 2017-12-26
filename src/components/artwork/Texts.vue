@@ -69,6 +69,7 @@
   </li>
 </template>
 <script>
+/*eslint-disable */
 import { mapGetters } from 'vuex'
 
 export default {
@@ -109,32 +110,44 @@ export default {
       this.font_style = style
     },
     setFontSize () {
-      let newcordinates = this.cordinates
+      let selectedImprint = this.productSelectedImprint
+      let index = _.findIndex(this.cordinates, function (o) { return o.position === selectedImprint })
+      let newcordinates = this.cordinates[index]
       let selected = this.selecteArea.value
       selected = parseInt(selected) - 1
       newcordinates.font_size[selected].value = this.font_size
-      this.$store.dispatch('setImageCordinates', newcordinates)
+      let setCords = this.cordinates
+      setCords[index] = newcordinates
+      this.$store.dispatch('setImageCordinates', setCords)
 
-      return this.$store.dispatch('generateSequence', this.cordinates)
+      return this.$store.dispatch('generateSequence', this.cordinates[index])
     },
     setTextCurve () {
-      let newcordinates = this.cordinates
+      let selectedImprint = this.productSelectedImprint
+      let index = _.findIndex(this.cordinates, function (o) { return o.position === selectedImprint })
+      let newcordinates = this.cordinates[index]
       let selected = this.selecteArea.value
       selected = parseInt(selected) - 1
       newcordinates.text_curve[selected].value = this.text_curve
-      this.$store.dispatch('setImageCordinates', newcordinates)
+      let setCords = this.cordinates
+      setCords[index] = newcordinates
+      this.$store.dispatch('setImageCordinates', setCords)
 
-      return this.$store.dispatch('generateSequence', this.cordinates)
+      return this.$store.dispatch('generateSequence', this.cordinates[index])
     },
     setFontFamily () {
       if (this.font_family !== '') {
-        let newcordinates = this.cordinates
+        let selectedImprint = this.productSelectedImprint
+        let index = _.findIndex(this.cordinates, function (o) { return o.position === selectedImprint })
+        let newcordinates = this.cordinates[index]
         let selected = this.selecteArea.value
         selected = parseInt(selected) - 1
         newcordinates.font_family[selected].value = this.font_family
-        this.$store.dispatch('setImageCordinates', newcordinates)
+        let setCords = this.cordinates
+        setCords[index] = newcordinates
+        this.$store.dispatch('setImageCordinates', setCords)
 
-        return this.$store.dispatch('generateSequence', this.cordinates)
+        return this.$store.dispatch('generateSequence', this.cordinates[index])
       }
     }
   },
@@ -142,7 +155,8 @@ export default {
     ...mapGetters({
       cordinates: 'getImageCordinates',
       fontFamily: 'getFontFamily',
-      selecteArea: 'getIsSelectedArea'
+      selecteArea: 'getIsSelectedArea',
+      productSelectedImprint: 'getProductSelectedImprint'
     }),
 
     isWorkSelected: function () {

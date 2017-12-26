@@ -21,6 +21,7 @@
 </li>
 </template>
 <script>
+/*eslint-disable */
 import { mapGetters } from 'vuex'
 
 export default {
@@ -33,16 +34,21 @@ export default {
   },
   methods: {
     changeRotate () {
+      let selectedImprint = this.productSelectedImprint
+      let index = _.findIndex(this.cordinates, function (o) { return o.position === selectedImprint })
+      let newcordinates = this.cordinates[index]
+
       let selected = this.selecteArea.value
       let selectedKey = this.selecteArea.key
-      let newcordinates = this.cordinates
       selected = parseInt(selected) - 1
 
       if (selectedKey === 'image') newcordinates.rotate[selected].value = this.rotate
       else newcordinates.text_rotate[selected].value = this.rotate
       // newcordinates.rotate = this.rotate;
-      this.$store.dispatch('setImageCordinates', newcordinates)
-      return this.$store.dispatch('generateSequence', this.cordinates)
+      let setCords = this.cordinates
+      setCords[index] = newcordinates
+      this.$store.dispatch('setImageCordinates', setCords)
+      return this.$store.dispatch('generateSequence', this.cordinates[index])
     },
     isImageText () {
       if (this.isWorkSelected === false) {
@@ -61,7 +67,8 @@ export default {
   computed: {
     ...mapGetters({
       cordinates: 'getImageCordinates',
-      selecteArea: 'getIsSelectedArea'
+      selecteArea: 'getIsSelectedArea',
+      productSelectedImprint: 'getProductSelectedImprint'
     }),
     isWorkSelected: function () {
       return (this.selecteArea === null) ? false : true

@@ -38,7 +38,7 @@ export default {
     let sequence = uuid.v4()
     data.imprintMethod = state.defaultImprintMethod
     data.imprintColor = state.imageCordinates.imprintColor
-    data.rotate = state.imageCordinates.rotate
+    // data.rotate = state.imageCordinates.rotate
     data.opacity = state.imageCordinates.opacity
     data.text = state.text
     data.productImage = state.productImage

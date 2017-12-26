@@ -34,5 +34,8 @@ export default {
   },
   getProductImprintDetails: (state) => {
     return state.productImprintDetails
+  },
+  getProductSelectedImprint: (state) => {
+    return state.productSelectedImprint
   }
 }

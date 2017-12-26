@@ -33,6 +33,7 @@
 </div>
 </template>
 <script>
+/*eslint-disable */
 import { userUploadeImageUrl } from '../constants'
 import { mapGetters } from 'vuex'
 
@@ -41,10 +42,13 @@ export default {
   data () {
     return {
       baseUrl: '',
-      layers: []
+      layers: [],
+      index: 0
     }
   },
   mounted () {
+    let index = _.findIndex(this.cordinates, function (o) { return o.position === selectedImprint })
+    if(index !== -1) this.index = index
     this.baseUrl = userUploadeImageUrl
   },
   methods: {
@@ -52,15 +56,23 @@ export default {
       const movedItem = this.currentLayers.splice(oldIndex, 1)[0]
       this.currentLayers.splice(newIndex, 0, movedItem)
 
-      let newcordinates = this.cordinates
+      let selectedImprint = this.productSelectedImprint
+      let newcordinates = this.cordinates[this.index]
+      
       newcordinates.layers = this.currentLayers
-      this.$store.dispatch('setImageCordinates', newcordinates)
-      return this.$store.dispatch('generateSequence', this.cordinates)
+      
+      let setCords = this.cordinates
+      setCords[this.index] = newcordinates
+      this.$store.dispatch('setImageCordinates', setCords)
+
+      return this.$store.dispatch('generateSequence', this.cordinates[this.index])
     }
   },
   computed: {
     currentLayers: {
       get: function () {
+        // TODO: needs to change
+        // return (this.$store.state.imageCordinates) ? this.$store.state.imageCordinates[this.index].layers : array()
         return this.$store.state.imageCordinates.layers
       },
       set: function (val) {
@@ -68,7 +80,8 @@ export default {
       }
     },
     ...mapGetters({
-      cordinates: 'getImageCordinates'
+      cordinates: 'getImageCordinates',
+      productSelectedImprint: 'getProductSelectedImprint'
     }),
     prettyJson: function () {
       if (this.currentLayers) return JSON.stringify(this.currentLayers)

@@ -9,7 +9,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    imageCordinates: {},
+    imageCordinates: [],
     imageUrl: null,
     defaultImprintMethod: 'multi_color',
     imprintMethodImage: 'static/images/multi_color.png',

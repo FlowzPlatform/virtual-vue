@@ -6,6 +6,8 @@
 </template>
 
 <script>
+/*eslint-disable */
+
 import { mapGetters } from 'vuex'
 // import generateSequence from '../../store/actions.js'
 import Temp from '../../classes/Temp'
@@ -74,7 +76,9 @@ export default {
       userUploadedImageName: 'getUserUploadedImageName',
       isTextAdded: 'getIsTextAdded',
       text: 'getText',
-      productImage: 'getProductImage'
+      productImage: 'getProductImage',
+      imageCordinates: 'getImageCordinates',
+      productSelectedImprint: 'getProductSelectedImprint'
     }),
 
     productImprintArea: function () {
@@ -160,7 +164,16 @@ export default {
   },
   methods: {
     generateSequence: function () {
-      this.$store.dispatch('setImageCordinates', data)
+      let selectedImprint = this.productSelectedImprint
+      let index = _.findIndex(this.imageCordinates, function (o) { return o.position === selectedImprint })
+      let _data = this.imageCordinates
+      if(index === -1) {
+        _data.push(data)
+        this.$store.dispatch('setImageCordinates', _data)
+      } else {
+        _data[index] = data
+        this.$store.dispatch('setImageCordinates', _data)
+      }
       return this.$store.dispatch('generateSequence', data)
     }
   },

@@ -56,7 +56,7 @@ export const productDetail = ({ commit }, params) => {
 
 export const makeUrl = (response) => {
   let url
-
+  console.log(response)
   if (response.image_area_work > 0 || response.text_area_work > 0) {
     let userUploadedImage = []
     let imageHeight = []

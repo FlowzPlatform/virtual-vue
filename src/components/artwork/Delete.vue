@@ -6,6 +6,7 @@
 </li>
 </template>
 <script>
+/*eslint-disable */
 import { mapGetters } from 'vuex'
 import Temp from '../../classes/Temp'
 import {imageProcessingUrl} from '../../constants'
@@ -29,7 +30,11 @@ export default {
       }
     },
     removeImage: function () {
-      let newcordinates = this.$store.state.imageCordinates
+      let selectedImprint = this.productSelectedImprint
+      let index = _.findIndex(this.cordinates, function (o) { return o.position === selectedImprint })
+      let newcordinates = this.cordinates[index]
+
+      // let newcordinates = this.$store.state.imageCordinates
       // console.log(isSelectedAreaValue)
       // console.log(newcordinates.layers)
 
@@ -61,12 +66,16 @@ export default {
         this.$store.dispatch('setIsSelectedArea', null)
         this.$store.dispatch('setImageUrl', imageProcessingUrl + 'products/' + this.productImage)
       } else {
-        this.$store.dispatch('setImageCordinates', newcordinates)
-        return this.$store.dispatch('generateSequence', newcordinates)
+        let setCords = this.cordinates
+        setCords[index] = newcordinates
+        this.$store.dispatch('setImageCordinates', setCords)
+        return this.$store.dispatch('generateSequence', newcordinates[index])
       }
     },
     removeText: function () {
-      let newcordinates = this.cordinates
+      let selectedImprint = this.productSelectedImprint
+      let index = _.findIndex(this.cordinates, function (o) { return o.position === selectedImprint })
+      let newcordinates = this.cordinates[index]
 
       let data = this.removeLayers('text', this.selectedArea.value, newcordinates)
 
@@ -91,8 +100,10 @@ export default {
 
       $('.obv-product-design-objects-text-i' + this.$store.state.isSelectedArea.value).remove()
 
-      this.$store.dispatch('setImageCordinates', newcordinates)
-      return this.$store.dispatch('generateSequence', newcordinates)
+      let setCords = this.cordinates
+      setCords[index] = newcordinates
+      this.$store.dispatch('setImageCordinates', setCords)
+      return this.$store.dispatch('generateSequence', newcordinates[index])
     },
     removeLayers: function (type, isSelectedAreaValue, newcordinates) {
       let ch = new Temp()
@@ -137,7 +148,8 @@ export default {
     ...mapGetters({
       cordinates: 'getImageCordinates',
       selectedArea: 'getIsSelectedArea',
-      productImage: 'getProductImage'
+      productImage: 'getProductImage',
+      productSelectedImprint: 'getProductSelectedImprint'
     })
   }
 }
