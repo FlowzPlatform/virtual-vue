@@ -48,5 +48,8 @@ export default {
   },
   [types.SET_PRODUCT_SELECTED_IMPRINT]: (state, {imprint}) => {
     state.productSelectedImprint = imprint
+  },
+  [types.SET_SELECTED_THUMB_IMAGE]: (state, {image}) => {
+    state.selectedThumbImage = image
   }
 }

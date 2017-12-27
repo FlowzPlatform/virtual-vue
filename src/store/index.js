@@ -18,6 +18,7 @@ export default new Vuex.Store({
     isTextAdded: false,
     text: null,
     productImage: null,
+    selectedThumbImage: null,
     productVariationImages: [],
     productsideImages: [
       {

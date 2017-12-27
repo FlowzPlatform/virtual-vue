@@ -47,6 +47,7 @@ export default {
     }
   },
   mounted () {
+    let selectedImprint = this.productSelectedImprint
     let index = _.findIndex(this.cordinates, function (o) { return o.position === selectedImprint })
     if(index !== -1) this.index = index
     this.baseUrl = userUploadeImageUrl
@@ -56,11 +57,10 @@ export default {
       const movedItem = this.currentLayers.splice(oldIndex, 1)[0]
       this.currentLayers.splice(newIndex, 0, movedItem)
 
-      let selectedImprint = this.productSelectedImprint
       let newcordinates = this.cordinates[this.index]
-      
+
       newcordinates.layers = this.currentLayers
-      
+
       let setCords = this.cordinates
       setCords[this.index] = newcordinates
       this.$store.dispatch('setImageCordinates', setCords)
@@ -71,9 +71,7 @@ export default {
   computed: {
     currentLayers: {
       get: function () {
-        // TODO: needs to change
-        // return (this.$store.state.imageCordinates) ? this.$store.state.imageCordinates[this.index].layers : array()
-        return this.$store.state.imageCordinates.layers
+        return (this.$store.state.imageCordinates.length > 0) ? this.$store.state.imageCordinates[this.index].layers : []
       },
       set: function (val) {
         alert(val)

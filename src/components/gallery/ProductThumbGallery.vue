@@ -8,7 +8,7 @@
               <transition-group
                 class='carousel'
                 tag="div">
-                  <div class="item" v-for="(variation, index) in variations" :key="index"><a href="javascript:void(0);" class="product-thumb-anchar" @click="selectedImage(variation.image)"><img :src="imageProcessingUrl + 'products/'+variation.image" /></a></div>
+                  <div class="item" v-for="(variation, index) in variations" :key="index"><a href="javascript:void(0);" class="product-thumb-anchar" @click="selectedImage(variation)"><img :src="imageProcessingUrl + 'products/'+variation.image" /></a></div>
               </transition-group>
               <!-- <div class='carousel-controls__button next' @click="next">next</
               cursor: pointer;div> -->
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+/*eslint-disable */
 import { mapGetters } from 'vuex'
 import { imageProcessingUrl } from '../../constants'
 export default {
@@ -40,7 +41,8 @@ export default {
   computed: {
     ...mapGetters({
       url: 'getImageUrl',
-      cordinates: 'getImageCordinates'
+      cordinates: 'getImageCordinates',
+      productSelectedImprint: 'getProductSelectedImprint'
       // variations: 'getProductVariationImages'
     }),
     variations: {
@@ -56,10 +58,17 @@ export default {
     }
   },
   methods: {
-    selectedImage (img) {
-      this.$store.dispatch('setProductImage', img)
-      this.$store.dispatch('setImageUrl', imageProcessingUrl + 'products/' + img)
-      if (this.isTextOrImage) return this.$store.dispatch('generateSequence', this.cordinates)
+    selectedImage (variation) {
+      let selectedImprint = this.productSelectedImprint
+      let index = _.findIndex(this.cordinates, function (o) { return o.position === selectedImprint })
+
+      this.$store.dispatch('setProductImage', variation.image)
+      this.$store.dispatch('setSelectedThumbImage', variation)
+      if (this.isTextOrImage) {
+        this.$store.dispatch('generateSequence', this.cordinates[index])
+      } else {
+        this.$store.dispatch('setImageUrl', imageProcessingUrl + 'products/' + variation.image)
+      }
     },
     next () {
       const first = this.variations.shift()

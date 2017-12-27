@@ -68,6 +68,7 @@ export default {
       // TODO this should be a product main image.
       let pImage = images[0].image
       this.$store.dispatch('setProductImage', pImage)
+      this.$store.dispatch('setSelectedThumbImage', images[0])
       this.$store.dispatch('setImageUrl', imageProcessingUrl + 'products/' + pImage)
     }
   },

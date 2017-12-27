@@ -140,5 +140,8 @@ export default {
   },
   setProductSelectedImprint: ({commit, state}, data) => {
     commit(types.SET_PRODUCT_SELECTED_IMPRINT, { imprint: data })
+  },
+  setSelectedThumbImage: ({commit, state}, data) => {
+    commit(types.SET_SELECTED_THUMB_IMAGE, { image: data })
   }
 }

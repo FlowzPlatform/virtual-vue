@@ -333,7 +333,6 @@ export default class Temp {
   set_position(event, ui, id, imageSelectData, type, hId) {
     id--
     if (type == 'image') {
-      console.log(imageSelectData)
       // console.log(_.findIndex(imageSelectData.$store.state.productSelectedImprint))
 
       // image width, leftN, leftS
