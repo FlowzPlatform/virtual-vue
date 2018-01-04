@@ -85,6 +85,13 @@
                </label>
               </div>
 
+              <div class="form-check">
+               <label class="form-check-label">
+                 <input class="form-check-input" value="1" type="checkbox" v-model="toneontone">
+                 Tone N Tone
+               </label>
+              </div>
+
               <button class="btn btn-primary" @click="generateImage">Submit</button>
               </form>
             </div>
@@ -112,14 +119,15 @@ export default {
       emboss: '',
       fire: '',
       wooden: '',
-      gel_dom: ''
+      gel_dom: '',
+      toneontone: ''
     }
   },
   methods: {
     generateImage (event) {
       event.preventDefault()
       let uri = '&h=' + this.height + '&w=' + this.width + '&rotate=' + this.rotate + '&single_color=' + this.color + '&flip=' + this.flip_v + '&flop=' + this.flop_v + '&negate=' + this.negate_v +
-      '&emboss=' + this.emboss_v + '&fire=' + this.fire_v + '&blur=' + this.blur + '&wooden=' + this.wooden_v + '&gel_dome=' + this.gel_dom_v
+      '&emboss=' + this.emboss_v + '&fire=' + this.fire_v + '&blur=' + this.blur + '&wooden=' + this.wooden_v + '&gel_dome=' + this.gel_dom_v + '&toneontoneImage=' + this.toneontone_v
       this.imgUrl = imageProcessingUrl + 'image-effect/' + this.img + '?sig=KwROfoP_7DjY' + uri
     }
   },
@@ -147,6 +155,9 @@ export default {
     },
     gel_dom_v () {
       return this.gel_dom ? 1 : ''
+    },
+    toneontone_v () {
+      return this.toneontone ? 1 : ''
     }
   },
   mounted () {

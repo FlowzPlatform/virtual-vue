@@ -59,7 +59,8 @@ let data = {
   order: [],
   layers: [],
   cropped: 0,
-  show: false
+  show: false,
+  isActive: null
 }
 
 export default {

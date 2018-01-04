@@ -1,5 +1,7 @@
+/*eslint-disable */
 import { feathersClient } from './apiClient'
 import { imageProcessingUrl } from '../constants'
+import { request } from 'http';
 
 export const createUpload = ({commit}, reader) => {
   const uploadService = feathersClient.service('uploads')
@@ -14,9 +16,18 @@ export const generateSequence = ({commit}, requestData) => {
   const uploadService = feathersClient.service('post-data')
   return uploadService
     .create(requestData)
-    .then(function (response) {
+    .then(async function (response) {
       let requestData = JSON.parse(response.request)
+      console.log(requestData)
+      let sArea = requestData.isActive
+      let index = sArea.key
+      let type = sArea.type
+      let uri = '?' +  requestData.imprintMethod + '=1' + '&h=' + requestData.height[index].value + '&w' + requestData.width[index].value + '&sig=KwROfoP_7DjY'
+      let res = await imageEffect(image, requestData.currentUploadedImage, uri)
+      
       let url = makeUrl(requestData)
+      
+      // let url = mergeImages(requestData)
       response.url = url
       return response
     })
@@ -46,12 +57,44 @@ export const supplierDetail = ({ commit }, params) => {
     })
 }
 
+export const imageEffect = ({ commit }, image,  params) => {
+  return axios.get(imageProcessingUrl + 'image-api/' + image + params).then(function (response) {
+    return response.data
+  }).catch(function (error) {
+    return error
+  })
+}
+
 export const productDetail = ({ commit }, params) => {
   const product = feathersClient.service('products')
   return product.get(params)
     .then(function (response) {
       return response
     })
+}
+
+export const mergeImages = (response) => {
+  let mainImage = response.productImage
+  // let images = 
+  // let layers = []
+  let area_left = response.artwork_left
+  let area_top = response.artwork_top
+  let area_height = response.artwork_height
+  let area_width = response.artwork_width
+  let product_width = response.productWidth
+  let product_height = response.productHeight
+
+  let responseLayers = response.layers
+
+  for (var i = 0; i < responseLayers.length; i++) {
+    if (responseLayers[i].type === 'image') {
+      let index = responseLayers[i].key + 1
+      layers.push('i-' + index)
+    } else {
+      let index = responseLayers[i].key + 1
+      layers.push('t-' + index)
+    }
+  }
 }
 
 export const makeUrl = (response) => {

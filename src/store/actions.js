@@ -18,11 +18,9 @@ export default {
     let cropImageHAxis = data.cropAxis.h
     let cropImageWAxis = data.cropAxis.w
     let url = imageProcessingUrl + 'crop?image=' + cropImage + '&h=' + cropImageHAxis + '&w=' + cropImageWAxis + '&x=' + cropImageXAxis + '&y=' + cropImagYAxis
+
     $.ajax({
       type: 'GET',
-      contentType: 'application/json',
-      dataType: 'jsonp',
-      crossDomain: true,
       url: url,
       success: function (data) {
         return true
@@ -42,6 +40,9 @@ export default {
     data.opacity = state.imageCordinates.opacity
     data.text = state.text
     data.productImage = state.productImage
+    data.currentUploadedImage = state.userUploadedImageName
+    data.isSelectedArea = state.isSelectedArea
+    
     let postData = {
       request: JSON.stringify(data),
       sequence: sequence,
