@@ -336,6 +336,7 @@ export default class Temp {
       // image width, leftN, leftS
 
       imageSelectData.isActive = {key: id, value: type}
+
       if (this.keyExists(id, imageSelectData.width) == true) {
         imageSelectData.width[id].value = $(event.target).width()
         imageSelectData.leftN[id].value = $(event.target).width() / 2 - 4

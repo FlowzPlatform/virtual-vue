@@ -58,6 +58,7 @@ let data = {
   artwork_top: 0,
   order: [],
   layers: [],
+  cachedImages: [],
   cropped: 0,
   show: false,
   isActive: null

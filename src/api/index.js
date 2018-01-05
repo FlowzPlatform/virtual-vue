@@ -18,16 +18,13 @@ export const generateSequence = ({commit}, requestData) => {
     .create(requestData)
     .then(async function (response) {
       let requestData = JSON.parse(response.request)
-      console.log(requestData)
-      let sArea = requestData.isActive
-      let index = sArea.key
-      let type = sArea.type
-      let uri = '?' +  requestData.imprintMethod + '=1' + '&h=' + requestData.height[index].value + '&w' + requestData.width[index].value + '&sig=KwROfoP_7DjY'
-      let res = await imageEffect(image, requestData.currentUploadedImage, uri)
       
-      let url = makeUrl(requestData)
+      // this is old and single api for image
+      // let url = makeUrl(requestData)
       
-      // let url = mergeImages(requestData)
+      // this API only merge images 
+      let url = mergeImages(requestData)
+      
       response.url = url
       return response
     })
@@ -75,15 +72,22 @@ export const productDetail = ({ commit }, params) => {
 
 export const mergeImages = (response) => {
   let mainImage = response.productImage
-  // let images = 
-  // let layers = []
+  let images = response.cachedImages
+  let layers = []
   let area_left = response.artwork_left
   let area_top = response.artwork_top
   let area_height = response.artwork_height
   let area_width = response.artwork_width
   let product_width = response.productWidth
   let product_height = response.productHeight
+  let url = null
+  let left = []
+  let top = []
 
+  for (var j = 0; j < response.image_area_work; j++) {
+    left.push(response.left[j].value)
+    top.push(response.top[j].value)
+  }
   let responseLayers = response.layers
 
   for (var i = 0; i < responseLayers.length; i++) {
@@ -95,6 +99,9 @@ export const mergeImages = (response) => {
       layers.push('t-' + index)
     }
   }
+  let queryString = '?sig=KwROfoP_7DjY' + '&images=' + images.toString() + '&orders=' + layers.toString() + '&a_h=' + area_height + '&a_w=' + area_width + '&a_t=' + area_top + '&a_l=' + area_left + '&p_w=' + product_width + '&p_h=' + product_height + '&c_x=' + left.toString() + '&c_y=' + top.toString()
+  url = imageProcessingUrl + 'merge-images/' + mainImage + queryString
+  return url
 }
 
 export const makeUrl = (response) => {

@@ -1,5 +1,5 @@
 /*eslint-disable */
-import { createUpload, generateSequence, fontFamily, productExist, supplierDetail, productDetail } from '../api/index'
+import { createUpload, generateSequence, fontFamily, productExist, supplierDetail, productDetail, imageEffect } from '../api/index'
 import { imageProcessingUrl } from '../constants'
 import * as types from './mutation_types.js'
 
@@ -42,13 +42,32 @@ export default {
     data.productImage = state.productImage
     data.currentUploadedImage = state.userUploadedImageName
     data.isSelectedArea = state.isSelectedArea
-    
+  
+    /* Different api */
+    let cachedI = state.imageCordinates.cachedImages
+    let sArea = data.isActive
+    let index = sArea.key
+    let type = sArea.type
+    let uri = '?' +  data.imprintMethod + '=1' + '&h=' + data.height[index].value + '&w=' + data.width[index].value + '&sig=KwROfoP_7DjY'
+    let resp = await imageEffect({ commit }, data.currentUploadedImage, uri)
+   
+    // save cached images
+    if (state.imageCordinates.isActive !== null) {
+      if (cachedI[state.imageCordinates.isActive.key] !== undefined) {
+        data.cachedImages[sArea.key] = resp.image
+      } else {
+        data.cachedImages.push(resp.image)
+      }
+    }
+    /* api end */
+
     let postData = {
       request: JSON.stringify(data),
       sequence: sequence,
       session: 'a blank value',
       companyId: 'a blank value'
     }
+
     let res = await generateSequence({ commit }, postData)
     commit(types.SET_IMAGE_URL, {url: res.url})
     commit(types.SET_IS_UPLOAD, { val: false })
@@ -56,12 +75,10 @@ export default {
   },
 
   defaultImprintMethod: async ({ commit }, method) => {
-    // let res = await createUpload({ commit }, reader)
     commit(types.SET_DEFAULT_IMPRINT_METHOD, { val: method })
   },
 
   addText: async ({ commit }) => {
-    // let res = await createUpload({ commit }, reader)
     commit(types.SET_IS_UPLOAD, { val: true })
   },
 
