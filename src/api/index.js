@@ -99,7 +99,17 @@ export const mergeImages = (response) => {
       layers.push('t-' + index)
     }
   }
-  let queryString = '?sig=KwROfoP_7DjY' + '&images=' + images.toString() + '&orders=' + layers.toString() + '&a_h=' + area_height + '&a_w=' + area_width + '&a_t=' + area_top + '&a_l=' + area_left + '&p_w=' + product_width + '&p_h=' + product_height + '&c_x=' + left.toString() + '&c_y=' + top.toString()
+  let imprintMethod=''
+  if (response.imprintMethod === 'fabric') {
+    imprintMethod = response.imprintMethod + '=1'
+  } else if (response.imprintMethod === 'leather_engrave') {
+    imprintMethod = 'leather=1'
+  } 
+
+  let queryString = '?sig=KwROfoP_7DjY&' + imprintMethod + '&images=' + images.toString() + '&orders=' + layers.toString() + '&a_h=' + area_height + 
+  '&a_w=' + area_width + '&a_t=' + area_top + '&a_l=' + area_left + '&p_w=' + product_width + '&p_h=' + product_height + '&c_x=' + 
+  left.toString() + '&c_y=' + top.toString()
+
   url = imageProcessingUrl + 'merge-images/' + mainImage + queryString
   return url
 }

@@ -52,7 +52,7 @@
                          </label>
                  </li>
                  <li class="radio">
-                         <input type="radio" name="imprint_method" value="deboss" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
+                         <input type="radio" name="imprint_method" value="wooden" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
                          <label style="color:black">
                            <img src="static/images/wooden.png" />
                          </label>

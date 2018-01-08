@@ -113,8 +113,8 @@ export default {
       color: '',
       imgUrl: '',
       blur: '',
-      flip: '',
-      flop: '',
+      flip: '0',
+      flop: '0',
       negate: '',
       emboss: '',
       fire: '',
@@ -136,10 +136,10 @@ export default {
   },
   computed: {
     flip_v () {
-      return this.flip ? 1 : ''
+      return this.flip ? 1 : '0'
     },
     flop_v () {
-      return this.flop ? 1 : ''
+      return this.flop ? 1 : '0'
     },
     negate_v () {
       return this.negate ? 1 : ''

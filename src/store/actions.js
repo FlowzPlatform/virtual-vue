@@ -48,7 +48,17 @@ export default {
     let sArea = data.isActive
     let index = sArea.key
     let type = sArea.type
-    let uri = '?' +  data.imprintMethod + '=1' + '&h=' + data.height[index].value + '&w=' + data.width[index].value + '&sig=KwROfoP_7DjY'
+    console.log("imprint method", data.imprintMethod + '===' + data.imprintColor)
+    let imprintMethod
+    if(data.imprintMethod === 'single_color') {
+      imprintMethod = data.imprintMethod + '=' + data.imprintColor
+    } else if(data.imprintMethod === 'firebranded') {
+      imprintMethod = 'fire=1'
+    }else {
+      imprintMethod = data.imprintMethod + '=1'
+    }
+    let uri = '?' +  imprintMethod + '&h=' + data.height[index].value + '&w=' + data.width[index].value + '&rotate=' + data.rotate[index].value + 
+    '&flip=' + data.flip[index].value + '&flop=' + data.flop[index].value + '&sig=KwROfoP_7DjY'
     let resp = await imageEffect({ commit }, data.currentUploadedImage, uri)
    
     // save cached images
