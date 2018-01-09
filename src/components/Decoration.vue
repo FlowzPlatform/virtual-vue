@@ -76,9 +76,9 @@
                          </label>
                  </li>
                  <li class="radio">
-                         <input type="radio" name="imprint_method" value="gel_dome" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
+                         <input type="radio" name="imprint_method" value="gel_dom" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
                          <label style="color:black">
-                           <img src="static/images/gel_dome.png" />
+                           <img src="static/images/gel_dom.png" />
                          </label>
                  </li>
 
@@ -92,7 +92,7 @@
                  <li class="radio">
                          <input type="radio" name="imprint_method" value="glass" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
                          <label style="color:black">
-                           <img src="static/images/etch_imprint.png" />
+                           Glass
                          </label>
                  </li>
 
@@ -104,9 +104,21 @@
                  </li>
 
                  <li class="radio">
-                         <input type="radio" name="imprint_method" value="4_color_process_dome" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
+                         <input type="radio" name="imprint_method" value="four_color" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
                          <label style="color:black">
-                           <img src="static/images/4_color_process_dome.png" />
+                           <img src="static/images/four_color.png" />
+                         </label>
+                 </li>
+                  <li class="radio">
+                         <input type="radio" name="imprint_method" value="four_colour_dome" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
+                         <label style="color:black">
+                           <img src="static/images/four_colour_dome.png" />
+                         </label>
+                 </li>
+                  <li class="radio">
+                         <input type="radio" name="imprint_method" value="one_color" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
+                         <label style="color:black">
+                           <img src="static/images/one_color.png" />
                          </label>
                  </li>
              </ul>
@@ -379,6 +391,10 @@ export default {
   height: 48px !important;
   width: 100% !important;
   left: 14px;
+}
+.multicolor-listbox ul {
+  overflow-y: scroll;
+  height: 100%;
 }
 
 </style>

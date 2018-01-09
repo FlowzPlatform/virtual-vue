@@ -48,15 +48,24 @@ export default {
     let sArea = data.isActive
     let index = sArea.key
     let type = sArea.type
+
     console.log("imprint method", data.imprintMethod + '===' + data.imprintColor)
+
     let imprintMethod
-    if(data.imprintMethod === 'single_color') {
+    if(data.imprintMethod === 'single_color' || data.imprintMethod === 'one_color') {
       imprintMethod = data.imprintMethod + '=' + data.imprintColor
     } else if(data.imprintMethod === 'firebranded') {
       imprintMethod = 'fire=1'
-    }else {
+    } else if(data.imprintMethod === 'glass') {
+      imprintMethod = data.imprintMethod + '=' + data.imprintColor
+    } else if(data.imprintMethod === 'hot_stamp') {
+      imprintMethod = data.imprintMethod + '=' + data.imprintColor
+    } else {
       imprintMethod = data.imprintMethod + '=1'
     }
+
+    
+
     let uri = '?' +  imprintMethod + '&h=' + data.height[index].value + '&w=' + data.width[index].value + '&rotate=' + data.rotate[index].value + 
     '&flip=' + data.flip[index].value + '&flop=' + data.flop[index].value + '&sig=KwROfoP_7DjY'
     let resp = await imageEffect({ commit }, data.currentUploadedImage, uri)
