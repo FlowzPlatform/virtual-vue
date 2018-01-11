@@ -110,9 +110,9 @@
                          </label>
                  </li>
                   <li class="radio">
-                         <input type="radio" name="imprint_method" value="four_colour_dome" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
+                         <input type="radio" name="imprint_method" value="four_color_dome" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
                          <label style="color:black">
-                           <img src="static/images/four_colour_dome.png" />
+                           <img src="static/images/four_color_dome.png" />
                          </label>
                  </li>
                   <li class="radio">
@@ -255,7 +255,6 @@ export default {
       let newcordinates = this.cordinates
       let selected = this.selecteArea.value
       selected = parseInt(selected) - 1
-      console.log(selected)
       newcordinates.background[selected].value = this.background.join('-')
       this.$store.dispatch('setImageCordinates', newcordinates)
       return this.$store.dispatch('generateSequence', this.cordinates)

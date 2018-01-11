@@ -71,6 +71,8 @@ export const productDetail = ({ commit }, params) => {
 }
 
 export const mergeImages = (response) => {
+
+
   let mainImage = response.productImage
   let images = response.cachedImages
   let layers = []
@@ -111,6 +113,8 @@ export const mergeImages = (response) => {
   left.toString() + '&c_y=' + top.toString()
 
   url = imageProcessingUrl + 'merge-images/' + mainImage + queryString
+  console.log("cam here", url)
+
   return url
 }
 

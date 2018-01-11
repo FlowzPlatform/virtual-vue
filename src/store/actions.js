@@ -69,7 +69,6 @@ export default {
     let uri = '?' +  imprintMethod + '&h=' + data.height[index].value + '&w=' + data.width[index].value + '&rotate=' + data.rotate[index].value + 
     '&flip=' + data.flip[index].value + '&flop=' + data.flop[index].value + '&sig=KwROfoP_7DjY'
     let resp = await imageEffect({ commit }, data.currentUploadedImage, uri)
-   
     // save cached images
     if (state.imageCordinates.isActive !== null) {
       if (cachedI[state.imageCordinates.isActive.key] !== undefined) {
