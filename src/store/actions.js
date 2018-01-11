@@ -49,7 +49,6 @@ export default {
     let index = sArea.key
     let type = sArea.type
 
-    console.log("imprint method", data.imprintMethod + '===' + data.imprintColor)
 
     let imprintMethod
     if(data.imprintMethod === 'single_color' || data.imprintMethod === 'one_color') {

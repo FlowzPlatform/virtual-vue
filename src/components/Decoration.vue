@@ -115,6 +115,20 @@
                            <img src="static/images/four_color_dome.png" />
                          </label>
                  </li>
+
+                  <li class="radio">
+                         <input type="radio" name="imprint_method" value="my_lar" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
+                         <label style="color:black">
+                           Mylar Image
+                         </label>
+                 </li>
+
+                 <li class="radio">
+                         <input type="radio" name="imprint_method" value="deep_etch" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
+                         <label style="color:black">
+                           Deep Etch
+                         </label>
+                 </li>
                   <li class="radio">
                          <input type="radio" name="imprint_method" value="one_color" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
                          <label style="color:black">
