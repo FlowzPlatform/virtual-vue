@@ -33,6 +33,12 @@
                            <img src="static/images/emboss.png" />
                          </label>
                  </li>
+                  <li class="radio">
+                         <input type="radio" name="imprint_method" value="deboss" v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
+                         <label style="color:black">
+                           Deboss
+                         </label>
+                  </li>
                  <li class="radio">
                          <input type="radio" name="imprint_method" value="single_color"  v-model="defaultImprintMethod" v-on:change="onChange" :disabled="isTextorImage">
                          <label >

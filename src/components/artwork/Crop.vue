@@ -75,6 +75,10 @@ export default {
       this.imageAxis['h'] = tempH
       crop['cropAxis'] = this.imageAxis
       crop['cropImage'] = cropImage
+      console.log(tempW)
+      console.log(tempH)
+      // make it to aspect ratio
+      // to do
       await this.$store.dispatch('cropImage', crop)
       let url
       let time = new Date().getTime()
