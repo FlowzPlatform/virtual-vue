@@ -42,41 +42,66 @@ export default {
     data.productImage = state.productImage
     data.currentUploadedImage = state.userUploadedImageName
     data.isSelectedArea = state.isSelectedArea
-  
-    /* Different api */
-    let cachedI = state.imageCordinates.cachedImages
-    let sArea = data.isActive
-    let index = sArea.key
-    let type = sArea.type
 
+    if(data.isdelete === undefined) {
+      /* Different api */
+      let cachedI = state.imageCordinates.cachedImages
+      let sArea = data.isActive
+      let index = sArea.key
+      let value = sArea.value
 
-    let imprintMethod
-    if(data.imprintMethod === 'single_color' || data.imprintMethod === 'one_color') {
-      imprintMethod = data.imprintMethod + '=' + data.imprintColor
-    } else if(data.imprintMethod === 'firebranded') {
-      imprintMethod = 'fire=1'
-    } else if(data.imprintMethod === 'glass') {
-      imprintMethod = data.imprintMethod + '=' + data.imprintColor
-    } else if(data.imprintMethod === 'hot_stamp') {
-      imprintMethod = data.imprintMethod + '=' + data.imprintColor
-    } else {
-      imprintMethod = data.imprintMethod + '=1'
-    }
-
-    
-
-    let uri = '?' +  imprintMethod + '&h=' + data.height[index].value + '&w=' + data.width[index].value + '&rotate=' + data.rotate[index].value + 
-    '&flip=' + data.flip[index].value + '&flop=' + data.flop[index].value + '&back=' + data.background[index].value + '&sig=KwROfoP_7DjY'
-    let resp = await imageEffect({ commit }, data.currentUploadedImage, uri)
-    // save cached images
-    if (state.imageCordinates.isActive !== null) {
-      if (cachedI[state.imageCordinates.isActive.key] !== undefined) {
-        data.cachedImages[sArea.key] = resp.image
-      } else {
-        data.cachedImages.push(resp.image)
+      // need to fix using lodash
+      let cImages = []
+      for (let i=0; i<cachedI.length; i++) {
+        cImages.push(cachedI[i].value);
       }
-    }
-    /* api end */
+
+      let imprintMethod
+      if(data.imprintMethod === 'single_color' || data.imprintMethod === 'one_color') {
+        imprintMethod = data.imprintMethod + '=' + data.imprintColor
+      } else if(data.imprintMethod === 'firebranded') {
+        imprintMethod = 'fire=1'
+      } else if(data.imprintMethod === 'glass') {
+        imprintMethod = data.imprintMethod + '=' + data.imprintColor
+      } else if(data.imprintMethod === 'hot_stamp') {
+        imprintMethod = data.imprintMethod + '=' + data.imprintColor
+      } else {
+        imprintMethod = data.imprintMethod + '=1'
+      }
+      let uri
+      if (value === 'text') {
+        uri = '?' +  imprintMethod + '&text=' + data.text + '&h=' + data.text_height[index].value + '&w=' + data.text_width[index].value + '&rotate=' + data.text_rotate[index].value + 
+          '&flip=' + data.text_flip[index].value + '&flop=' + data.text_flop[index].value + '&text_color=' +  data.text_color[index].value +
+          '&font_size=' +  data.font_size[index].value + '&text_curve=' +  data.text_curve[index].value + '&font_family=' +  data.font_family[index].value + '&sig=KwROfoP_7DjY'
+        let imageName = (data.currentUploadedImage === null) ? 'blank.png' : data.userUploadedImage[index].value
+        let resp = await imageEffect({ commit }, imageName, uri)
+        
+        // save cached images
+        if (state.imageCordinates.isActive !== null) {
+          if (cachedI[state.imageCordinates.isActive.key] !== undefined) {
+            data.cachedImages[sArea.key].value = resp.image
+          } else {
+            let cachedImage = {key:index, type:value, value: resp.image}
+            data.cachedImages.push(cachedImage)          }
+        }
+      } else {
+        uri = '?' +  imprintMethod + '&h=' + data.height[index].value + '&w=' + data.width[index].value + '&rotate=' + data.rotate[index].value + 
+          '&flip=' + data.flip[index].value + '&flop=' + data.flop[index].value + '&back=' + data.background[index].value + '&sig=KwROfoP_7DjY'
+        let imageName = (data.currentUploadedImage === null) ? 'blank.png' : data.userUploadedImage[index].value
+        let resp = await imageEffect({ commit }, imageName, uri)
+        
+        // save cached images
+        if (state.imageCordinates.isActive !== null) {
+          if (cachedI[state.imageCordinates.isActive.key] !== undefined) {
+            data.cachedImages[sArea.key].value = resp.image
+          } else {
+            let cachedImage = {key:index, type:value, value: resp.image}
+            data.cachedImages.push(cachedImage)
+          }
+        }
+      }
+      /* api end */
+    }  
 
     let postData = {
       request: JSON.stringify(data),

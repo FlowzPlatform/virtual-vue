@@ -319,24 +319,36 @@ export default class Temp {
 
       }
     })
-    let passOptions = {
-      id: imageSelectData.text_area_work,
-      isMovable: imageSelectData.options.isMovable,
-      isEditable: imageSelectData.options.isEditable,
-      isRemovable: imageSelectData.options.isRemovable,
-      width: imageSelectData.options.width,
-      height: imageSelectData.options.height
+    // let passOptions = {
+    //   id: imageSelectData.text_area_work,
+    //   isMovable: imageSelectData.options.isMovable,
+    //   isEditable: imageSelectData.options.isEditable,
+    //   isRemovable: imageSelectData.options.isRemovable,
+    //   width: imageSelectData.options.width,
+    //   height: imageSelectData.options.height
+    // }
+    // $('.' + className).textArea(passOptions)
+
+    if (imageSelectData.id !== undefined) {
+      $('.' + className).textArea('option', 'id', imageSelectData.id)
+    } else {
+      let passOptions = {
+        id: imageSelectData.text_area_work,
+        isMovable: imageSelectData.options.isMovable,
+        isEditable: imageSelectData.options.isEditable,
+        isRemovable: imageSelectData.options.isRemovable,
+        width: imageSelectData.options.width,
+        height: imageSelectData.options.height
+      }
+      $('.' + className).textArea(passOptions)
     }
-    $('.' + className).textArea(passOptions)
   }
 
   set_position(event, ui, id, imageSelectData, type, hId) {
     id--
+    imageSelectData.isActive = {key: id, value: type}
     if (type == 'image') {
       // image width, leftN, leftS
-
-      imageSelectData.isActive = {key: id, value: type}
-
       if (this.keyExists(id, imageSelectData.width) == true) {
         imageSelectData.width[id].value = $(event.target).width()
         imageSelectData.leftN[id].value = $(event.target).width() / 2 - 4
@@ -479,7 +491,7 @@ export default class Temp {
 
       } else {
         imageSelectData.texts.push({key: id, type: type, value: imageSelectData.text})
-        imageSelectData.layers.push({ key: id, type: type, value: imageSelectData.text })
+        imageSelectData.layers.push({key: id, hId: hId, type: type, value: imageSelectData.text})
       }
 
       // text curve

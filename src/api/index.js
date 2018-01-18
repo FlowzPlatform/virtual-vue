@@ -74,7 +74,7 @@ export const mergeImages = (response) => {
 
 
   let mainImage = response.productImage
-  let images = response.cachedImages
+  let images = []
   let layers = []
   let area_left = response.artwork_left
   let area_top = response.artwork_top
@@ -85,11 +85,21 @@ export const mergeImages = (response) => {
   let url = null
   let left = []
   let top = []
-
-  for (var j = 0; j < response.image_area_work; j++) {
+  
+  for (let j = 0; j < response.cachedImages.length; j++) {
+    images.push(response.cachedImages[j].value)
+  }
+  for (let j = 0; j < response.image_area_work; j++) {
     left.push(response.left[j].value)
     top.push(response.top[j].value)
   }
+
+  for (let j = 0; j < response.text_area_work; j++) {
+    left.push(response.text_left[j].value)
+    top.push(response.text_top[j].value)
+  }
+
+  
   let responseLayers = response.layers
 
   for (var i = 0; i < responseLayers.length; i++) {

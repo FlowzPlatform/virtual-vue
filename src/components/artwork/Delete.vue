@@ -62,6 +62,7 @@ export default {
         this.$store.dispatch('setImageUrl', imageProcessingUrl + 'products/' + this.productImage)
       } else {
         this.$store.dispatch('setImageCordinates', newcordinates)
+        newcordinates.isdelete = 1
         return this.$store.dispatch('generateSequence', newcordinates)
       }
     },
@@ -91,8 +92,14 @@ export default {
 
       $('.obv-product-design-objects-text-i' + this.$store.state.isSelectedArea.value).remove()
 
-      this.$store.dispatch('setImageCordinates', newcordinates)
-      return this.$store.dispatch('generateSequence', newcordinates)
+      if (newcordinates.layers.length === 0) {
+        this.$store.dispatch('setIsSelectedArea', null)
+        this.$store.dispatch('setImageUrl', imageProcessingUrl + 'products/' + this.productImage)
+      } else {
+        this.$store.dispatch('setImageCordinates', newcordinates)
+        newcordinates.isdelete = 1
+        return this.$store.dispatch('generateSequence', newcordinates)
+      }
     },
     removeLayers: function (type, isSelectedAreaValue, newcordinates) {
       let ch = new Temp()
@@ -103,7 +110,6 @@ export default {
           deleteIndex = i
         }
       }
-
       let iKey = newcordinates.layers[deleteIndex].key
       newcordinates.layers.splice(newcordinates.layers.indexOf(newcordinates.layers[deleteIndex]), 1)
 
@@ -114,7 +120,7 @@ export default {
         ch.imageArea('obv-product-design-objects-image-i' + currentKey, op)
       } else {
         let op = {id: deleteIndex + 1}
-        ch.imageArea('obv-product-design-objects-text-i' + currentKey, op)
+        ch.textArea('obv-product-design-objects-text-i' + currentKey, op)
       }
 
       for (let i = 0; i < newcordinates.layers.length; i++) {
