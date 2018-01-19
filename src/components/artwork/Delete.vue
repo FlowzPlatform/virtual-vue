@@ -39,6 +39,8 @@ export default {
       newcordinates = data.newcordinates
       let deleteIndex = data.deleteIndex
 
+      newcordinates.cachedImages.splice(newcordinates.cachedImages.indexOf(newcordinates.cachedImages[deleteIndex]), 1)
+
       newcordinates.height.splice(newcordinates.height.indexOf(newcordinates.height[deleteIndex]), 1)
       newcordinates.width.splice(newcordinates.width.indexOf(newcordinates.width[deleteIndex]), 1)
       newcordinates.left.splice(newcordinates.left.indexOf(newcordinates.left[deleteIndex]), 1)
@@ -54,6 +56,7 @@ export default {
       newcordinates.userUploadedImage.splice(newcordinates.userUploadedImage.indexOf(newcordinates.userUploadedImage[deleteIndex]), 1)
 
       newcordinates.image_area_work = newcordinates.image_area_work - 1
+      newcordinates.commonIndex = newcordinates.commonIndex - 1
 
       $('.obv-product-design-objects-image-i' + this.$store.state.isSelectedArea.value).remove()
 
@@ -62,7 +65,7 @@ export default {
         this.$store.dispatch('setImageUrl', imageProcessingUrl + 'products/' + this.productImage)
       } else {
         this.$store.dispatch('setImageCordinates', newcordinates)
-        newcordinates.isdelete = 1
+        newcordinates.isMerge = 1
         return this.$store.dispatch('generateSequence', newcordinates)
       }
     },
@@ -73,6 +76,9 @@ export default {
 
       newcordinates = data.newcordinates
       let deleteIndex = data.deleteIndex
+
+      // DELETE CACHED IMAGES TOO
+      newcordinates.cachedImages.splice(newcordinates.cachedImages.indexOf(newcordinates.cachedImages[deleteIndex]), 1)
 
       newcordinates.texts.splice(newcordinates.texts.indexOf(newcordinates.texts[deleteIndex]), 1)
       newcordinates.text_height.splice(newcordinates.text_height.indexOf(newcordinates.text_height[deleteIndex]), 1)
@@ -97,7 +103,7 @@ export default {
         this.$store.dispatch('setImageUrl', imageProcessingUrl + 'products/' + this.productImage)
       } else {
         this.$store.dispatch('setImageCordinates', newcordinates)
-        newcordinates.isdelete = 1
+        newcordinates.isMerge = 1
         return this.$store.dispatch('generateSequence', newcordinates)
       }
     },
@@ -115,17 +121,28 @@ export default {
 
       // modify id of imageArea
       let currentKey = isSelectedAreaValue + 1
+      // 1
+      console.log('layers length', newcordinates.layers.length)
       if (type === 'image') {
-        let op = {id: deleteIndex + 1}
-        ch.imageArea('obv-product-design-objects-image-i' + currentKey, op)
+        for (let i = 0; i < newcordinates.layers.length; i++) {
+          let op = {id: deleteIndex + 1 + i}
+          let nums = currentKey + i
+          ch.imageArea('obv-product-design-objects-image-i' + nums, op)
+        }
       } else {
-        let op = {id: deleteIndex + 1}
-        ch.textArea('obv-product-design-objects-text-i' + currentKey, op)
+        // let op = {id: deleteIndex + 1}
+        // ch.textArea('obv-product-design-objects-text-i' + currentKey, op)
+        for (let i = 0; i < newcordinates.layers.length; i++) {
+          let op = {id: deleteIndex + 1 + i}
+          let nums = currentKey + i
+          ch.textArea('obv-product-design-objects-image-i' + nums, op)
+        }
       }
 
       for (let i = 0; i < newcordinates.layers.length; i++) {
         if (newcordinates.layers[i].key > iKey) {
           newcordinates.layers[i].key--
+          newcordinates.layers[i].commonIndex--
         }
       }
 

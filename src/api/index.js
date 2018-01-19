@@ -71,8 +71,6 @@ export const productDetail = ({ commit }, params) => {
 }
 
 export const mergeImages = (response) => {
-
-
   let mainImage = response.productImage
   let images = []
   let layers = []
@@ -102,15 +100,21 @@ export const mergeImages = (response) => {
   
   let responseLayers = response.layers
 
+  // for (var i = 0; i < responseLayers.length; i++) {
+  //   if (responseLayers[i].type === 'image') {
+  //     let index = responseLayers[i].key + 1
+  //     layers.push('i-' + index)
+  //   } else {
+  //     let index = responseLayers[i].key + 1
+  //     layers.push('t-' + index)
+  //   }
+  // }
+
   for (var i = 0; i < responseLayers.length; i++) {
-    if (responseLayers[i].type === 'image') {
-      let index = responseLayers[i].key + 1
-      layers.push('i-' + index)
-    } else {
-      let index = responseLayers[i].key + 1
-      layers.push('t-' + index)
-    }
+    let index = responseLayers[i].commonIndex
+    layers.push('i-' + index)
   }
+
   let imprintMethod=''
   if (response.imprintMethod === 'fabric') {
     imprintMethod = response.imprintMethod + '=1'

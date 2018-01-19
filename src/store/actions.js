@@ -43,8 +43,12 @@ export default {
     data.currentUploadedImage = state.userUploadedImageName
     data.isSelectedArea = state.isSelectedArea
 
-    if(data.isdelete === undefined) {
+    if(data.isMerge === undefined) {
       /* Different api */
+      /**
+       * call each image api if imprint method common changed. TODO.
+       * 
+       */
       let cachedI = state.imageCordinates.cachedImages
       let sArea = data.isActive
       let index = sArea.key
@@ -70,7 +74,7 @@ export default {
       }
       let uri
       if (value === 'text') {
-        uri = '?' +  imprintMethod + '&text=' + data.text + '&h=' + data.text_height[index].value + '&w=' + data.text_width[index].value + '&rotate=' + data.text_rotate[index].value + 
+        uri = '?' +  imprintMethod + '&text=' + data.texts[index].value + '&h=' + data.text_height[index].value + '&w=' + data.text_width[index].value + '&rotate=' + data.text_rotate[index].value + 
           '&flip=' + data.text_flip[index].value + '&flop=' + data.text_flop[index].value + '&text_color=' +  data.text_color[index].value +
           '&font_size=' +  data.font_size[index].value + '&text_curve=' +  data.text_curve[index].value + '&font_family=' +  data.font_family[index].value + '&sig=KwROfoP_7DjY'
         let imageName = (data.currentUploadedImage === null) ? 'blank.png' : data.userUploadedImage[index].value
@@ -78,11 +82,12 @@ export default {
         
         // save cached images
         if (state.imageCordinates.isActive !== null) {
-          if (cachedI[state.imageCordinates.isActive.key] !== undefined) {
+          if (cachedI[state.imageCordinates.isActive.key] !== undefined && cachedI[state.imageCordinates.isActive.key].type === 'text') {
             data.cachedImages[sArea.key].value = resp.image
           } else {
             let cachedImage = {key:index, type:value, value: resp.image}
-            data.cachedImages.push(cachedImage)          }
+            data.cachedImages.push(cachedImage)         
+          }
         }
       } else {
         uri = '?' +  imprintMethod + '&h=' + data.height[index].value + '&w=' + data.width[index].value + '&rotate=' + data.rotate[index].value + 
@@ -92,7 +97,7 @@ export default {
         
         // save cached images
         if (state.imageCordinates.isActive !== null) {
-          if (cachedI[state.imageCordinates.isActive.key] !== undefined) {
+          if (cachedI[state.imageCordinates.isActive.key] !== undefined && cachedI[state.imageCordinates.isActive.key].type === 'image') {
             data.cachedImages[sArea.key].value = resp.image
           } else {
             let cachedImage = {key:index, type:value, value: resp.image}

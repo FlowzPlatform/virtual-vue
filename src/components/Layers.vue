@@ -55,7 +55,9 @@ export default {
       let newcordinates = this.cordinates
       newcordinates.layers = this.currentLayers
       this.$store.dispatch('setImageCordinates', newcordinates)
-      return this.$store.dispatch('generateSequence', this.cordinates)
+      let sequence = this.cordinates
+      sequence.isMerge = 1
+      return this.$store.dispatch('generateSequence', sequence)
     }
   },
   computed: {

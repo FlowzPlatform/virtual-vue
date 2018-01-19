@@ -17,6 +17,8 @@ export default class Temp {
       },
       bindevent: function (id, imageSelectData) {
         id = this.element.imageArea('option', 'id')
+        let commonIndex = this.element.imageArea('option', 'commonIndex')
+        
         let currentEle = this.element
 
         if (this.element.imageArea('option', 'isMovable') == '1') {
@@ -24,7 +26,7 @@ export default class Temp {
             scroll: false,
             distance: 1,
             create: function (event, ui) {
-              this_.set_position(event, ui, currentEle.imageArea('option', 'id'), imageSelectData, 'image', id)
+              this_.set_position(event, ui, currentEle.imageArea('option', 'id'), imageSelectData, 'image', id, commonIndex)
               setTimeout(
                 function () {
                   currentEle.trigger('click')
@@ -35,7 +37,7 @@ export default class Temp {
             drag: function (event, ui) {
             },
             stop: function (event, ui) {
-              this_.set_position(event, ui, currentEle.imageArea('option', 'id'), imageSelectData, 'image', id)
+              this_.set_position(event, ui, currentEle.imageArea('option', 'id'), imageSelectData, 'image', id, commonIndex)
               imageSelectData.generateSequence()
               currentEle.trigger('click')
             }
@@ -49,7 +51,7 @@ export default class Temp {
 
             },
             create: function (event, ui) {
-              this_.set_position(event, ui, currentEle.imageArea('option', 'id'), imageSelectData, 'image', id)
+              this_.set_position(event, ui, currentEle.imageArea('option', 'id'), imageSelectData, 'image', id, commonIndex)
               setTimeout(
                 function () {
                   currentEle.trigger('click')
@@ -60,7 +62,7 @@ export default class Temp {
             },
             aspectRatio: true,
             stop: function (event, ui) {
-              this_.set_position(event, ui, currentEle.imageArea('option', 'id'), imageSelectData, 'image', id)
+              this_.set_position(event, ui, currentEle.imageArea('option', 'id'), imageSelectData, 'image', id, commonIndex)
               imageSelectData.generateSequence()
               currentEle.trigger('click')
             }
@@ -73,7 +75,7 @@ export default class Temp {
             start: function (event, ui) {
             },
             stop: function (event, ui) {
-              this_.set_position(event, ui, currentEle.imageArea('option', 'id'), imageSelectData, 'image', id)
+              this_.set_position(event, ui, currentEle.imageArea('option', 'id'), imageSelectData, 'image', id, commonIndex)
               imageSelectData.generateSequence()
             }
           })
@@ -106,6 +108,7 @@ export default class Temp {
       },
       bindevent4text: function (id, imageSelectData) {
         id = this.element.textArea('option', 'id')
+        let commonIndex = this.element.textArea('option', 'commonIndex')
         let currentEle = this.element
 
         if (this.element.textArea('option', 'isMovable') == '1') {
@@ -113,7 +116,7 @@ export default class Temp {
             scroll: false,
             distance: 1,
             create: function (event, ui) {
-              this_.set_position(event, ui, currentEle.textArea('option', 'id'), imageSelectData, 'text', id)
+              this_.set_position(event, ui, currentEle.textArea('option', 'id'), imageSelectData, 'text', id, commonIndex)
               setTimeout(
                 function () {
                   currentEle.trigger('click')
@@ -126,7 +129,7 @@ export default class Temp {
 
             },
             stop: function (event, ui) {
-              this_.set_position(event, ui, currentEle.textArea('option', 'id'), imageSelectData, 'text', id)
+              this_.set_position(event, ui, currentEle.textArea('option', 'id'), imageSelectData, 'text', id, commonIndex)
               imageSelectData.generateSequence()
               currentEle.trigger('click')
             }
@@ -137,7 +140,7 @@ export default class Temp {
 
             },
             stop: function (event, ui) {
-              this_.set_position(event, ui, currentEle.textArea('option', 'id'), imageSelectData, 'text', id)
+              this_.set_position(event, ui, currentEle.textArea('option', 'id'), imageSelectData, 'text', id, commonIndex)
               imageSelectData.generateSequence()
             }
           })
@@ -221,7 +224,8 @@ export default class Temp {
         defaultImprint: '',
         elementImprintMethod: [],
         singleColor: '000000',
-        ckhId: ''
+        ckhId: '',
+        commonIndex: null
       },
       _setOption: function (key, value) {
         this.options[ key ] = value
@@ -262,7 +266,8 @@ export default class Temp {
         width: imageSelectData.options.width,
         height: imageSelectData.options.height,
         imageLeft: imageSelectData.options.imageLeft,
-        imageTop: imageSelectData.options.imageTop
+        imageTop: imageSelectData.options.imageTop,
+        commonIndex: imageSelectData.options.commonIndex
       }
       $('.' + className).imageArea(passOptions)
     }
@@ -294,7 +299,8 @@ export default class Temp {
         elementImprintMethod: [],
         singleColor: '000000',
         width: 200,
-        height: 300
+        height: 300,
+        commonIndex: null
       },
       _setOption: function (key, value) {
 
@@ -338,13 +344,14 @@ export default class Temp {
         isEditable: imageSelectData.options.isEditable,
         isRemovable: imageSelectData.options.isRemovable,
         width: imageSelectData.options.width,
-        height: imageSelectData.options.height
+        height: imageSelectData.options.height,
+        commonIndex: imageSelectData.options.commonIndex
       }
       $('.' + className).textArea(passOptions)
     }
   }
 
-  set_position(event, ui, id, imageSelectData, type, hId) {
+  set_position(event, ui, id, imageSelectData, type, hId, commonIndex) {
     id--
     imageSelectData.isActive = {key: id, value: type}
     if (type == 'image') {
@@ -360,7 +367,7 @@ export default class Temp {
 
         imageSelectData.userUploadedImageUrl.push({key: id, type: type, value: imageProcessingUrl + 'users/' + imageSelectData.$store.state.userUploadedImageName})
         imageSelectData.userUploadedImage.push({key: id, type: type, value: imageSelectData.$store.state.userUploadedImageName})
-        imageSelectData.layers.push({key: id, hId: hId, type: type, value: imageSelectData.$store.state.userUploadedImageName})
+        imageSelectData.layers.push({key: id, hId: hId, type: type, value: imageSelectData.$store.state.userUploadedImageName, commonIndex: commonIndex})
       }
 
       // image height, topE, topW
@@ -491,7 +498,7 @@ export default class Temp {
 
       } else {
         imageSelectData.texts.push({key: id, type: type, value: imageSelectData.text})
-        imageSelectData.layers.push({key: id, hId: hId, type: type, value: imageSelectData.text})
+        imageSelectData.layers.push({key: id, hId: hId, type: type, value: imageSelectData.text, commonIndex: commonIndex})
       }
 
       // text curve
