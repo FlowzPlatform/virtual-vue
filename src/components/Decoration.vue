@@ -245,7 +245,8 @@ export default {
       }
       newcordinates.imprintColor = this.imprint_color
       this.$store.dispatch('setImageCordinates', newcordinates)
-      return this.$store.dispatch('generateSequence', this.cordinates)
+      newcordinates.changeAll = 1
+      return this.$store.dispatch('generateSequence', newcordinates)
     },
     onColorChange () {
       let newcordinates = this.cordinates

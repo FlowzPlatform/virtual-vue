@@ -1,5 +1,5 @@
-$(document).ready(function (){
- $(".product-thumb-anchar").on('click', function () {
+$(document).ready(function () {
+    $('.product-thumb-anchar').on('click', function () {
         var img_src = $(this).find("img").attr("src");
         $(".panzoom .owl-item.active").find("img").attr("src", img_src);
     });
@@ -199,7 +199,8 @@ $('#obv-editor ul > li > a').click(function(){
 $(document).click(function() {
     $('#obv-editor ul > li').removeClass('openadd');
 });
-$('.dropdown-menu').click(function(event) {
+$('.dropdown-menu, .cropImages').click(function(event) {
+    alert(1)
  		$(this).parent().parent().addClass('openadd')
 		  event.stopPropagation();
 });

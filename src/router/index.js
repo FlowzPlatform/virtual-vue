@@ -21,6 +21,14 @@ export default new Router({
       component: Virtual,
       history: true,
       props: (route) => ({ query: route.query.q })
+    },
+
+    {
+      path: '/',
+      name: 'Default',
+      component: Virtual,
+      history: true,
+      props: (route) => ({ query: route.query.q })
     }
 
   ],

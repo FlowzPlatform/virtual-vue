@@ -49,59 +49,122 @@ export default {
        * call each image api if imprint method common changed. TODO.
        * 
        */
-      let cachedI = state.imageCordinates.cachedImages
-      let sArea = data.isActive
-      let index = sArea.key
-      let value = sArea.value
+      if(data.changeAll !== undefined) {
+        for (let j=0; j < data.cachedImages.length; j++) {
 
-      // need to fix using lodash
-      let cImages = []
-      for (let i=0; i<cachedI.length; i++) {
-        cImages.push(cachedI[i].value);
-      }
+          let cachedI = state.imageCordinates.cachedImages
+          // let index = sArea.key
+          let value = data.cachedImages[j].value
 
-      let imprintMethod
-      if(data.imprintMethod === 'single_color' || data.imprintMethod === 'one_color') {
-        imprintMethod = data.imprintMethod + '=' + data.imprintColor
-      } else if(data.imprintMethod === 'firebranded') {
-        imprintMethod = 'fire=1'
-      } else if(data.imprintMethod === 'glass') {
-        imprintMethod = data.imprintMethod + '=' + data.imprintColor
-      } else if(data.imprintMethod === 'hot_stamp') {
-        imprintMethod = data.imprintMethod + '=' + data.imprintColor
-      } else {
-        imprintMethod = data.imprintMethod + '=1'
-      }
-      let uri
-      if (value === 'text') {
-        uri = '?' +  imprintMethod + '&text=' + data.texts[index].value + '&h=' + data.text_height[index].value + '&w=' + data.text_width[index].value + '&rotate=' + data.text_rotate[index].value + 
-          '&flip=' + data.text_flip[index].value + '&flop=' + data.text_flop[index].value + '&text_color=' +  data.text_color[index].value +
-          '&font_size=' +  data.font_size[index].value + '&text_curve=' +  data.text_curve[index].value + '&font_family=' +  data.font_family[index].value + '&sig=KwROfoP_7DjY'
-        let imageName = (data.currentUploadedImage === null) ? 'blank.png' : data.userUploadedImage[index].value
-        let resp = await imageEffect({ commit }, imageName, uri)
-        
-        // save cached images
-        if (state.imageCordinates.isActive !== null) {
-          if (cachedI[state.imageCordinates.isActive.key] !== undefined && cachedI[state.imageCordinates.isActive.key].type === 'text') {
-            data.cachedImages[sArea.key].value = resp.image
+          // need to fix using lodash
+          let cImages = []
+          for (let i=0; i<cachedI.length; i++) {
+            cImages.push(cachedI[i].value);
+          }
+
+          let imprintMethod
+          if(data.imprintMethod === 'single_color' || data.imprintMethod === 'one_color') {
+            imprintMethod = data.imprintMethod + '=' + data.imprintColor
+          } else if(data.imprintMethod === 'firebranded') {
+            imprintMethod = 'fire=1'
+          } else if(data.imprintMethod === 'glass') {
+            imprintMethod = data.imprintMethod + '=' + data.imprintColor
+          } else if(data.imprintMethod === 'hot_stamp') {
+            imprintMethod = data.imprintMethod + '=' + data.imprintColor
           } else {
-            let cachedImage = {key:index, type:value, value: resp.image}
-            data.cachedImages.push(cachedImage)         
+            imprintMethod = data.imprintMethod + '=1'
+          }
+          let uri
+          if (value === 'text') {
+            uri = '?' +  imprintMethod + '&text=' + data.texts[j].value + '&h=' + data.text_height[j].value + '&w=' + data.text_width[j].value + '&rotate=' + data.text_rotate[index].value + 
+              '&flip=' + data.text_flip[j].value + '&flop=' + data.text_flop[j].value + '&text_color=' +  data.text_color[j].value +
+              '&font_size=' +  data.font_size[j].value + '&text_curve=' +  data.text_curve[j].value + '&font_family=' +  data.font_family[j].value + '&sig=KwROfoP_7DjY'
+            let imageName = (data.currentUploadedImage === null) ? 'blank.png' : data.userUploadedImage[j].value
+            let resp = await imageEffect({ commit }, imageName, uri)
+            
+            // save cached images
+            if (data.isSelectedArea !== null) {
+              if (cachedI[j] !== undefined && cachedI[j].type === 'text') {
+                data.cachedImages[j].value = resp.image
+              } else {
+                let cachedImage = {key:j, type:value, value: resp.image}
+                data.cachedImages.push(cachedImage)         
+              }
+            }
+          } else {
+            uri = '?' +  imprintMethod + '&h=' + data.height[j].value + '&w=' + data.width[j].value + '&rotate=' + data.rotate[j].value + 
+              '&flip=' + data.flip[j].value + '&flop=' + data.flop[j].value + '&back=' + data.background[j].value + '&sig=KwROfoP_7DjY'
+            let imageName = (data.currentUploadedImage === null) ? 'blank.png' : data.userUploadedImage[j].value
+            let resp = await imageEffect({ commit }, imageName, uri)
+            
+            // save cached images
+            if (state.imageCordinates.isActive !== null) {
+              if (cachedI[j] !== undefined && cachedI[j].type === 'image') {
+                data.cachedImages[j].value = resp.image
+              } else {
+                let cachedImage = {key:j, type:value, value: resp.image}
+                data.cachedImages.push(cachedImage)
+              }
+            }
           }
         }
-      } else {
-        uri = '?' +  imprintMethod + '&h=' + data.height[index].value + '&w=' + data.width[index].value + '&rotate=' + data.rotate[index].value + 
-          '&flip=' + data.flip[index].value + '&flop=' + data.flop[index].value + '&back=' + data.background[index].value + '&sig=KwROfoP_7DjY'
-        let imageName = (data.currentUploadedImage === null) ? 'blank.png' : data.userUploadedImage[index].value
-        let resp = await imageEffect({ commit }, imageName, uri)
-        
-        // save cached images
-        if (state.imageCordinates.isActive !== null) {
-          if (cachedI[state.imageCordinates.isActive.key] !== undefined && cachedI[state.imageCordinates.isActive.key].type === 'image') {
-            data.cachedImages[sArea.key].value = resp.image
-          } else {
-            let cachedImage = {key:index, type:value, value: resp.image}
-            data.cachedImages.push(cachedImage)
+      }else {
+        let cachedI = state.imageCordinates.cachedImages
+        // let sArea = data.isActive
+        let sArea = data.isSelectedArea
+        let index = sArea.value - 1
+        let value = sArea.key
+        console.log(data.isSelectedArea)
+        console.log(index+'=='+value)
+        // need to fix using lodash
+        let cImages = []
+        for (let i=0; i<cachedI.length; i++) {
+          cImages.push(cachedI[i].value);
+        }
+
+        let imprintMethod
+        if(data.imprintMethod === 'single_color' || data.imprintMethod === 'one_color') {
+          imprintMethod = data.imprintMethod + '=' + data.imprintColor
+        } else if(data.imprintMethod === 'firebranded') {
+          imprintMethod = 'fire=1'
+        } else if(data.imprintMethod === 'glass') {
+          imprintMethod = data.imprintMethod + '=' + data.imprintColor
+        } else if(data.imprintMethod === 'hot_stamp') {
+          imprintMethod = data.imprintMethod + '=' + data.imprintColor
+        } else {
+          imprintMethod = data.imprintMethod + '=1'
+        }
+        let uri
+        if (value === 'text') {
+          uri = '?' +  imprintMethod + '&text=' + data.texts[index].value + '&h=' + data.text_height[index].value + '&w=' + data.text_width[index].value + '&rotate=' + data.text_rotate[index].value + 
+            '&flip=' + data.text_flip[index].value + '&flop=' + data.text_flop[index].value + '&text_color=' +  data.text_color[index].value +
+            '&font_size=' +  data.font_size[index].value + '&text_curve=' +  data.text_curve[index].value + '&font_family=' +  data.font_family[index].value + '&sig=KwROfoP_7DjY'
+          let imageName = (data.currentUploadedImage === null) ? 'blank.png' : data.userUploadedImage[index].value
+          let resp = await imageEffect({ commit }, imageName, uri)
+          
+          // save cached images
+          if (state.imageCordinates.isActive !== null) {
+            if (cachedI[index] !== undefined && cachedI[index].type === 'text') {
+              data.cachedImages[index].value = resp.image
+            } else {
+              let cachedImage = {key:index, type:value, value: resp.image}
+              data.cachedImages.push(cachedImage)         
+            }
+          }
+        } else {
+          uri = '?' +  imprintMethod + '&h=' + data.height[index].value + '&w=' + data.width[index].value + '&rotate=' + data.rotate[index].value + 
+            '&flip=' + data.flip[index].value + '&flop=' + data.flop[index].value + '&back=' + data.background[index].value + '&sig=KwROfoP_7DjY'
+          let imageName = (data.currentUploadedImage === null) ? 'blank.png' : data.userUploadedImage[index].value
+          let resp = await imageEffect({ commit }, imageName, uri)
+          
+          // save cached images
+          if (state.imageCordinates.isActive !== null) {
+            if (cachedI[index] !== undefined && cachedI[index].type === 'image') {
+              data.cachedImages[index].value = resp.image
+            } else {
+              let cachedImage = {key:index, type:value, value: resp.image}
+              data.cachedImages.push(cachedImage)
+            }
           }
         }
       }

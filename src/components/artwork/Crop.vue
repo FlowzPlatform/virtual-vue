@@ -6,7 +6,11 @@
     <div class="dropdown-menu" v-show="isWorkSelected">
       <h2>Crop</h2>
         <div class="crop-ui-col">
-          <div class="crop-editor cropImage"><img id="cropImageUrl" v-bind:src="cropImageUrl" style="height:225px" ></div>
+          <div class="crop-editor cropImages">
+            <!-- <div class="cropImageaa"> -->
+              <img id="cropImageUrl" v-bind:src="cropImageUrl" >
+            <!-- </div> -->
+          </div>
         </div>
         <div class="action-button">
           <a href="javascript:void(0);"  id="cancelCrop" class="btn-default">Cancel</a>
@@ -99,6 +103,8 @@ export default {
       oImg.Jcrop({
         setSelect: [0, 0, 150, 150],
         onChange: this.showCoords
+        // boxWidth: 400,
+        // boxHeight: 200
       }, function () {
         vthis.jcrop_api = this
       })
@@ -135,11 +141,15 @@ export default {
   },
   mounted () {
     this.initJcrop($('.cropImage'))
+    $('img#cropImageUrl').imgAreaSelect({
+      handles: true
+      // onSelectEnd: someFunction
+    })
   }
 }
 </script>
 <style>
 #obv-editor .crop-ui-col{
-  height:225px; 
+  /*height:225px; */
 }
 </style>

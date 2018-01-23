@@ -352,6 +352,7 @@ export default class Temp {
   }
 
   set_position(event, ui, id, imageSelectData, type, hId, commonIndex) {
+    imageSelectData.$store.dispatch('setIsSelectedArea', { key: type, value: id })
     id--
     imageSelectData.isActive = {key: id, value: type}
     if (type == 'image') {
