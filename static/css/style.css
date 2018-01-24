@@ -207,6 +207,8 @@ font-size:14px; color: #888; font-family: 'Helvetica Neue LT Std'; font-weight: 
 #obv-editor.ui-image-editor > ul > li.dropdown.open>.dropdown-menu::after { width: 0px; content: ''; position: absolute; top: 10px; left: -7px; height: 0px; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 7px solid #fff; }
 #obv-editor.ui-image-editor > ul > li.dropdown.open>.dropdown-menu::before { width: 0px; content: ''; position: absolute; top: 9px; left: -8px; height: 0px; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-right: 8px solid #c5c5c5; }
 #obv-editor.ui-image-editor > ul > li.dropdown.open>.dropdown-menu h2 { font-size: 11px; color: #47494b; font-family: 'Helvetica Neue'; font-weight: 400; text-transform: uppercase; }
+#obv-editor.ui-image-editor > ul > li.dropdown.openadd>.dropdown-menu h2 { font-size: 11px; color: #47494b; font-family: 'Helvetica Neue'; font-weight: 400; text-transform: uppercase; }
+
 /*--ALIGNMENT--*/
 #obv-editor .obc-add-img-align-und { margin-top: 10px; position: relative; width: 120px; height: 60px; border: solid 1px #c5c5c5; }
 #obv-editor .obc-add-img-align-top { background-color: rgba(255,255,255,0.66); height: 15px; box-shadow: inset 0px -2px 3px rgba(0,0,0,0.5); border-radius: 0 0 15px 15px; position: absolute; top: 0; left: 0; right: 0; cursor: pointer; text-align: center; font-family: 'Helvetica Neue LT Std Roman'; }

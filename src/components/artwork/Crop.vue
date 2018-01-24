@@ -6,7 +6,7 @@
     <div class="dropdown-menu" v-show="isWorkSelected">
       <h2>Crop</h2>
         <div class="crop-ui-col">
-          <div class="crop-editor cropImages">
+          <div class="crop-editor cropImage">
             <!-- <div class="cropImageaa"> -->
               <img id="cropImageUrl" v-bind:src="cropImageUrl" >
             <!-- </div> -->
@@ -14,7 +14,7 @@
         </div>
         <div class="action-button">
           <a href="javascript:void(0);"  id="cancelCrop" class="btn-default">Cancel</a>
-            <a href="javascript:void(0);" id="confirmCrop" @click="confirmCrop" class="btn-default">Confirm</a>
+            <a href="javascript:void(0);" id="confirmCrop" @click="confirmCrop_" class="btn-default">Confirm</a>
         </div>
      </div>
  </li>
@@ -29,9 +29,10 @@ export default {
     return {
       open: true,
       cropImageUrl: '',
-      imageAxis: [],
+      imageAxis: {},
       jcrop_api: '',
-      imageDimension: []
+      imageDimension: [],
+      ias: null
     }
   },
   methods: {
@@ -114,6 +115,60 @@ export default {
       this.imageAxis['y'] = c.y
       this.imageAxis['w'] = c.w
       this.imageAxis['h'] = c.h
+    },
+
+    getCordinates: function (image, selection) {
+      console.log(selection)
+      // this.imageAxis.x = selection.x2 - selection.x1
+      // this.imageAxis.y = selection.y2 - selection.y1
+      this.imageAxis.x = selection.x1
+      this.imageAxis.y = selection.y1
+      this.imageAxis.w = selection.width
+      this.imageAxis.h = selection.height
+    },
+
+    confirmCrop_: async function () {
+      let crop = {}
+      let isSelectedAreaKey = this.$store.state.isSelectedArea.value - 1
+      let newcordinates = this.cordinates
+      let cropImage = newcordinates.userUploadedImage[isSelectedAreaKey].value
+
+      // let imgWidth, imgHeight
+      // let imgLoad = $('<img />')
+      // imgLoad.attr('src', this.cropImageUrl)
+      // imgLoad.on('load', function () {
+      //   imgWidth = this.width
+      //   imgHeight = this.height
+      // })
+
+      // console.log()
+      // let tempHeight = (imgHeight / this.imageAxis.h).toFixed(2)
+      // let tempWidth = (imgWidth / this.imageAxis.w).toFixed(2)
+
+      // this.imageAxis.x = this.imageAxis.x * tempWidth
+      // this.imageAxis.y = this.imageAxis.y * tempHeight
+      // this.imageAxis.h = this.imageAxis.h * tempWidth
+      // this.imageAxis.w = this.imageAxis.w * tempWidth
+
+      crop.cropAxis = this.imageAxis
+      crop.cropImage = cropImage
+      // make it to aspect ratio
+      // to do
+      console.log(crop)
+      await this.$store.dispatch('cropImage', crop)
+      let url
+      let time = new Date().getTime()
+      if (newcordinates.userUploadedImageUrl[isSelectedAreaKey].value.indexOf('?h=') !== -1) {
+        url = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value.replace('?', '?' + time)
+      } else {
+        url = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value + '?' + time
+      }
+      this.cropImageUrl = url
+      // this.jcrop_api.setImage(this.cropImageUrl)
+      newcordinates.cropped = newcordinates.cropped + 1
+      // this.ias.cancelSelection()
+      this.$store.dispatch('setImageCordinates', newcordinates)
+      return this.$store.dispatch('generateSequence', newcordinates)
     }
   },
   watch: {
@@ -140,10 +195,11 @@ export default {
     }
   },
   mounted () {
-    this.initJcrop($('.cropImage'))
-    $('img#cropImageUrl').imgAreaSelect({
-      handles: true
-      // onSelectEnd: someFunction
+    let vThis = this
+    // this.initJcrop($('.cropImage'))
+    this.ias = $('img#cropImageUrl').imgAreaSelect({
+      handles: true,
+      onSelectEnd: vThis.getCordinates
     })
   }
 }

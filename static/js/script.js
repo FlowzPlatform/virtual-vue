@@ -187,23 +187,37 @@ $(document).ready(function () {
 //        event.preventDefault() ;
 //        $('.ui-right-panel').removeClass('active');
 //    });
-
-$('#obv-editor ul > li > a').click(function(){
- 		if ($(this).parent().hasClass('openadd')) {
-			  $(this).parent().removeClass('openadd');
+$(document).on('click', '#obv-editor ul > li > a', function() {
+ 	if ($(this).parent().hasClass('openadd')) {
+		$(this).parent().removeClass('openadd');
     }else{
-				$('#obv-editor ul > li').removeClass('openadd');
-				$(this).parent().addClass('openadd');
-		}
+		$('#obv-editor ul > li').removeClass('openadd');
+		$(this).parent().addClass('openadd');
+	}
 });
-$(document).click(function() {
-    $('#obv-editor ul > li').removeClass('openadd');
+// $(document).click(function(event) {
+//     let donotRemove = $(event.target).is( ".imgareaselect-outer, .imgareaselect-border1, .imgareaselect-border2, .imgareaselect-border3, .imgareaselect-border4")
+//     if(donotRemove !== true) $('#obv-editor ul > li').removeClass('open')
+// });
+// $('.dropdown-menu').click(function(event) {
+//     alert($(this).parent().hasClass('open'));
+
+//  	//$(this).parent().parent().addClass('open')
+// 	//event.stopPropagation();
+// });
+
+$(document).on('click', '.dropdown-menu', function() {
+    $(this).parent().addClass('openadd')
 });
-$('.dropdown-menu, .cropImages').click(function(event) {
-    alert(1)
- 		$(this).parent().parent().addClass('openadd')
-		  event.stopPropagation();
-});
+
+
+// $(document).on('click', '.imgareaselect-outer', function() {
+//     // alert(1)
+//     $('.cropImages').parent().parent().parent().addClass('openadd')
+//     alert(111)
+// 	event.stopPropagation();
+// });
+
 $('#cancelCrop,#confirmCrop').click(function() {
      $('#obv-editor ul > li').removeClass('openadd open');
 });

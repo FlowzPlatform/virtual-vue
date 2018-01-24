@@ -12,6 +12,7 @@ export default {
   },
 
   cropImage: ({commit, state}, data) => {
+    console.log("cropped data", data)
     let cropImage = data.cropImage
     let cropImageXAxis = data.cropAxis.x
     let cropImagYAxis = data.cropAxis.y
