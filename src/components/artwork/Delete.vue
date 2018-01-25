@@ -127,7 +127,7 @@ export default {
         for (let i = 0; i < newcordinates.layers.length; i++) {
           let op = {id: deleteIndex + 1 + i}
           let nums = currentKey + i
-          ch.imageArea('obv-product-design-objects-image-i' + nums, op)
+          ch.imageArea('obv-product-design-objects-image-i' + nums, op, true)
         }
       } else {
         // let op = {id: deleteIndex + 1}
@@ -135,7 +135,7 @@ export default {
         for (let i = 0; i < newcordinates.layers.length; i++) {
           let op = {id: deleteIndex + 1 + i}
           let nums = currentKey + i
-          ch.textArea('obv-product-design-objects-image-i' + nums, op)
+          ch.textArea('obv-product-design-objects-image-i' + nums, op, true)
         }
       }
 

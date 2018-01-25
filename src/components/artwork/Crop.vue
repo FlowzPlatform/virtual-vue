@@ -20,8 +20,13 @@
  </li>
 </template>
 <script src="http://deepliquid.com/projects/Jcrop/js/jquery.Jcrop.js"> </script>
+import { log } from "util";
+
+import { log } from "util";
+
 <script>
 import { mapGetters } from 'vuex'
+import Temp from '../../classes/Temp'
 
 export default {
   name: 'crop',
@@ -118,9 +123,6 @@ export default {
     },
 
     getCordinates: function (image, selection) {
-      console.log(selection)
-      // this.imageAxis.x = selection.x2 - selection.x1
-      // this.imageAxis.y = selection.y2 - selection.y1
       this.imageAxis.x = selection.x1
       this.imageAxis.y = selection.y1
       this.imageAxis.w = selection.width
@@ -132,29 +134,26 @@ export default {
       let isSelectedAreaKey = this.$store.state.isSelectedArea.value - 1
       let newcordinates = this.cordinates
       let cropImage = newcordinates.userUploadedImage[isSelectedAreaKey].value
+      this.cropImageUrl = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value
 
-      // let imgWidth, imgHeight
-      // let imgLoad = $('<img />')
-      // imgLoad.attr('src', this.cropImageUrl)
-      // imgLoad.on('load', function () {
-      //   imgWidth = this.width
-      //   imgHeight = this.height
-      // })
+      let ch = new Temp()
+      let productImageProps = await ch.addImageProcess(this.cropImageUrl)
+      let $img = $('#cropImageUrl')
+      let width = $img.width()
+      let height = $img.height()
 
-      // console.log()
-      // let tempHeight = (imgHeight / this.imageAxis.h).toFixed(2)
-      // let tempWidth = (imgWidth / this.imageAxis.w).toFixed(2)
+      let tempHeight = (productImageProps.height / height).toFixed(2)
+      let tempWidth = (productImageProps.width / width).toFixed(2)
 
-      // this.imageAxis.x = this.imageAxis.x * tempWidth
-      // this.imageAxis.y = this.imageAxis.y * tempHeight
-      // this.imageAxis.h = this.imageAxis.h * tempWidth
-      // this.imageAxis.w = this.imageAxis.w * tempWidth
+      this.imageAxis.x = this.imageAxis.x * tempWidth
+      this.imageAxis.y = this.imageAxis.y * tempHeight
+      this.imageAxis.h = this.imageAxis.h * tempHeight
+      this.imageAxis.w = this.imageAxis.w * tempWidth
 
       crop.cropAxis = this.imageAxis
       crop.cropImage = cropImage
       // make it to aspect ratio
       // to do
-      console.log(crop)
       await this.$store.dispatch('cropImage', crop)
       let url
       let time = new Date().getTime()
@@ -164,11 +163,26 @@ export default {
         url = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value = newcordinates.userUploadedImageUrl[isSelectedAreaKey].value + '?' + time
       }
       this.cropImageUrl = url
-      // this.jcrop_api.setImage(this.cropImageUrl)
       newcordinates.cropped = newcordinates.cropped + 1
+      newcordinates.height[isSelectedAreaKey].value = this.imageAxis.h
+      newcordinates.width[isSelectedAreaKey].value = this.imageAxis.w
       // this.ias.cancelSelection()
+      // change imagearea ratio
+      let imgProps = {
+        height: this.imageAxis.h,
+        width: this.imageAxis.w
+      }
+      console.log(imgProps)
+      let imgCordinates = ch.imageCordinates(imgProps, newcordinates.artwork_width, newcordinates.artwork_height)
+      let op = {
+        width: imgCordinates.width,
+        height: imgCordinates.height
+      }
+      console.log(op)
+      ch.imageArea('obv-product-design-objects-image-i' + this.$store.state.isSelectedArea.value, op, true)
+
       this.$store.dispatch('setImageCordinates', newcordinates)
-      return this.$store.dispatch('generateSequence', newcordinates)
+      this.$store.dispatch('generateSequence', newcordinates)
     }
   },
   watch: {

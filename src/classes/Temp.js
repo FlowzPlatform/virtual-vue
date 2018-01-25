@@ -197,7 +197,7 @@ export default class Temp {
     })
   }
 
-  imageArea (className, imageSelectData) {
+  imageArea (className, imageSelectData, isUpdate) {
     $.widget('virtualWorld.imageArea', $.virtualWorld.baseArea, {
       options: {
         width: 200,
@@ -229,6 +229,7 @@ export default class Temp {
       },
       _setOption: function (key, value) {
         this.options[ key ] = value
+        this.element.css({'width': this.options.width, 'height': this.options.height, 'left': this.options.imageLeft, 'top': this.options.imageTop, 'position': 'absolute'})
         this._update()
       },
       _update: function () {
@@ -255,8 +256,8 @@ export default class Temp {
       }
     })
 
-    if (imageSelectData.id !== undefined) {
-      $('.' + className).imageArea('option', 'id', imageSelectData.id)
+    if (isUpdate === true) {
+      $('.' + className).imageArea('option', imageSelectData)
     } else {
       let passOptions = {
         id: imageSelectData.image_area_work,
@@ -273,7 +274,7 @@ export default class Temp {
     }
   }
 
-  textArea (className, imageSelectData) {
+  textArea (className, imageSelectData, isUpdate) {
     $.widget('virtualWorld.textArea', $.virtualWorld.baseArea, {
       options: {
         id: 0,
@@ -303,7 +304,7 @@ export default class Temp {
         commonIndex: null
       },
       _setOption: function (key, value) {
-
+        
       },
       _update: function () {
 
@@ -335,8 +336,8 @@ export default class Temp {
     // }
     // $('.' + className).textArea(passOptions)
 
-    if (imageSelectData.id !== undefined) {
-      $('.' + className).textArea('option', 'id', imageSelectData.id)
+    if (isUpdate === true) {
+      $('.' + className).textArea('option', imageSelectData)
     } else {
       let passOptions = {
         id: imageSelectData.text_area_work,
