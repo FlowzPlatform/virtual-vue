@@ -53,6 +53,14 @@ export default {
       this.$store.dispatch('setProductImprint', unIm)
     },
 
+    setImprintDetails (imprint) {
+      // var unserialize = require('../classes/unserialize')
+      // let unIm = unserialize(productImprint)
+      console.log(imprint)
+      this.$store.dispatch('setProductImprintDetails', imprint)
+      this.$store.dispatch('setProductSelectedImprint', imprint[0].locationKey)
+    },
+
     defineProductImages (virtualImages) {
       let images = virtualImages
       this.$store.dispatch('setProductVariationImages', images)
@@ -60,6 +68,7 @@ export default {
       // TODO this should be a product main image.
       let pImage = images[0].image
       this.$store.dispatch('setProductImage', pImage)
+      this.$store.dispatch('setSelectedThumbImage', images[0])
       this.$store.dispatch('setImageUrl', imageProcessingUrl + 'products/' + pImage)
     }
   },
@@ -73,6 +82,7 @@ export default {
       let productDetail = await this.productDetail(this.$store.state.virtualData.product_id)
       console.log(productDetail)
       this.defineImprintArea(productDetail.imprintDetail[0].imprintParam)
+      this.setImprintDetails(productDetail.imprintDetail)
       await this.defineProductImages(productDetail.imprintDetail[0].images)
     }
   },

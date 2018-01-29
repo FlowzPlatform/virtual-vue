@@ -216,6 +216,7 @@
 </div>
 </template>
 <script>
+/*eslint-disable */
 import { mapGetters } from 'vuex'
 // import defaultImprintMethod from '../store/actions'
 
@@ -237,19 +238,26 @@ export default {
     getImageData () {
     },
     onChange () {
-      let newcordinates = this.cordinates
+      let selectedImprint = this.productSelectedImprint
+      let index = _.findIndex(this.cordinates, function (o) { return o.position === selectedImprint })
+      let newcordinates = this.cordinates[index]
       if (newcordinates.text_color.length > 0) {
         for (let i = 0; i < newcordinates.text_color.length; i++) {
           newcordinates.text_color[i].value = this.imprint_color
         }
       }
       newcordinates.imprintColor = this.imprint_color
-      this.$store.dispatch('setImageCordinates', newcordinates)
+      
+      let setCords = this.cordinates
       newcordinates.changeAll = 1
-      return this.$store.dispatch('generateSequence', newcordinates)
+      setCords[index] = newcordinates
+      this.$store.dispatch('setImageCordinates', setCords)
+      return this.$store.dispatch('generateSequence', setCords)
     },
     onColorChange () {
-      let newcordinates = this.cordinates
+      let selectedImprint = this.productSelectedImprint
+      let index = _.findIndex(this.cordinates, function (o) { return o.position === selectedImprint })
+      let newcordinates = this.cordinates[index]
       this.swatches = []
       newcordinates.imprintColor = this.imprint_color
       if (newcordinates.text_color.length > 0) {
@@ -258,26 +266,36 @@ export default {
         }
       }
       this.getPmsColor(this.imprint_color)
-      this.$store.dispatch('setImageCordinates', newcordinates)
+      let setCords = this.cordinates
+      setCords[index] = newcordinates
+      this.$store.dispatch('setImageCordinates', setCords)
       return this.$store.dispatch('generateSequence', this.cordinates)
     },
     onPmsChange () {
-      let newcordinates = this.cordinates
+      let selectedImprint = this.productSelectedImprint
+      let index = _.findIndex(this.cordinates, function (o) { return o.position === selectedImprint })
+      let newcordinates = this.cordinates[index]
       newcordinates.imprintColor = this.imprint_pms
       if (newcordinates.text_color.length > 0) {
         for (let i = 0; i < newcordinates.text_color.length; i++) {
           newcordinates.text_color[i].value = this.imprint_pms
         }
       }
-      this.$store.dispatch('setImageCordinates', newcordinates)
+      let setCords = this.cordinates
+      setCords[index] = newcordinates
+      this.$store.dispatch('setImageCordinates', setCords)
       return this.$store.dispatch('generateSequence', this.cordinates)
     },
     changeBackground () {
-      let newcordinates = this.cordinates
+      let selectedImprint = this.productSelectedImprint
+      let index = _.findIndex(this.cordinates, function (o) { return o.position === selectedImprint })
+      let newcordinates = this.cordinates[index]
       let selected = this.selecteArea.value
       selected = parseInt(selected) - 1
       newcordinates.background[selected].value = this.background.join('-')
-      this.$store.dispatch('setImageCordinates', newcordinates)
+      let setCords = this.cordinates
+      setCords[index] = newcordinates
+      this.$store.dispatch('setImageCordinates', setCords)
       return this.$store.dispatch('generateSequence', this.cordinates)
     },
     getPmsColor (imprintColor) {
@@ -382,7 +400,8 @@ export default {
     },
     ...mapGetters({
       cordinates: 'getImageCordinates',
-      selecteArea: 'getIsSelectedArea'
+      selecteArea: 'getIsSelectedArea',
+      productSelectedImprint: 'getProductSelectedImprint'
     }),
     isTextorImage: function () {
       if (Object.keys(this.cordinates).length === 0 && this.cordinates.constructor === Object) {

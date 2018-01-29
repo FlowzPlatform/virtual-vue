@@ -6,12 +6,12 @@
             <div class="panzoom">
               <div class="owl-carousels" id="image-gallerys">
                   <div class="item">
-                    <i class="fa fa-angle-left fa-5 fl" aria-hidden="true"></i>
+                    <i class="fa fa-angle-left fa-5 fl" aria-hidden="true" @click="changeSide('left')"></i>
                     <div class="obv-product-main-images">
                       <img  ref="image" :src="url" alt="" height="500" id="image"  >
                       <image-select></image-select>
                     </div>
-                    <i class="fa fa-angle-right fa-5 fr" aria-hidden="true"></i>
+                    <i class="fa fa-angle-right fa-5 fr" aria-hidden="true" @click="changeSide('right')"></i>
                   </div>
 
               </div>
@@ -75,6 +75,7 @@
 }
 </style>
 <script>
+/*eslint-disable */
 import { mapGetters } from 'vuex'
 import ImageSelect from '../image-select/ImageSelect.vue'
 import { imageProcessingUrl } from '../../constants'
@@ -83,7 +84,7 @@ export default {
   name: 'product-gallery',
   data () {
     return {
-      open: true,
+      side: 0,
       imageProcessingUrl: imageProcessingUrl,
       data: null
     }
@@ -92,7 +93,10 @@ export default {
 
   computed: {
     ...mapGetters({
-      url: 'getImageUrl'
+      url: 'getImageUrl',
+      cordinates: 'getImageCordinates',
+      productImprintDetails: 'getProductImprintDetails',
+      selectedThumbImage: 'getSelectedThumbImage'
     })
   },
   methods: {
@@ -101,6 +105,43 @@ export default {
       if (!target.is('.vj-hotspot-selected')) {
         $('.vj-hotspot-selected').removeClass('vj-hotspot-selected')
         this.$store.dispatch('setIsSelectedArea', null)
+      }
+    },
+
+    changeSide: function (side) {
+      let cords = _.nth(this.cordinates, this.side)
+      // cords = (cords === undefined) ? [] : cords
+      if (side === 'left') {
+        if (this.side > 0) {
+          this.side--
+          this.$store.dispatch('setProductVariationImages', this.productImprintDetails[this.side].images)
+          this.$store.dispatch('setProductSelectedImprint', this.productImprintDetails[this.side].locationKey)
+
+          if(cords === undefined) {
+            // selectedThumbImage
+            let colorId = this.selectedThumbImage.colorId
+            let index = _.findIndex(this.productImprintDetails[this.side].images, function(o) { return o.colorId == colorId })
+            let imageUrl = this.productImprintDetails[this.side].images[index].image
+            this.$store.dispatch('setImageUrl', imageProcessingUrl + 'products/' + imageUrl)
+          } else {
+            this.$store.dispatch('generateSequence', cords)
+          }
+        }
+      } else {
+        if (this.side < this.$store.state.productImprint.length) {
+          this.side++
+          this.$store.dispatch('setProductVariationImages', this.productImprintDetails[this.side].images)
+          this.$store.dispatch('setProductSelectedImprint', this.productImprintDetails[this.side].locationKey)
+          if(cords === undefined) {
+            // selectedThumbImage
+            let colorId = this.selectedThumbImage.colorId
+            let index = _.findIndex(this.productImprintDetails[this.side].images, function(o) { return o.colorId == colorId })
+            let imageUrl = this.productImprintDetails[this.side].images[index].image
+            this.$store.dispatch('setImageUrl', imageProcessingUrl + 'products/' + imageUrl)
+          } else {
+            this.$store.dispatch('generateSequence', cords)
+          }
+        }
       }
     }
   },

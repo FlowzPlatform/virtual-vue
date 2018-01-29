@@ -9,7 +9,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    imageCordinates: {},
+    imageCordinates: [],
     imageUrl: null,
     defaultImprintMethod: 'multi_color',
     imprintMethodImage: 'static/images/multi_color.png',
@@ -18,6 +18,7 @@ export default new Vuex.Store({
     isTextAdded: false,
     text: null,
     productImage: null,
+    selectedThumbImage: null,
     productVariationImages: [],
     productsideImages: [
       {
@@ -34,6 +35,8 @@ export default new Vuex.Store({
       }
     ],
     productImprint: [],
+    productImprintDetails: null,
+    productSelectedImprint: null,
     isSelectedArea: null,
     virtualData: {},
     fontFamily: [],

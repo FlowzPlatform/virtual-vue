@@ -21,6 +21,7 @@
 </li>
 </template>
 <script>
+/*eslint-disable */
 import { mapGetters } from 'vuex'
 
 export default {
@@ -33,10 +34,15 @@ export default {
   },
   methods: {
     changeOpacity () {
-      let newcordinates = this.cordinates
+      let selectedImprint = this.productSelectedImprint
+      let index = _.findIndex(this.cordinates, function (o) { return o.position === selectedImprint })
+      let newcordinates = this.cordinates[index]
+
       newcordinates.opacity = this.opacity
-      this.$store.dispatch('setImageCordinates', newcordinates)
-      return this.$store.dispatch('generateSequence', this.cordinates)
+      let setCords = this.cordinates
+      setCords[index] = newcordinates
+      this.$store.dispatch('setImageCordinates', setCords)
+      return this.$store.dispatch('generateSequence', this.cordinates[index])
     },
     isImageText () {
       if (this.isWorkSelected === false) {
@@ -55,7 +61,8 @@ export default {
   computed: {
     ...mapGetters({
       cordinates: 'getImageCordinates',
-      selecteArea: 'getIsSelectedArea'
+      selecteArea: 'getIsSelectedArea',
+      productSelectedImprint: 'getProductSelectedImprint'
     }),
     isWorkSelected: function () {
       return (this.selecteArea === null) ? false : true

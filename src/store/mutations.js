@@ -14,6 +14,7 @@ export default {
   },
   [types.SET_IMAGE_CORDINATES]: (state, {cordinates}) => {
     state.imageCordinates = cordinates
+    // state.imageCordinates.push(cordinates)
   },
   [types.SET_IS_TEXT_ADDED]: (state, {value}) => {
     state.isTextAdded = value
@@ -41,5 +42,14 @@ export default {
   },
   [types.SET_IMPRINT_METHOD_IMAGE]: (state, {image}) => {
     state.imprintMethodImage = image
+  },
+  [types.SET_PRODUCT_IMPRINT_DETAILS]: (state, {imprint}) => {
+    state.productImprintDetails = imprint
+  },
+  [types.SET_PRODUCT_SELECTED_IMPRINT]: (state, {imprint}) => {
+    state.productSelectedImprint = imprint
+  },
+  [types.SET_SELECTED_THUMB_IMAGE]: (state, {image}) => {
+    state.selectedThumbImage = image
   }
 }

@@ -6,6 +6,8 @@
 </template>
 
 <script>
+/*eslint-disable */
+
 import { mapGetters } from 'vuex'
 // import generateSequence from '../../store/actions.js'
 import Temp from '../../classes/Temp'
@@ -62,7 +64,8 @@ let data = {
   cropped: 0,
   show: false,
   isActive: null,
-  commonIndex: 1
+  commonIndex: 1,
+  position: null
 }
 
 export default {
@@ -76,7 +79,9 @@ export default {
       userUploadedImageName: 'getUserUploadedImageName',
       isTextAdded: 'getIsTextAdded',
       text: 'getText',
-      productImage: 'getProductImage'
+      productImage: 'getProductImage',
+      imageCordinates: 'getImageCordinates',
+      productSelectedImprint: 'getProductSelectedImprint'
     }),
 
     productImprintArea: function () {
@@ -106,6 +111,7 @@ export default {
         this.options.isMovable = 1
         this.options.isRemovable = 1
         this.options.commonIndex = this.commonIndex
+        this.position = this.$store.state.productSelectedImprint
         $('.selector').append('<div class="obv-product-design-objects-image-i' + this.image_area_work + ' vj-hotspot-selected child-selector"></div>')
         ch.imageArea('obv-product-design-objects-image-i' + this.image_area_work, this)
         this.generateSequence()
@@ -165,7 +171,16 @@ export default {
   },
   methods: {
     generateSequence: function () {
-      this.$store.dispatch('setImageCordinates', data)
+      let selectedImprint = this.productSelectedImprint
+      let index = _.findIndex(this.imageCordinates, function (o) { return o.position === selectedImprint })
+      let _data = this.imageCordinates
+      if(index === -1) {
+        _data.push(data)
+        this.$store.dispatch('setImageCordinates', _data)
+      } else {
+        _data[index] = data
+        this.$store.dispatch('setImageCordinates', _data)
+      }
       return this.$store.dispatch('generateSequence', data)
     }
   },

@@ -357,6 +357,8 @@ export default class Temp {
     id--
     imageSelectData.isActive = {key: id, value: type}
     if (type == 'image') {
+      // console.log(_.findIndex(imageSelectData.$store.state.productSelectedImprint))
+
       // image width, leftN, leftS
       if (this.keyExists(id, imageSelectData.width) == true) {
         imageSelectData.width[id].value = $(event.target).width()
@@ -526,9 +528,9 @@ export default class Temp {
 
       // text color
       if (this.keyExists(id, imageSelectData.text_color) == true) {
-        imageSelectData.text_color[id].value = imageSelectData.$store.state.imageCordinates.imprintColor
+        imageSelectData.text_color[id].value = imageSelectData.$store.state.imageCordinates[id].imprintColor
       } else {
-        if (imageSelectData.$store.state.imageCordinates.imprintColor !== undefined)imageSelectData.text_color.push({key: id, type: type, value: imageSelectData.$store.state.imageCordinates.imprintColor})
+        if (imageSelectData.$store.state.imageCordinates[id].imprintColor !== undefined)imageSelectData.text_color.push({key: id, type: type, value: imageSelectData.$store.state.imageCordinates[id].imprintColor})
         else imageSelectData.text_color.push({key: id, type: type, value: '000000'})
       }
     }
@@ -554,10 +556,6 @@ export default class Temp {
   imageCordinates (imageProps, width, height) {
     /** formuala **/
     // (original height / original width) x new width = new height
-
-    // TODO this needs to change
-    // let height=300;
-    // let width=200;
 
     let imgCordinates = {
       height: imageProps.height,

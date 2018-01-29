@@ -33,11 +33,13 @@ export default {
   },
 
   generateSequence: async ({commit, state}, data) => {
+
+    console.log(data)
     let uuid = require('uuid')
     let sequence = uuid.v4()
     data.imprintMethod = state.defaultImprintMethod
     data.imprintColor = state.imageCordinates.imprintColor
-    data.rotate = state.imageCordinates.rotate
+    // data.rotate = state.imageCordinates.rotate
     data.opacity = state.imageCordinates.opacity
     data.text = state.text
     data.productImage = state.productImage
@@ -110,7 +112,7 @@ export default {
           }
         }
       }else {
-        let cachedI = state.imageCordinates.cachedImages
+        let cachedI = data.cachedImages
         // let sArea = data.isActive
         let sArea = data.isSelectedArea
         let index = sArea.value - 1
@@ -171,6 +173,7 @@ export default {
       }
       /* api end */
     }  
+    data.shape = state.productImprint[0].product_template_object_shape
 
     let postData = {
       request: JSON.stringify(data),
@@ -263,5 +266,14 @@ export default {
   },
   setImprintMethodImage: ({commit, state}, data) => {
     commit(types.SET_IMPRINT_METHOD_IMAGE, { image: data })
+  },
+  setProductImprintDetails: ({commit, state}, data) => {
+    commit(types.SET_PRODUCT_IMPRINT_DETAILS, { imprint: data })
+  },
+  setProductSelectedImprint: ({commit, state}, data) => {
+    commit(types.SET_PRODUCT_SELECTED_IMPRINT, { imprint: data })
+  },
+  setSelectedThumbImage: ({commit, state}, data) => {
+    commit(types.SET_SELECTED_THUMB_IMAGE, { image: data })
   }
 }

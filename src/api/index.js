@@ -133,7 +133,7 @@ export const mergeImages = (response) => {
 
 export const makeUrl = (response) => {
   let url
-
+  console.log(response)
   if (response.image_area_work > 0 || response.text_area_work > 0) {
     let userUploadedImage = []
     let imageHeight = []
@@ -165,6 +165,10 @@ export const makeUrl = (response) => {
     mainImage = response.productImage
 
     let responseLayers = response.layers
+    let shape = ''
+    if (response.shape === 'mug2') {
+      shape = '&cylinder=1'
+    }
 
     for (var i = 0; i < responseLayers.length; i++) {
       if (responseLayers[i].type === 'image') {
@@ -251,7 +255,7 @@ export const makeUrl = (response) => {
     //   rotate = '&opacity=' + response.opacity
     // }
 
-    url = imageProcessingUrl + 'image-processing/' + mainImage + '?compose=1&' + imprintMethod + '&sig=KwROfoP_7DjY&a_width=' + response.artwork_width + '&a_height=' + response.artwork_height + '&a_l=' + response.artwork_left + '&a_t=' + response.artwork_top + '&height=' + imageHeight.toString() + '&width=' + imageWidth.toString() + '&compose_x=' + imageLeft.toString() + '&compose_y=' + imageTop.toString() + '&images=' + userUploadedImage.toString() + '&flip=' + flip.toString() + '&flop=' + flop.toString() + '&alignment=' + alignment.toString() + '&text_flip=' + textFlip.toString() + '&text_flop=' + textFlop.toString() + '&rotate=' + imageRotate.toString() + '&text_rotate=' + textRotate.toString() + '&font_family=' + fontFamily.toString() + '&text_curve=' + textCurve.toString() + '&back=' + background.toString() + '&text_alignment=' + textAlignment.toString() + '&layers=' + layers.reverse().toString() + '&c_h=' + response.productHeight + '&c_w=' + response.productWidth + cropped + text + opacity
+    url = imageProcessingUrl + 'image-processing/' + mainImage + '?compose=1&' + imprintMethod + '&sig=KwROfoP_7DjY&a_width=' + response.artwork_width + '&a_height=' + response.artwork_height + '&a_l=' + response.artwork_left + '&a_t=' + response.artwork_top + '&height=' + imageHeight.toString() + '&width=' + imageWidth.toString() + '&compose_x=' + imageLeft.toString() + '&compose_y=' + imageTop.toString() + '&images=' + userUploadedImage.toString() + '&flip=' + flip.toString() + '&flop=' + flop.toString() + '&alignment=' + alignment.toString() + '&text_flip=' + textFlip.toString() + '&text_flop=' + textFlop.toString() + '&rotate=' + imageRotate.toString() + '&text_rotate=' + textRotate.toString() + '&font_family=' + fontFamily.toString() + '&text_curve=' + textCurve.toString() + '&back=' + background.toString() + '&text_alignment=' + textAlignment.toString() + '&layers=' + layers.reverse().toString() + '&c_h=' + response.productHeight + '&c_w=' + response.productWidth + cropped + text + opacity + shape
     // console.log(url)
   } else {
     url = imageProcessingUrl + '/products/54607c1317207c5f03d63af1/12323rdfcabc234/main/' + response.productImage

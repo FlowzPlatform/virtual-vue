@@ -25,6 +25,8 @@ import { log } from "util";
 import { log } from "util";
 
 <script>
+
+/*eslint-disable */
 import { mapGetters } from 'vuex'
 import Temp from '../../classes/Temp'
 
@@ -54,7 +56,11 @@ export default {
     confirmCrop: async function () {
       let crop = []
       let isSelectedAreaKey = this.$store.state.isSelectedArea.value - 1
-      let newcordinates = this.cordinates
+      let selectedImprint = this.productSelectedImprint
+      let index = _.findIndex(this.cordinates, function (o) { return o.position === selectedImprint })
+      let newcordinates = this.cordinates[index]
+
+
       let cropImage = newcordinates.userUploadedImage[isSelectedAreaKey].value
 
       // calculate crop dimension
@@ -101,8 +107,10 @@ export default {
       this.jcrop_api.setImage(this.cropImageUrl)
       newcordinates.cropped = newcordinates.cropped + 1
 
-      this.$store.dispatch('setImageCordinates', newcordinates)
-      return this.$store.dispatch('generateSequence', newcordinates)
+      let setCords = this.cordinates
+      setCords[index] = newcordinates
+      this.$store.dispatch('setImageCordinates', setCords)
+      return this.$store.dispatch('generateSequence', newcordinates[index])
     },
     initJcrop: function (oImg) {
       let vthis = this
@@ -195,7 +203,8 @@ export default {
   computed: {
     ...mapGetters({
       cordinates: 'getImageCordinates',
-      selecteArea: 'getIsSelectedArea'
+      selecteArea: 'getIsSelectedArea',
+      productSelectedImprint: 'getProductSelectedImprint'
     }),
 
     isWorkSelected: function () {

@@ -22,6 +22,8 @@
 </template>
 
   <script>
+  /*eslint-disable */
+
   import { mapGetters } from 'vuex'
 
   export default {
@@ -30,6 +32,16 @@
       return {
         open: true,
         alignment: ''
+      }
+    },
+    computed: {
+      ...mapGetters({
+        cordinates: 'getImageCordinates',
+        selecteArea: 'getIsSelectedArea',
+        productSelectedImprint: 'getProductSelectedImprint'
+      }),
+      isWorkSelected: function () {
+        return this.selecteArea
       }
     },
     methods: {
@@ -47,8 +59,9 @@
         let selectedval = this.selecteArea.value
         let selectedKey = this.selecteArea.key
         let selected = parseInt(selectedval) - 1
-
-        let newcordinates = this.cordinates
+        let selectedImprint = this.productSelectedImprint
+        let index = _.findIndex(this.cordinates, function (o) { return o.position === selectedImprint })
+        let newcordinates = this.cordinates[index]
 
         let parentELement = $('.selector')
 
@@ -89,17 +102,10 @@
           else newcordinates.text_left[selected].value = (ele.parent().width() + parentLeft - ele.width()) / 2
         } else {
         }
-        this.$store.dispatch('setImageCordinates', newcordinates)
-        return this.$store.dispatch('generateSequence', this.cordinates)
-      }
-    },
-    computed: {
-      ...mapGetters({
-        cordinates: 'getImageCordinates',
-        selecteArea: 'getIsSelectedArea'
-      }),
-      isWorkSelected: function () {
-        return this.selecteArea
+        let setCords = this.cordinates
+        setCords[index] = newcordinates
+        this.$store.dispatch('setImageCordinates', setCords)
+        return this.$store.dispatch('generateSequence', this.cordinates[index])
       }
     }
   }
