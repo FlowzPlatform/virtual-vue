@@ -252,7 +252,7 @@ export default {
       newcordinates.changeAll = 1
       setCords[index] = newcordinates
       this.$store.dispatch('setImageCordinates', setCords)
-      return this.$store.dispatch('generateSequence', setCords)
+      return this.$store.dispatch('generateSequence', setCords[index])
     },
     onColorChange () {
       let selectedImprint = this.productSelectedImprint

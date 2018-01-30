@@ -34,7 +34,6 @@ export default {
 
   generateSequence: async ({commit, state}, data) => {
 
-    console.log(data)
     let uuid = require('uuid')
     let sequence = uuid.v4()
     data.imprintMethod = state.defaultImprintMethod
@@ -53,9 +52,11 @@ export default {
        * 
        */
       if(data.changeAll !== undefined) {
+        console.log(data.cachedImages.length)
+
         for (let j=0; j < data.cachedImages.length; j++) {
 
-          let cachedI = state.imageCordinates.cachedImages
+          let cachedI = data.cachedImages
           // let index = sArea.key
           let value = data.cachedImages[j].value
 
@@ -112,7 +113,10 @@ export default {
           }
         }
       }else {
+        
         let cachedI = data.cachedImages
+        console.log(data)
+        console.log(cachedI)
         // let sArea = data.isActive
         let sArea = data.isSelectedArea
         let index = sArea.value - 1
