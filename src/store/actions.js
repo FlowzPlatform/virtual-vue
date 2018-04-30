@@ -42,6 +42,7 @@ export default {
     data.opacity = state.imageCordinates.opacity
     data.text = state.text
     data.productImage = state.productImage
+    // alert(data.productImage)
     data.currentUploadedImage = state.userUploadedImageName
     data.isSelectedArea = state.isSelectedArea
 

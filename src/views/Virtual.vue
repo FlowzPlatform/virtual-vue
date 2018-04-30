@@ -11,6 +11,7 @@
 </template>
 
 <script>
+/*eslint-disable */
 
 import HeaderContent from '../components/Header.vue'
 // import FooterContent from '../components/Footer.vue'
@@ -29,7 +30,8 @@ export default {
   },
   data () {
     return {
-      isVirtual: true
+      isVirtual: true,
+      activeIndex: 0
     }
   },
   computed: {
@@ -56,9 +58,10 @@ export default {
     setImprintDetails (imprint) {
       // var unserialize = require('../classes/unserialize')
       // let unIm = unserialize(productImprint)
-      console.log(imprint)
+      // console.log(imprint)
+      this.activeIndex =  _.findIndex(imprint, function(o) { return o.order == 1; });
       this.$store.dispatch('setProductImprintDetails', imprint)
-      this.$store.dispatch('setProductSelectedImprint', imprint[0].locationKey)
+      this.$store.dispatch('setProductSelectedImprint', imprint[this.activeIndex].locationKey)
     },
 
     defineProductImages (virtualImages) {
@@ -80,10 +83,10 @@ export default {
     if (res.status === true) {
       await this.supplierDetail()
       let productDetail = await this.productDetail(this.$store.state.virtualData.product_id)
-      console.log(productDetail)
-      this.defineImprintArea(productDetail.imprintDetail[0].imprintParam)
       this.setImprintDetails(productDetail.imprintDetail)
-      await this.defineProductImages(productDetail.imprintDetail[0].images)
+      
+      this.defineImprintArea(productDetail.imprintDetail[this.activeIndex].imprintParam)
+      await this.defineProductImages(productDetail.imprintDetail[this.activeIndex].images)
     }
   },
   mounted () {

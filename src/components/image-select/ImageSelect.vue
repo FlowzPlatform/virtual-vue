@@ -65,7 +65,8 @@ let data = {
   show: false,
   isActive: null,
   commonIndex: 1,
-  position: null
+  position: null,
+  imprintAreaIndex: null
 }
 
 export default {
@@ -84,8 +85,8 @@ export default {
       productSelectedImprint: 'getProductSelectedImprint'
     }),
 
-    productImprintArea: function () {
-      return this.$store.state.productImprint.length === 0 ? null : this.$store.state.productImprint[0]
+    productImprintDetails: function () {
+      return this.$store.state.productImprintDetails
     }
   },
   watch: {
@@ -112,7 +113,12 @@ export default {
         this.options.isRemovable = 1
         this.options.commonIndex = this.commonIndex
         this.position = this.$store.state.productSelectedImprint
-        $('.selector').append('<div class="obv-product-design-objects-image-i' + this.image_area_work + ' vj-hotspot-selected child-selector"></div>')
+        
+        let imprints = this.productImprintDetails
+        let productSelectedImprint = this.productSelectedImprint
+        let index = _.findIndex(imprints, function (o) { return o.locationKey === productSelectedImprint })
+        index++
+        $('.selector').find('.object-'+index).append('<div class="obv-product-design-objects-image-i' + this.image_area_work + ' vj-hotspot-selected child-selector"></div>')
         ch.imageArea('obv-product-design-objects-image-i' + this.image_area_work, this)
         this.generateSequence()
         this.commonIndex++
@@ -139,32 +145,51 @@ export default {
         this.options.isRemovable = 1
         this.options.text = this.text
         this.options.commonIndex = this.commonIndex
-        $('.selector').append('<div class="obv-product-design-objects-text-i' + this.text_area_work + ' vj-hotspot-selected child-selector"></div>')
+        let imprints = this.productImprintDetails
+        let productSelectedImprint = this.productSelectedImprint
+        let index = _.findIndex(imprints, function (o) { return o.locationKey === productSelectedImprint })
+        index++
+
+        $('.selector').find('.object-'+index).append('<div class="obv-product-design-objects-text-i' + this.text_area_work + ' vj-hotspot-selected child-selector"></div>')
         ch.textArea('obv-product-design-objects-text-i' + this.text_area_work, this)
         this.generateSequence()
         this.commonIndex++
       }
     },
 
-    productImprintArea: function (value) {
+    productImprintDetails: function (value) {
       if (value !== null) {
-        let wH = value.product_imprint_image_size.split('X')
-        let lT = value.product_template_left_top.split(',')
-
         let ch = new Temp()
-        this.options.isEditable = 0
-        this.options.isMovable = 0
-        this.options.isRemovable = 0
-        this.options.height = parseInt(wH[1])
-        this.options.width = parseInt(wH[0])
-        this.artwork_width = parseInt(wH[0])
-        this.artwork_height = parseInt(wH[1])
-        this.artwork_left = parseInt(lT[0])
-        this.artwork_top = parseInt(lT[1])
-        this.options.imageLeft = parseInt(lT[0])
-        this.options.imageTop = parseInt(lT[1])
+        var unserialize = require('../../classes/unserialize')
 
-        ch.imageArea('selector', this)
+        for(let i=0; i<value.length; i++) {
+          let unIm = unserialize(value[i].imprintParam)
+
+          let wH = unIm.product_imprint_image_size.split('X')
+          let lT = unIm.product_template_left_top.split(',')
+
+          this.options.isEditable = 0
+          this.options.isMovable = 0
+          this.options.isRemovable = 0
+          this.options.height = parseInt(wH[1])
+          this.options.width = parseInt(wH[0])
+          this.artwork_width = parseInt(wH[0])
+          this.artwork_height = parseInt(wH[1])
+          this.artwork_left = parseInt(lT[0])
+          this.artwork_top = parseInt(lT[1])
+          this.options.imageLeft = parseInt(lT[0])
+          this.options.imageTop = parseInt(lT[1])
+          let j = i+1
+          let html = '<div class="object-'+j+' imprint-area"></div>'
+          $('.selector').append(html);
+          ch.imageArea('object-'+j, this)
+        }
+        $('.imprint-area').hide();
+        let productSelectedImprint = this.productSelectedImprint
+        let index = _.findIndex(value, function (o) { return o.locationKey === productSelectedImprint })
+        this.imprintAreaIndex = index
+        index++
+        $('.object-'+index).show()
         this.show = true
       }
     }

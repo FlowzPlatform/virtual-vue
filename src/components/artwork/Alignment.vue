@@ -38,7 +38,8 @@
       ...mapGetters({
         cordinates: 'getImageCordinates',
         selecteArea: 'getIsSelectedArea',
-        productSelectedImprint: 'getProductSelectedImprint'
+        productSelectedImprint: 'getProductSelectedImprint',
+        productImprintDetails: 'getProductImprintDetails'
       }),
       isWorkSelected: function () {
         return this.selecteArea
@@ -63,8 +64,12 @@
         let index = _.findIndex(this.cordinates, function (o) { return o.position === selectedImprint })
         let newcordinates = this.cordinates[index]
 
-        let parentELement = $('.selector')
+        let indeximprint = _.findIndex(this.productImprintDetails, function (o) { return o.locationKey === selectedImprint })
+        let selector = indeximprint+1
+        // let parentELement = $('.selector')
+        let parentELement = $('.object-'+selector)
 
+        
         let parentLeft = parentELement.offset().left - $('.obv-product-main-images').offset().left
         let parentTop = parentELement.offset().top - $('.obv-product-main-images').offset().top
 
